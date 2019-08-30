@@ -1,5 +1,5 @@
 #include <iostream>
-         
+using namespace std;         
 extern void cpyda(double *,double *,int length);
 
 int main(void){
