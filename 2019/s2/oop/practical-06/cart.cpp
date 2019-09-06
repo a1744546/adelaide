@@ -29,7 +29,10 @@ void cart::printMeerkats()
 		cout<<m[i].getName()<<" "<<m[i].getAge()<<endl;   
 	}  
 }  
-
+cart::~cart()  
+{  
+	
+}
 
 
 

@@ -35,3 +35,7 @@ person aircraft::getPilot()
 {
 	return pilot;
 }
+aircraft::~aircraft()
+{
+	
+}

@@ -2,6 +2,10 @@
 #include "meerkat.h"
 using namespace std;
 int meerkat::count = 0;
+meerkat::meerkat()
+{
+
+}
 string meerkat::getName()
 {
 	return name;
@@ -17,4 +21,8 @@ void meerkat::setName(std::string meerName)
 void meerkat::setAge(int meerAge)
 {
 	age = meerAge;
+}
+meerkat::~meerkat()
+{
+
 }
