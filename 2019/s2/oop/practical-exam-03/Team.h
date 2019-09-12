@@ -19,7 +19,7 @@ std::string get_name();                // returns the team's name
 Player * get_roster();       
 
 
-bool add_player(Player,new_player);
+bool add_player(Player new_player);
 
 ~Team();
 

@@ -25,7 +25,7 @@ string Team::get_name()
 Player * Team::get_roster(){
 return munmber;
 }
-bool Team::add_player(Player,new_player){
+bool Team::add_player(Player new_player){
 if(size == check){
 		return false;
 	}else{
