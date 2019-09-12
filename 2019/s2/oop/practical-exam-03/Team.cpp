@@ -5,7 +5,7 @@ using namespace std;
 Team::Team(){
 size = 0;
 check =0;
-Name = "null";
+Name = "0";
 }                            
 Team::Team(int max_size, string name){
 size = max_size;
@@ -19,7 +19,7 @@ return size;
 
 string Team::get_name()
 {
-	return name;
+	return Name;
 }                
 
 Player * Team::get_roster(){
