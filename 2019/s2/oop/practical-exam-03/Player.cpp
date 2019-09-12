@@ -9,8 +9,8 @@ Player::Player()
 Player::Player(int jNumber, std::string pName)
 {
 	name = pName;
-	number = jNumber
-}    // a constructor that takes the jersey number and player name
+	number = jNumber;
+}    
 string Player::get_name(){
 	return name;
 }        // returns the name of the player
