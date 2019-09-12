@@ -7,7 +7,7 @@ using namespace std;
 		Player munmber[50];
 	public: int size;
 	int check;
-	string name;
+	string Name;
 Team();                            // default constructor
 Team(int max_size, string name);  // constructor with given team size and team name
 

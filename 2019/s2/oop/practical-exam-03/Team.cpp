@@ -5,7 +5,7 @@ using namespace std;
 Team::Team(){
 size = 0;
 check =0;
-Name = "null"
+Name = "null";
 }                            
 Team::Team(int max_size, string name){
 size = max_size;
