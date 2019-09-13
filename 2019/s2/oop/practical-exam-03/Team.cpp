@@ -14,7 +14,7 @@ Name = name;
 } 
 int Team::get_current_number_of_players()
 {
-return check;
+return size;
 }
 
 string Team::get_name()
