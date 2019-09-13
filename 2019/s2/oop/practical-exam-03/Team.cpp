@@ -3,13 +3,13 @@ using namespace std;
 #include "Team.h"
 #include "Player.h"
 Team::Team(){
-size = 0;
+number = 0;
 check =0;
 Name = "0";
 }                            
 Team::Team(int max_size, string name){
-size = max_size;
-check =0;
+number = 0;
+check =max_size;
 Name = name; 
 } 
 int Team::get_current_number_of_players()
@@ -26,11 +26,11 @@ Player * Team::get_roster(){
 return munmber;
 }
 bool Team::add_player(Player new_player){
-if(size == check){
+if(number == check){
 		return false;
 	}else{
-		munmber[size] = new_player;
-		size++;
+		munmber[number] = new_player;
+		number++;
 		return true;
 	}
 }
