@@ -5,7 +5,7 @@
 using namespace std;
 	class Team : public Player{
 		Player munmber[50];
-	public: int size;
+	public: int number;
 	int check;
 	string Name;
 Team();                            // default constructor
