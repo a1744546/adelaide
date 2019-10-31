@@ -1,37 +1,39 @@
 #include "Person.h"
-Person::Person(string n, string o, int sl){
-name = n;
-occupation = o;
-serviceLength =sl;
-salary =0;
-}   // creates a person of name n, occupation o, and service length sl
+using namespace std;
 Person::Person(){
-	name = "";
-occupation = "";
-serviceLength =0;
-salary =0;
+name = null;
+occupation = null;
+salary = 0;
+serviceLength = 0;
 }
-Person::~Person(){
+Person::Person(string n,string o,int s1){
+	name = n;
+	occupation = o;
+	salary=0;
+	serviceLength =s1;
 }
-void Person::set_name(string n)
-{
-name = n;
+void Person::set_name(string n){
+	name = n;
+}
+void Person::set_salary(int a){
+	salary = a;
+}
+void Person::set_personID(int b){
+	personID = b;
 }
 string Person::get_name(){
-return name;
-}
-
-void Person::set_occupation(string o){
-occupation = o;
+	return name;
 }
 string Person::get_occupation(){
-return occupation;
-}
-
-void Person::set_salary(int s){
-salary = s;
+	return occupation;
 }
 int Person::get_salary(){
-return salary;
+	return salary;
+}
+int Person::get_personID(){
+	return personID;
+}
+Person::~Person(){
+
 }
 

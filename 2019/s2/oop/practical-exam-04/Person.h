@@ -1,30 +1,28 @@
 #ifndef PERSON_H
 #define PERSON_H
+
+#include <iostream>
 using namespace std;
 class Person{
-public:
-Person(string n, string o, int sl);  // creates a person of name n, occupation o, and service length sl
-Person();
-~Person();
-void set_name(string n);
-string get_name();
 
-void set_occupation(string o);
-string get_occupation();
+public: 
+	Person();
+    Person(string n,string o,int s1);
+	void set_name(string n);
+    void set_salary(int a);
+    void set_personID(int b);
+    string get_name();
+    string get_occupation();
+    virtual int get_salary();
+    int get_personID();
+    void set_occupation();
 
-void set_salary(int s);
-virtual int get_salary();
-
-void set_personID();
-int get_personID();
-
-private:
- string name;                       // the name of a person
- string occupation;                 // the occupation of a person
- 
- int salary;                        // the salary of a person; takes only non-negative values
- int serviceLength;                   // the service length of a person
- int personID;                        // the unique ID of a person
-
+    ~Person();
+protected:
+    string name;
+    string occupation;
+    int salary;
+    int serviceLength;
+    int personID;
 };
-#endif;
+#endif
