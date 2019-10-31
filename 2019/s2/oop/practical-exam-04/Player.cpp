@@ -19,7 +19,7 @@ nextID++;
 int Player::searchGame(int x)
 {
 	int a = -1;
-	for(int i=0;i<m;i++)
+	for(int i=0;i<nog;i++)
 	{
 		if(list1[i] == x)
 		{
@@ -28,7 +28,7 @@ int Player::searchGame(int x)
 		}
 
 	}
-	return a;
+	return a+1;
 }
 int Player::get_salary()
 {
