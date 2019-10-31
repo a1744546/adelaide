@@ -1,8 +1,8 @@
 #include "Person.h"
 using namespace std;
 Person::Person(){
-name = null;
-occupation = null;
+name = "";
+occupation = "";
 salary = 0;
 serviceLength = 0;
 }
