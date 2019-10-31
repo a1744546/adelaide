@@ -1,6 +1,6 @@
 #include "Person.h"
 #include <string>
-#include "Coach.cpp"
+#include "Coach.h"
 #include <iostream>
 using namespace std;
 
@@ -16,7 +16,7 @@ Coach::Coach(string n, int sl):Person(n,"Coach",sl)
 	personID = nextID;
     nextID++;
 }
-int Coach::get_salary()
+int Coach::get_salary(int serviceLength)
 {
 	if(serviceLength<15){
 		return salary;

@@ -1,7 +1,7 @@
 #include <iostream>
 #include "Person.h"
 #include <string>
-#include "Coach.cpp"
+#include "Coach.h"
 int main(){
 return 0;
 }

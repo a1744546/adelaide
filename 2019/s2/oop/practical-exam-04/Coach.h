@@ -6,7 +6,7 @@ private: static nextID;
 public:
 	Coach();
 	Coach(string n, int sl);
-	int get_salary();
+	int get_salary(int serviceLength);
 	~Coach();
 private:
 	static int nextID;	
