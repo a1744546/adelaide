@@ -3,6 +3,7 @@
 #include "Coach.h"
 #include <iostream>
 using namespace std;
+int Coach::nextID = 0;
 
 Coach::Coach():Person("","Coach",0)
 {
@@ -10,13 +11,13 @@ Coach::Coach():Person("","Coach",0)
     nextID++;
 }
 
-int Coach::nextID = 0;
+
 Coach::Coach(string n, int sl):Person(n,"Coach",sl)
 {
 	personID = nextID;
     nextID++;
 }
-int Coach::get_salary(int serviceLength)
+int Coach::get_salary()
 {
 	if(serviceLength<15){
 		return salary;
