@@ -4,14 +4,14 @@
 #include <iostream>
 using namespace std;
 
-Coach::Coach():Person("","coach",0)
+Coach::Coach():Person("","Coach",0)
 {
 	personID = nextID;
     nextID++;
 }
 
 int Coach::nextID = 0;
-Coach::Coach(string n, int s1):Person(n,"coach",sl)
+Coach::Coach(string n, int sl):Person(n,"Coach",sl)
 {
 	personID = nextID;
     nextID++;

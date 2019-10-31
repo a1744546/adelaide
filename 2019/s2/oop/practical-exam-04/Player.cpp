@@ -9,7 +9,7 @@ nog =0;
 persomID = nextID;
 nextid++;
 }
-Player::Player(string n, int s1, int *list, int m):Person(n,"player",sl)
+Player::Player(string n, int sl, int *list, int m):Person(n,"player",sl)
 {
 list1 = list;
 nog = m;

@@ -6,7 +6,7 @@ using namespace std;
 class Player: public Person{
 	public:
 		Player();
-		Player(string n, int s1, int *list, int m);
+		Player(string n, int sl, int *list, int m);
 		int searchGame(int x);
 		~Player(); 
 		int get_salary();

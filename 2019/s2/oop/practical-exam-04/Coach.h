@@ -5,7 +5,7 @@ class Coach: public Person{
 private: static nextID;
 public:
 	Coach();
-	Coach(string n, int s1);
+	Coach(string n, int sl);
 	int get_salary();
 	~Coach();
 private:
