@@ -1,8 +1,10 @@
 #include "Person.h"
+using namespace std;
 #ifndef COACH_H
 #define COACH_H
 class Coach: public Person{
-private: static nextID;
+private: 
+	static nextID;
 public:
 	Coach();
 	Coach(string n, int sl);
