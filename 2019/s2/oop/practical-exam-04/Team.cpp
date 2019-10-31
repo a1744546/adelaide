@@ -3,17 +3,19 @@
 #include "Coach.h"
 #include "Player.h"
 #include <iostream>
+
 Team::Team(){
+team[0] = new Coach();
+team[4] = new Coach();
+team[1] = new Player();
+team[2] = new Player();
+team[3] = new Player();
 	
-array[0] = new Coach();
-array[4] = new Coach();
-array[1] = new Player();
-array[2] = new Player();
-array[3] = new Player();
-}
-person **Team::get_team(){
-return array;
+	}
+
+Person **Team::get_team(){
+return team;
 }
 Team::~Team(){
-delete []array[5];
+
 }
