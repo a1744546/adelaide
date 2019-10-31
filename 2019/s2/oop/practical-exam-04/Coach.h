@@ -4,7 +4,7 @@ using namespace std;
 #define COACH_H
 class Coach: public Person{
 private: 
-	static nextID;
+	static int nextID;
 public:
 	Coach();
 	Coach(string n, int sl);
