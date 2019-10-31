@@ -1,10 +1,10 @@
-#include "Person.h"
-using namespace std;
+
 #ifndef COACH_H
 #define COACH_H
+#include "Person.h"
+using namespace std;
 class Coach: public Person{
-protected: 
-	static int nextID;
+
 public:
 	Coach();
 	Coach(string n, int sl);

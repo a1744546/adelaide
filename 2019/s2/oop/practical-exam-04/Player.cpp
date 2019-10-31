@@ -3,11 +3,11 @@
 #include "Person.h"
 using namespace std;
 int Player::nextID = 1000;
-Player::Player()
+Player::Player():Person("","player",0)
 {
 nog =0;
-persomID = nextID;
-nextid++;
+personID = nextID;
+nextID++;
 }
 Player::Player(string n, int sl, int *list, int m):Person(n,"player",sl)
 {
@@ -18,7 +18,7 @@ nextID++;
 }
 int Player::searchGame(int x)
 {
-	int a = -1;
+	int a = 1;
 	for(int i=0;i<nog;i++)
 	{
 		if(list1[i] == x)
@@ -28,7 +28,7 @@ int Player::searchGame(int x)
 		}
 
 	}
-	return a;
+	return a+1;
 }
 int Player::get_salary()
 {
@@ -40,6 +40,6 @@ else{
 	return 3*salary;
 	}
 }
-Player::~player(){
+Player::~Player(){
 
 }

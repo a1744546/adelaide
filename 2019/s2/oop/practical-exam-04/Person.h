@@ -13,7 +13,7 @@ public:
     void set_personID(int b);
     string get_name();
     string get_occupation();
-    virtual int get_salary();
+    virtual int get_salary() =0 ;
     int get_personID();
     void set_occupation();
 
