@@ -1,5 +1,5 @@
 #include "Team.h"
-#include "person.h"
+#include "Person.h"
 #include "Coach.h"
 #include "Player.h"
 #include <iostream>
