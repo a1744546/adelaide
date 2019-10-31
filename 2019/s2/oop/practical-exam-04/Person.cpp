@@ -6,11 +6,11 @@ occupation = "";
 salary = 0;
 serviceLength = 0;
 }
-Person::Person(string n,string o,int s1){
+Person::Person(string n,string o,int sl){
 	name = n;
 	occupation = o;
 	salary=0;
-	serviceLength =s1;
+	serviceLength =sl;
 }
 void Person::set_name(string n){
 	name = n;

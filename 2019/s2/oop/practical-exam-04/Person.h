@@ -7,7 +7,7 @@ class Person{
 
 public: 
 	Person();
-    Person(string n,string o,int s1);
+    Person(string n,string o,int sl);
 	void set_name(string n);
     void set_salary(int a);
     void set_personID(int b);

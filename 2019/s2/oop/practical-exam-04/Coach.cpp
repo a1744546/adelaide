@@ -1,5 +1,7 @@
 #include "Person.h"
+#include <string>
 #include "Coach.cpp"
+#include <iostream>
 using namespace std;
 
 Coach::Coach():Person("","coach",0)
@@ -9,7 +11,7 @@ Coach::Coach():Person("","coach",0)
 }
 
 int Coach::nextID = 0;
-Coach::Coach(string n, int s1):Person(n,"coach",s1)
+Coach::Coach(string n, int s1):Person(n,"coach",sl)
 {
 	personID = nextID;
     nextID++;
