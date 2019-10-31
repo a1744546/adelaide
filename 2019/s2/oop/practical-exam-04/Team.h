@@ -7,6 +7,7 @@ public:
  Team();
  Person **get_team();
  ~Team();
+protected:
 Person *team[5];
 };
 #endif
