@@ -14,7 +14,7 @@ team[3] = new Player();
 	}
 
 Person **Team::get_team(){
-return team;
+return 0;
 }
 Team::~Team(){
 
