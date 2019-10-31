@@ -1,6 +1,7 @@
 #ifndef TEAM_H
 #define TEAM_H
 #include "person.h"
+#include <string>
 using namespace std;
 class Team{
 public:

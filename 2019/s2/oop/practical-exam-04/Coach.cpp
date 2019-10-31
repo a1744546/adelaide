@@ -24,7 +24,7 @@ int Coach::get_salary()
 
 	}
 else{
-	return 3*salary;
+	return (3*salary);
 	}
 }
 Coach::~Coach()

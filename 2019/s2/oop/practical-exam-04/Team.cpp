@@ -1,16 +1,15 @@
 #include "Team.h"
 #include "person.h"
+#include "Coach.h"
+#include "Player.h"
 #include <iostream>
 Team::Team(){
 	
-	for (int i=0;i<5;i++){
-		if(i==0||i==4){
-			array[i]->set_name("coach");
-		}
-		
-			array[i]->set_name("player");
-	
-	}
+array[0] = new Coach();
+array[4] = new Coach();
+array[1] = new Player();
+array[2] = new Player();
+array[3] = new Player();
 }
 person **Team::get_team(){
 return array;
