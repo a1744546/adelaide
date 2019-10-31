@@ -7,6 +7,6 @@ public:
  Team();
  Person **get_team();
  ~Team();
-Person *team;
+Person *team[5];
 };
 #endif
