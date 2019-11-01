@@ -27,9 +27,7 @@ string Person::get_name(){
 string Person::get_occupation(){
 	return occupation;
 }
-int Person::get_salary(){
-	return salary;
-}
+
 int Person::get_personID(){
 	return personID;
 }
