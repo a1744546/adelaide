@@ -1,1 +1,2 @@
-hello world
+hello world.
+I need to use SVN to submit my work.
