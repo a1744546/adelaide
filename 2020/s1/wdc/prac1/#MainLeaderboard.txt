@@ -1,1 +1,1 @@
-	<!-- #MainLeaderboard-->
+	<!-- MainLeaderboard-->
