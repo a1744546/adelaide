@@ -3,7 +3,7 @@ while read LINE
 do
 if [ $# -ne 2 ];then   #if like -n 2 -u
 	var=`./create_pattern $1 $2 $3`
-	echo  $LINE|tr '[A-Z]' $var
+	echo  $LINE|tr '[A-Z]' 
 else
 	var=`./create_pattern $1 $2`
 	echo  $LINE|tr '[a-z]' $var
