@@ -1,0 +1,17 @@
+#!/bin/bash
+function pattern(){
+base1=$(printf "%d" "'A")  #char to ASCII
+delta=$(($1%26)) #set shift number
+        left=$(($base1+$delta))
+        right=$(($base1+$delta-1))
+        left=$(printf \\x`printf %x $left`)  #ASCII to char
+        right=$(printf \\x`printf %x $right`)
+        return [$left-ZA-$right]
+}
+
+while read LINE
+do
+    pattern $1
+	var=$?
+	echo  $LINE|tr '[A-Z]' $var
+done
