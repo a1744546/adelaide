@@ -3,9 +3,9 @@
     for line in `cat $1`
     do
     for i in $(seq 1 25)
-do
+    do
     var=`./create_pattern -n $i -u`
     echo "Shift $i"
-    echo  $line|tr '[A-Z]' $var #use pipe input text to tr to use caesar cipher upper case
+    echo  $line|tr $var '[A-Z]'
     done
 done
