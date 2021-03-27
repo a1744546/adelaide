@@ -13,5 +13,5 @@ while read LINE
 do
     pattern $1
 	var=$?
-	echo  $LINE|tr '[A-Z]' $var
+	 $LINE|tr '[A-Z]' $var >> filename
 done
