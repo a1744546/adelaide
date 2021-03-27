@@ -4,8 +4,10 @@ do
 if [ $# -ne 2 ];then   #if like -n 2 -u use if to get number of acess var
 	var=`./create_pattern $1 $2 $3`
 	echo  $LINE|tr '[A-Z]' $var #use pipe input text to tr to use caesar cipher upper case
-	var=`./create_pattern $1 $2`
+else
+    var=`./create_pattern $1 $2`
 	echo  $LINE|tr '[a-z]' $var #use pipe input text to tr to use caesar cipher lower case
 fi
 done
+
 
