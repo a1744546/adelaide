@@ -6,6 +6,6 @@ do
 
     var=`./create_pattern -n $i -u`
     
-    echo  $line|tr $var '[A-Z]' #use pipe input text to tr to use caesar cipher upper case
+    echo  $line|tr '[A-Z]' $var  #use pipe input text to tr to use caesar cipher upper case
     done
 done
