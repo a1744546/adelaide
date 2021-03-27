@@ -1,41 +1,38 @@
 #!/bin/bash
 if [ $# -ne 2 ];then   #if like -n 2 -u
-	if [ $1 == "-n" ];then
-		delta=$(($2%26))
-		upper=1
-	elif [ $1 == "-u" ];then
-		delta=$(($3%26))
-		upper=1
-	fi
-else#if like -n 2
-	delta=$(($2%26))
-	upper=0
+    if [ $1 == "-n" ];then
+        delta=$(($2%26))
+        upper=1
+    elif [ $1 == "-u" ];then
+        delta=$(($3%26))
+        upper=1
+    fi
+else #if like -n 2
+    delta=$(($2%26))
+    upper=0
 fi
 
 base1=$(printf "%d" "'A")  #char to ASCII
-base2=$(printf "%d" "'a") 
+base2=$(printf "%d" "'a")
 
 if [ $upper == 1 ];then
-	if [ $delta == 0 ];then
-		echo [A-Z]
-	else
-		left=$(($base1+$delta))
-		right=$(($base1+$delta-1))
-		left=$(printf \\x`printf %x $left`)  #ASCII to char
-		right=$(printf \\x`printf %x $right`)
-		echo [$left-ZA-$right]
-        #return [$left-ZA-$right]
-	fi
+    if [ $delta == 0 ];then
+        echo [A-Z]
+    else
+        left=$(($base1+$delta))
+        right=$(($base1+$delta-1))
+        left=$(printf \\x`printf %x $left`)  #ASCII to char
+        right=$(printf \\x`printf %x $right`)
+        echo [$left-ZA-$right]
+    fi
 else
-	if [ $delta == 0 ];then
-		echo [a-z]
-	else
-		left=$(($base2+$delta))
-		right=$(($base2+$delta-1))
-		left=$(printf \\x`printf %x $left`)  #ASCII to char
-		right=$(printf \\x`printf %x $right`)
-		echo [$left-za-$right]
-        #return $left-za-$right]
-	fi
+    if [ $delta == 0 ];then
+        echo [a-z]
+    else
+        left=$(($base2+$delta))
+        right=$(($base2+$delta-1))
+        left=$(printf \\x`printf %x $left`)  #ASCII to char
+        right=$(printf \\x`printf %x $right`)
+        echo [$left-za-$right]
+    fi
 fi
-
