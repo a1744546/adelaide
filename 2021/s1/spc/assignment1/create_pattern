@@ -1,8 +1,4 @@
-#1.首先判断输入有没有-u 以及-n是在前面还是后面，这些都要用if来判断
-#2.其次对delta进行取模，保证在[0,25]之间
-#3.delta为0，特殊处理
-#4.其余情况，对字符进行偏置处理
-
+#!/bin/bash
 if [ $# -ne 2 ];then   #if like -n 2 -u
 	if [ $1 == "-n" ];then
 		delta=$(($2%26))
@@ -28,6 +24,7 @@ if [ $upper == 1 ];then
 		left=$(printf \\x`printf %x $left`)  #ASCII to char
 		right=$(printf \\x`printf %x $right`)
 		echo [$left-ZA-$right]
+        #return [$left-ZA-$right]
 	fi
 else
 	if [ $delta == 0 ];then
@@ -38,6 +35,7 @@ else
 		left=$(printf \\x`printf %x $left`)  #ASCII to char
 		right=$(printf \\x`printf %x $right`)
 		echo [$left-za-$right]
+        #return $left-za-$right]
 	fi
 fi
 
