@@ -1,17 +1,9 @@
 #!/bin/bash
-function pattern(){
-base1=$(printf "%d" "'A")  #char to ASCII
-delta=$(($1%26)) #set shift number
-        left=$(($base1+$delta))
-        right=$(($base1+$delta-1))
-        left=$(printf \\x`printf %x $left`)  #ASCII to char
-        right=$(printf \\x`printf %x $right`)
-        return [$left-ZA-$right]
-}
-
-while read LINE
+for i in $(seq 1 25)
 do
-    pattern $1
-	var=$?
-	 $LINE|tr '[A-Z]' $var >> filename
+    for line in `cat $1`
+    do
+    var=`./create_pattern -n $i -u`
+    echo  $line|tr '[A-Z]' $var #use pipe input text to tr to use caesar cipher upper case
+    done
 done

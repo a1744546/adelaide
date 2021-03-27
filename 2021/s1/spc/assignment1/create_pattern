@@ -3,7 +3,7 @@ if [ $# -ne 2 ];then   #if like -n 2 -u
     if [ $1 == "-n" ];then
         delta=$(($2%26))
         upper=1
-    elif [ $1 == "-u" ];then
+    elif [ $1 == "-u" ];then #if -u is frist para then the number para is $3
         delta=$(($3%26))
         upper=1
     fi
