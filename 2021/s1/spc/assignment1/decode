@@ -1,12 +1,12 @@
 #!/bin/bash
 for i in $(seq 1 25)
 do
-  echo "Shift $i"
-  while read -r line
+  echo "Shift $i" #disp which times
+  while read -r line # read each line
   do
 
-    var=`./create_pattern -n $i -u`
+    var=`./create_pattern -n $i -u` #use i to choose different number of move like i =1 pattern is [B-YZ-A]
     
-    echo  $line|tr '[A-Z]' $var  #use pipe input text to tr to use caesar cipher upper case
+    echo  $line|tr '[A-Z]' $var  #use pipe input text to tr to trans by pattern
     done < $1
 done
