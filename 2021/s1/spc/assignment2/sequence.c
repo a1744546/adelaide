@@ -4,45 +4,52 @@
 #include <stdlib.h>
 #include <string.h>
 int main () {
-   
-    char command[100][10];
+    char command[100][256];
     FILE* fp;
     fp = fopen("cmdfile","r");
-    int i;
-   for (i=0; i < 100; i++)   //100 line
-    {
-        if(fscanf(fp,"%s",command[i])==EOF)
-        break;
-        //for(j=0; j<10; j++)   //10 arguments
-        //fscanf(fp,"%s",command[i]);
-        system(command[i]);
-        //printf("%s\n",command[i]);
-    }
+    int cmds = 0;
+    while(fgets(command[cmds],256,fp)!=NULL)  //100 line
+     {
+         cmds++;
+     }
     fclose(fp);
+    const char * split = " ";
+    char * p;
     
-//    while(fgets(command[i],10,fp)!=NULL)  //100 line
-//     {
-//
-//         //for(j=0; j<10; j++)   //10 arguments
-//         //fgets(fp,"%s",command[i]);
-//         printf("%s\n",command[i]);
-//         i++;
-//         system(command[i]);
-//     }
-//     fclose(fp);
-//    char * arguments[2] = {&command[0][0], NULL};
-//
-//    int id = fork();
-//    if(id<0){
-//        printf("error in fork");
-//    }
-//    else if(id>0){
-//        wait(NULL);
-//    }
-//    else{   //child
-//
-//        //int my_exec = execvp(arguments[0], arguments);
-//        //system(command);
-//    }
+    for(int i = 0; i < cmds; i++){
+        
+        int L = strlen(command[i]);
+        command[i][L-1] = NULL;    //remove \n
+        char * arguments[256]; //for execvp
+
+        p = strtok (command[i],split); //split command[i] by " "
+        int j = 0;
+        while(p!=NULL) {
+            arguments[j] = p;
+            p = strtok(NULL,split);
+            j++;
+        }
+        arguments[j++] = NULL;
+        
+        pid_t my_pid;
+        my_pid = fork();
+        if (my_pid < 0)
+        {
+            printf("Failed Fork\n");
+        }
+        else if (my_pid > 0){
+            //parent process
+          wait(NULL);
+          //printf("execvp done\n\n");
+        }
+        else{
+        //child process
+            if (execvp(arguments[0], arguments) <0 ){
+              //perror("error on exec");
+              exit(0);
+            }
+          }
+    }
     
-return 0; }
+    return 0;
+}
