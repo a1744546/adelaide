@@ -5,14 +5,14 @@
 #include <string.h>
 int main () {
     char command[100][256];
-    FILE* fp;
-    fp = fopen("cmdfile","r");
+//    FILE* fp;
+//    fp = fopen("cmdfile","r");
     int cmds = 0;
-    while(fgets(command[cmds],256,fp)!=NULL)  //100 line
+    while(fgets(command[cmds],256,stdin)!=NULL)  //100 line
      {
          cmds++;
      }
-    fclose(fp);
+    close(0);
     const char * split = " ";
     char * p;
     

@@ -6,10 +6,10 @@
 int main ()
 {
     char command[100][256];
-    FILE* fp;
-    fp = fopen("cmdfile1","r");
+//    FILE* fp;
+//    fp = fopen("cmdfile1","r");
     int cmds = 0;
-    while(fgets(command[cmds],256,fp)!=NULL)  //100 line
+    while(fgets(command[cmds],256,stdin)!=NULL)  //100 line
      {
          cmds++;
      }
