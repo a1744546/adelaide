@@ -19,7 +19,7 @@ int main () {
     for(int i = 0; i < cmds; i++){
         
         int L = strlen(command[i]);
-        command[i][L-1] = NULL;    //remove \n
+        command[i][L-1] = '\0';    //remove \n
         char * arguments[256]; //for execvp
 
         p = strtok (command[i],split); //split command[i] by " "

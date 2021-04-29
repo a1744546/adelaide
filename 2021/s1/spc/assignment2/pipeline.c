@@ -23,7 +23,7 @@ int main ()
     {
             
         int L = strlen(command[i]);
-        command[i][L-1] = NULL;    //remove \n
+        command[i][L-1] = '\0';    //remove \n
         char * arguments1[256]; //for execvp
         char * arguments2[256];
         p1 = strtok (command[i],split);
