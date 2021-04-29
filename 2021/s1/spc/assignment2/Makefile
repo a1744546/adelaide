@@ -1,7 +1,7 @@
 
-sequence: sequence.c
+sequence: 
 	gcc sequence.c -std=c99 -Wall -o sequence
-	./sequence < cmdfile
-pipeline: pipeline.c
+	
+pipeline: 
 	gcc pipeline.c -std=c99 -Wall -o pipeline
-	./pipeline < cmdpipe
+	
