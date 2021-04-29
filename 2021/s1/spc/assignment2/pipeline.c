@@ -45,7 +45,7 @@ int main ()
             perror("Cannot create pipe");
         }
         
-        pid_t my_pid;
+        int my_pid;
         my_pid = fork();
         if (my_pid < 0)
         {
