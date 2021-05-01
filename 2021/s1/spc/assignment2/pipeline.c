@@ -6,6 +6,8 @@
 int main ()
 {
     char command[100][256];
+//    FILE* fp;
+//    fp = fopen("cmdfile1","r");
     int cmds = 0;
     while(fgets(command[cmds],256,stdin)!=NULL)  //100 line
      {
@@ -21,10 +23,11 @@ int main ()
     if (pipe(prev_pipe) == -1)
     {
         perror("Cannot create pipe2");
-    }
+    }/Users/wei/Documents/a1744546/2021/s1/spc/assignment2/pipeline.c
     int i;
     for(i = 0; i < cmds; i++)
     {
+        
         int L = strlen(command[i]);
         command[i][L-1] = '\0';    //remove \n
         char * arguments[256]; //for execvp
@@ -36,18 +39,16 @@ int main ()
             {
                 arguments[j] = p;
                 p = strtok(NULL,split);
-                j++;
+                
             }
         arguments[j++] = NULL;
-        
-        if (i != cmds-1)
+        if(i != cmds-1)
         {
             if (pipe(new_pipe) == -1)
             {
                 perror("Cannot create pipe1");
             }
         }
-        
         int my_pid;
         my_pid = fork();
         if (my_pid < 0)
