@@ -6,43 +6,46 @@
 int main ()
 {
     char command[100][256];
-//    FILE* fp;
-//    fp = fopen("cmdfile1","r");
     int cmds = 0;
     while(fgets(command[cmds],256,stdin)!=NULL)  //100 line
      {
          cmds++;
+         
      }
-    fclose(fp);
+    close(0);
     
     const char * split = " ";
-    char * p1;
-    char * p2;
+    char * p;
+    int new_pipe[2];
+    int prev_pipe[2];
+    if (pipe(prev_pipe) == -1)
+    {
+        perror("Cannot create pipe2");
+    }
     int i;
     for(i = 0; i < cmds; i++)
     {
-            
         int L = strlen(command[i]);
         command[i][L-1] = '\0';    //remove \n
-        char * arguments1[256]; //for execvp
-        char * arguments2[256];
-        p1 = strtok (command[i],split);
-        p2 = strtok (command[i++],split);//split command[i] by " "
+        char * arguments[256]; //for execvp
+        //char * arguments2[256];
+        p = strtok(command[i],split);
+  
         int j = 0;
-        while(p1!=NULL && p2!=NULL && i<99)
+        while(p!=NULL)
             {
-                arguments1[j] = p1;
-                p1 = strtok(NULL,split);
-                arguments2[j] = p2;
-                p2 = strtok(NULL,split);
+                arguments[j] = p;
+                p = strtok(NULL,split);
                 j++;
             }
-        arguments1[j++] = NULL;
-        arguments2[j++] = NULL;
-        int my_pipe[2];
-        if (pipe(my_pipe) == -1)
+        arguments[j++] = NULL;
+        
+        if (i != cmds-1)
         {
-            perror("Cannot create pipe");
+            if (pipe(new_pipe) == -1)
+            {
+                perror("Cannot create pipe1");
+            }
         }
         
         int my_pid;
@@ -51,29 +54,49 @@ int main ()
         {
             printf("Failed Fork\n");
         }
-        else if (my_pid == 0)
-        {
-            //parent process
-            close(my_pipe[1]);
-            dup2(my_pipe[0], STDIN_FILENO);
-            execvp(arguments2[0], arguments2);
-          //wait(NULL);
-          //printf("execvp done\n\n");
-        }
-        else{
-        //child process
-            // Close Read
-            close(my_pipe[0]);
-            dup2(my_pipe[1], STDOUT_FILENO);
-            //printf("Hello\n");
-            //write(my_pipe[1], "hello", strlen("hello") + 1);
-            execvp(arguments1[0], arguments1);
-            }
-          
-    }
-   
-    
-    
-    return 0;
 
+        //child process
+        else if(my_pid == 0){
+            if(i != cmds-1)
+            {
+                close(new_pipe[0]);
+                dup2(new_pipe[1],1);
+                close(new_pipe[1]);
+                //execvp(arguments[0], arguments);
+            }
+            if(i != 0)
+            {
+                close(prev_pipe[1]);
+                dup2(prev_pipe[0],0);
+                close(prev_pipe[0]);
+                //execvp(arguments[0], arguments);
+            }
+            if (execvp(arguments[0], arguments) == -1)
+            {
+                printf("fail EXECVP\n");//  EXECVP fail
+                exit(0);
+            }
+        }
+        //parent process
+        else
+        {
+
+            if (i != 0) // if it's not the first command
+            {
+                close(prev_pipe[1]);
+            }
+            wait(NULL);
+            if (i != cmds-1)// if it's not the final command
+            {
+                prev_pipe[0] = new_pipe[0];
+                prev_pipe[1] = new_pipe[1];
+            }
+        }
+    }
+    close(prev_pipe[0]);
+    close(prev_pipe[1]);
+    close(new_pipe[0]);
+    close(new_pipe[1]);
+    return 0;
+    
 }

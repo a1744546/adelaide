@@ -11,13 +11,14 @@ int main () {
     while(fgets(command[cmds],256,stdin)!=NULL)  //100 line
      {
          cmds++;
+         
      }
     close(0);
     const char * split = " ";
     char * p;
-    
+
     for(int i = 0; i < cmds; i++){
-        
+
         int L = strlen(command[i]);
         command[i][L-1] = '\0';    //remove \n
         char * arguments[256]; //for execvp
@@ -30,7 +31,7 @@ int main () {
             j++;
         }
         arguments[j++] = NULL;
-        
+
         int my_pid;
         my_pid = fork();
         if (my_pid < 0)
