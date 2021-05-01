@@ -23,7 +23,7 @@ int main ()
     if (pipe(prev_pipe) == -1)
     {
         perror("Cannot create pipe2");
-    }/Users/wei/Documents/a1744546/2021/s1/spc/assignment2/pipeline.c
+    }
     int i;
     for(i = 0; i < cmds; i++)
     {
@@ -47,8 +47,8 @@ int main ()
             if (pipe(new_pipe) == -1)
             {
                 perror("Cannot create pipe1");
-            }
         }
+
         int my_pid;
         my_pid = fork();
         if (my_pid < 0)
