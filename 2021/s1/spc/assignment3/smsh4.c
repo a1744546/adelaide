@@ -80,7 +80,7 @@ int main()
             //Executes command using pipe location and glob data
             if (globNum == 0)
             {
-                result = execute(arglist,pipes+1,skips, redirect);
+                result = execute4(arglist,pipes+1,skips, redirect);
             } else if (globNum == 1)
             {
                 //Execute using glob info and free glob
