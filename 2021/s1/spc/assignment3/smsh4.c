@@ -84,7 +84,7 @@ int main()
             } else if (globNum == 1)
             {
                 //Execute using glob info and free glob
-                result = execute(globResults.gl_pathv,pipes+1,skips, redirect);
+                result = execute4(globResults.gl_pathv,pipes+1,skips, redirect);
                 globfree(&globResults);
             }
             freelist(arglist);

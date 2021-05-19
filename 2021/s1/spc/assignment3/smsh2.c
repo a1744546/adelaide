@@ -53,7 +53,7 @@ int main()
             }
 
             //Executes command using pipe location
-            result = execute(arglist,pipes+1,skips);
+            result = execute2(arglist,pipes+1,skips);
             freelist(arglist);
         }
         free(cmdline);

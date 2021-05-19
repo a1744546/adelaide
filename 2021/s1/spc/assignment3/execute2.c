@@ -6,7 +6,7 @@
 #include    <signal.h>
 #include    <sys/wait.h>
 
-int execute(char *argv[], int maxCom, int skips[])
+int execute2(char *argv[], int maxCom, int skips[])
 /*
  * purpose: run a program passing it arguments
  * returns: status returned via wait, or -1 on error

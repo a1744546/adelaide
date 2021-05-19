@@ -7,7 +7,7 @@
 #include    <sys/wait.h>
 #include    <fcntl.h>
 
-int execute(char *argv[], int maxCom, int skips[], char *redirect[])
+int execute4(char *argv[], int maxCom, int skips[], char *redirect[])
 /*
  * purpose: run a program passing it arguments
  * returns: status returned via wait, or -1 on error
