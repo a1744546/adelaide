@@ -43,9 +43,7 @@ int execute2(char *argv[], int maxCom, int skips[])
             wait(NULL);
             if(i != 0) //not first command
             {
-                //close prev_pipe
                 close(prev_pipe[0]);
-                //close(prev_pipe[1]);
             }
             if(i != maxCom - 1) //not final command
             {
