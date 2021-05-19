@@ -9,7 +9,7 @@
 #include    <unistd.h>
 #include    <signal.h>
 #include     <glob.h>
-#include    "smsh4.h"
+#include    "smsh.h"
 
 #define    DFL_PROMPT    "> "
 
