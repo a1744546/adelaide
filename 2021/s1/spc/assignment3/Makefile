@@ -1,6 +1,13 @@
-all: part1 part2
+all: all
 
-part1:
-	gcc -o smsh2 smsh2.c splitline.c execute.c -Wall -std=c99
-part2:
-	gcc -o smsh3 smsh3.c splitline.c execute.c -Wall -std=c99
+part0: smsh1.c splitline.c execute.c
+	gcc -o smsh1 smsh1.c splitline.c execute.c
+
+part1: smsh2.c splitline.c execute.c
+	gcc -o smsh2 smsh2.c splitline.c execute.c
+
+part2: smsh3.c splitline.c execute.c
+	gcc -o smsh3 smsh3.c splitline3.c execute.c
+
+part3: smsh4.c splitline.c execute.c
+	gcc -o smsh4 smsh4.c splitline3.c execute.c
