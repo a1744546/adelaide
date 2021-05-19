@@ -22,8 +22,10 @@ int main()
     setup();
     int result;
     while ((cmdline = next_cmd(prompt, stdin)) != NULL)
+    {
         //Finds number of arguments
-        int i, arg_size = 0;
+        int arg_size = 0;
+        int i;
         for(i = 0; i < 255; i++)
         {
             if(cmdline[i] == ' ')

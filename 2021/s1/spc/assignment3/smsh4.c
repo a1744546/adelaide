@@ -34,7 +34,8 @@ int main()
             }
         }
 
-        if ((arglist = splitline(cmdline)) != NULL){
+        if ((arglist = splitline(cmdline)) != NULL)
+        {
 
             //Define location of pipe
             int pipes = 0, comd[arg_size];
