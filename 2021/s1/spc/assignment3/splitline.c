@@ -52,7 +52,6 @@ char * next_cmd(char *prompt, FILE *fp)
  **    splitline ( parse a line into an array of strings )
  **/
 #define    is_delim(x) ((x)==' '||(x)=='\t')
-#define    is_break(x) ((x)=='\0'||(x)=='|')
 
 char ** splitline(char *line)
 /*
@@ -79,11 +78,11 @@ char ** splitline(char *line)
     bufspace = BUFSIZ;
     spots    = BUFSIZ/sizeof(char *);
 
-    while( ! (is_break (*cp) ) )
+    while( *cp != '\0' )
     {
         while ( is_delim(*cp) )        /* skip leading spaces    */
             cp++;
-        if ( (is_break (*cp) ))        /* quit at end-o-string    */
+        if ( *cp == '\0' )        /* quit at end-o-string    */
             break;
 
         /* make sure the array has room (+1 for NULL) */

@@ -145,4 +145,3 @@ void * erealloc(void *p, size_t n)
         fatal("realloc() failed","",1);
     return rv;
 }
-
