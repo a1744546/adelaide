@@ -63,7 +63,8 @@ int main()
                     rec[1] = arglist[i+1];
                     arglist[i] = NULL;
                 } 
-                else if (wildCheck(arglist[i]))                
+                else if (wildCheck(arglist[i]))
+                {
                     glo = 1;
                     globResults.gl_offs = i;
                     glob(arglist[i],GLOB_DOOFFS, NULL, &globResults);
@@ -73,8 +74,8 @@ int main()
                     {
                         globResults.gl_pathv[j] = arglist[j];
                     }
-                }
             }
+        }
 
             if(glo == 0)
             {
