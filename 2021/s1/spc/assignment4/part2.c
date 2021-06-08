@@ -13,7 +13,7 @@ int total_commands = 0;
 void * writer(void * in_ptr)
 {
 	//must include bad_write;
-    if(get_written()==0)
+    while(get_written()==0)
     {
         bad_write(in_ptr);
     }
@@ -22,7 +22,7 @@ void * writer(void * in_ptr)
 void * reader(void * empty)
 {
 	//must include bad_read
-    if(get_written()==1)
+    while(get_written()==1)
     {
         bad_read(empty);
     }
