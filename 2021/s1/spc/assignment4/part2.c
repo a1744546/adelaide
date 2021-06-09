@@ -10,9 +10,9 @@ int total_commands = 0;
 // ####################################################################################
 // ## Please write some code in the following two functions
 
-void * writer(void * in_ptr)
+void * writer(char * in_ptr)
 {
-	typedef char* (provateType)[1000];
+	//typedef char* (provateType)[1000];
 	//must include bad_write;
 	//printf("%s", (*((provateType*)in_ptr))[0]);
 	int written_commands = 0;
@@ -25,7 +25,7 @@ void * writer(void * in_ptr)
     }
 }
 
-void * reader(void * empty)
+void * reader(char * empty)
 {
 	//must include bad_read
     int readen_commands = 0;
