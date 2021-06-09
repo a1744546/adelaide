@@ -12,14 +12,14 @@ int total_commands = 0;
 
 void * writer(void * in_ptr)
 {
-	//typedef char* (provateType)[1000];
+	typedef char* (provateType)[1000];
 	//must include bad_write;
 	//printf("%s", (*((provateType*)in_ptr))[0]);
 	int written_commands = 0;
     while(written_commands < total_commands)
     {
 		if(get_written() == 0){
-        	bad_write(in_ptr)[written_commands]);
+        	bad_write((*((provateType*)in_ptr))[written_commands]);
 			written_commands++;
 		}
     }
