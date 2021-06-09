@@ -6,7 +6,6 @@
 
 // How nice of me to include a global that tells you how many commands there were :)
 int total_commands = 0;
-static pthread_mutex_t lock2; 
 
 // ####################################################################################
 // ## Please write some code in the following two functions
@@ -16,31 +15,26 @@ void * writer(void * in_ptr)
 	typedef char* (provateType)[1000];
 	//must include bad_write;
 	//printf("%s", (*((provateType*)in_ptr))[0]);
-	if (pthread_mutex_init(&lock2, NULL) != 0) 
-	{ 
-		printf("FAIL!\n"); 
-	} 
 	int written_commands = 0;
     while(written_commands < total_commands)
     {
-		pthread_mutex_lock(&lock2);
-        bad_write((*((provateType*)in_ptr))[written_commands]);
-		pthread_mutex_unlock(&lock2);
-		written_commands++;
+		if(get_written() == 0){
+        	bad_write((*((provateType*)in_ptr))[written_commands]);
+			written_commands++;
+		}
     }
 }
 
 void * reader(void * empty)
 {
 	//must include bad_read
-	sleep(5);
     int readen_commands = 0;
 	while(readen_commands < total_commands)
     {
-		pthread_mutex_lock(&lock2);
-        bad_read(empty);
-		pthread_mutex_unlock(&lock2);
-		readen_commands++;
+		if(get_written() == 1){
+        	bad_read(empty);
+			readen_commands++;
+		}
     }
 }
 
