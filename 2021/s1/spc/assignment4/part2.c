@@ -19,7 +19,7 @@ void * writer(char * in_ptr)
     while(written_commands < total_commands)
     {
 		if(get_written() == 0){
-        	bad_write((*((provateType*)in_ptr))[written_commands]);
+        	bad_write(in_ptr)[written_commands]);
 			written_commands++;
 		}
     }
