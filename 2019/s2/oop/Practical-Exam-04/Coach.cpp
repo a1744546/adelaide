@@ -1,15 +1,18 @@
 #include "Person.h"
-#include "Coach.cpp"
+#include <string>
+#include "Coach.h"
+#include <iostream>
 using namespace std;
+int Coach::nextID = 0;
 
-Coach::Coach():Person("","coach",0)
+Coach::Coach():Person("","Coach",0)
 {
 	personID = nextID;
     nextID++;
 }
 
-int Coach::nextID = 0;
-Coach::Coach(string n, int s1):Person(n,"coach",s1)
+
+Coach::Coach(string n, int sl):Person(n,"Coach",sl)
 {
 	personID = nextID;
     nextID++;
@@ -21,7 +24,7 @@ int Coach::get_salary()
 
 	}
 else{
-	return 3*salary;
+	return (3*salary);
 	}
 }
 Coach::~Coach()

@@ -1,11 +1,13 @@
-#include "Person.h"
+
 #ifndef COACH_H
 #define COACH_H
+#include "Person.h"
+using namespace std;
 class Coach: public Person{
-private: static nextID;
+
 public:
 	Coach();
-	Coach(string n, int s1);
+	Coach(string n, int sl);
 	int get_salary();
 	~Coach();
 private:
