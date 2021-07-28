@@ -1,0 +1,15 @@
+210728-164942,make,install
+210728-164942,svn,"a1744546","2021/s2/cs/workshop01"
+210728-164942,error,"Cannot find any zip files in updates/"
+210728-165009,make,install
+210728-165009,svn,"a1744546","2021/s2/cs/workshop01"
+210728-165009,error,"Cannot find any zip files in updates/"
+210728-165052,make,install
+210728-165052,svn,"a1744546","2021/s2/cs/workshop01"
+210728-165052,error,"Cannot find any zip files in updates/"
+210728-165724,make,install
+210728-165724,svn,"a1744546","2021/s2/cs/workshop01"
+210728-165724,startups,workshop01-20210726-150302.zip
+210728-165724,updater,Updating: Makefile
+210728-165724,updater,Updating: updates/README
+210728-165724,updater,Update installed
