@@ -1,0 +1,18 @@
+210817-222603,make,
+210817-222603,svn,"a1744546","2021/s2/cs/workshop04"
+210817-222603,startups,workshop04-20210726-150302.zip
+210817-222603,error,"Cannot find directory updates/workshop04-20210726-150302"
+210819-160549,make,install
+210819-160549,svn,"a1744546","2021/s2/cs/workshop04"
+210819-160549,startups,workshop04-20210726-150302.zip
+210819-160549,error,"Cannot find directory updates/workshop04-20210726-150302"
+210819-160834,make,install
+210819-160834,svn,"a1744546","2021/s2/cs/workshop04"
+210819-160834,startups,workshop04-20210726-150302.zip
+210819-160834,error,"Cannot find directory updates/workshop04-20210726-150302"
+210819-160848,make,install
+210819-160848,svn,"a1744546","2021/s2/cs/workshop04"
+210819-160848,startups,workshop04-20210726-150302.zip
+210819-160848,updater,Updating: Makefile
+210819-160848,updater,Updating: updates/README
+210819-160848,updater,Update installed
