@@ -19,5 +19,14 @@ CHIP Computer {
     IN reset;
 
     PARTS:
+    IN  inM[16],
+    instruction[16],
+    reset;
+
+
+    OUT outM[16],
+    writeM,
+    addressM[15],
+    pc[15];
     // Put your code here:
 }
