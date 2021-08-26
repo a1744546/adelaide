@@ -23,6 +23,10 @@ namespace Workshop_Tokeniser
         case cg_wspace:              // characters that start rule wspace
             switch(ch)
             {
+                case '\n':
+                case '\t':
+                case '\r':
+                case ' ':
                 return true ;
             default:
                 return false ;
@@ -30,6 +34,9 @@ namespace Workshop_Tokeniser
         case cg_identifier:          // characters that start rule identifier
             switch(ch)
             {
+                case '0' ... '9':
+                case 'a' ... 'z':
+                case 'A' ... 'Z':
                 return true ;
             default:
                 return false ;
@@ -37,6 +44,8 @@ namespace Workshop_Tokeniser
         case cg_letter:              // characters that start rule letter
             switch(ch)
             {
+                case 'a' ... 'z':
+                case 'A' ... 'Z':
                 return true ;
             default:
                 return false ;
@@ -44,6 +53,9 @@ namespace Workshop_Tokeniser
         case cg_alnum:               // characters that start rule alnum
             switch(ch)
             {
+                case 'a' ... 'z':
+                case 'A' ... 'Z':
+                case '0' ... '9':
                 return true ;
             default:
                 return false ;
@@ -51,6 +63,7 @@ namespace Workshop_Tokeniser
         case cg_integer:             // characters that start rule integer
             switch(ch)
             {
+                case '0' ... '9':
                 return true ;
             default:
                 return false ;
@@ -58,6 +71,7 @@ namespace Workshop_Tokeniser
         case cg_digit19:             // characters that start rule digit19
             switch(ch)
             {
+                case '1' ... '9':
                 return true ;
             default:
                 return false ;
@@ -65,6 +79,7 @@ namespace Workshop_Tokeniser
         case cg_digit:               // characters that start rule digit
             switch(ch)
             {
+                case '0' ... '9':
                 return true ;
             default:
                 return false ;
@@ -72,6 +87,10 @@ namespace Workshop_Tokeniser
         case cg_op:                  // characters that start rule op
             switch(ch)
             {
+                case '+':
+                case '-':
+                case '*':
+                case '/':
                 return true ;
             default:
                 return false ;
@@ -79,6 +98,14 @@ namespace Workshop_Tokeniser
         case cg_varop:               // characters that start rule varop
             switch(ch)
             {
+                case '<':
+                //case '<=':
+                case '=':
+                //case '==':
+                case '!':
+                //case '!=':
+                case '>':
+                //case '>=':
                 return true ;
             default:
                 return false ;
@@ -86,6 +113,14 @@ namespace Workshop_Tokeniser
         case cg_symbol:              // characters that start rule symbol
             switch(ch)
             {
+                case '@':
+                case '{':
+                case '}':
+                case ':':
+                case ';':
+                case '.':
+                case ',':
+                case '"':
                 return true ;
             default:
                 return false ;
@@ -102,7 +137,48 @@ namespace Workshop_Tokeniser
     TokenKind classify_spelling(string spelling)
     {
         if ( spelling == "" ) return tk_eoi ;
+        switch(spelling[0])                    // ch is always the next char to read
+        {
+            case ' ':       return tk_space;
+            case '\t':      return tk_tab;
+            case '\r':      return tk_carriage_return;
+            case '\n':      return tk_newline;
 
+                    //Single Character Symbols
+            case '@':       return tk_at;
+            case '{':       return tk_lcb;
+            case '}':       return tk_rcb;
+            case '(':       return tk_label;
+            case ')':       return tk_label;
+            case ':':       return tk_colon;
+            case ';':       return tk_semi;
+            case '.':       return tk_dot;
+            case ',':       return tk_comma;
+            case '"':       return tk_dquote;
+
+                    //Multi Character Symbols
+            case '=':       return tk_assign;
+            case '>':       return tk_gt;
+            case '<':       return tk_lt;
+            case '!':       return tk_ne;
+
+
+                    //Math
+            case '+':       return tk_add;
+            case '-':       return tk_sub;
+            case '*':       return tk_times;
+            case '/':       return tk_divide;
+
+                    //Identifiers
+            case 'a' ... 'z': return keyword_or_identifier(spelling);
+;
+            case 'A' ... 'Z': return keyword_or_identifier(spelling);
+;
+
+                    //Digits
+            case '0' ... '9': return tk_integer;
+                
+        }
         return tk_identifier ;
     }
 
