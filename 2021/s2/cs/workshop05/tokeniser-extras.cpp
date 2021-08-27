@@ -157,11 +157,34 @@ namespace Workshop_Tokeniser
             case '"':       return tk_dquote;
 
                     //Multi Character Symbols
-            case '=':       return tk_assign;
-            case '>':       return tk_gt;
-            case '<':       return tk_lt;
-            case '!':       return tk_ne;
-
+            case '=':
+                if (spelling[1]=='=') {
+                    return tk_eq;
+                }else
+                {
+                    return tk_assign;
+                }
+            case '>':
+                if (spelling[1]=='=') {
+                    return  tk_ge;
+                }else
+                {
+                    return tk_gt;
+                }
+            case '<':
+                if (spelling[1]=='=') {
+                    return tk_le;
+                }else
+                {
+                    return tk_lt;
+                }
+            case '!':
+                if (spelling[1]=='=') {
+                    return tk_ne;
+                }else
+                {
+                    return tk_ne;
+                }
 
                     //Math
             case '+':       return tk_add;
@@ -171,9 +194,9 @@ namespace Workshop_Tokeniser
 
                     //Identifiers
             case 'a' ... 'z': return keyword_or_identifier(spelling);
-;
+
             case 'A' ... 'Z': return keyword_or_identifier(spelling);
-;
+
 
                     //Digits
             case '0' ... '9': return tk_integer;
