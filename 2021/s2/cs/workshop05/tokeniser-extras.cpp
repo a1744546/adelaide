@@ -34,7 +34,7 @@ namespace Workshop_Tokeniser
         case cg_identifier:          // characters that start rule identifier
             switch(ch)
             {
-                case '0' ... '9':
+                
                 case 'a' ... 'z':
                 case 'A' ... 'Z':
                 return true ;
@@ -99,13 +99,13 @@ namespace Workshop_Tokeniser
             switch(ch)
             {
                 case '<':
-                //case '<=':
+                case '<=':
                 case '=':
-                //case '==':
+                case '==':
                 case '!':
-                //case '!=':
+                case '!=':
                 case '>':
-                //case '>=':
+                case '>=':
                 return true ;
             default:
                 return false ;
@@ -140,6 +140,16 @@ namespace Workshop_Tokeniser
         switch(spelling[0])                    // ch is always the next char to read
         {
             case ' ':       return tk_space;
+//                case '\':
+//                if (spelling[1] == 't') {
+//                    return tk_tab;
+//                } else if(spelling[1] == 'r')
+//                {
+//                    return tk_carriage_return;
+//                }else if(spelling[1] == 'n')
+//                {
+//                    return tk_newline;
+//                }
             case '\t':      return tk_tab;
             case '\r':      return tk_carriage_return;
             case '\n':      return tk_newline;
@@ -183,7 +193,7 @@ namespace Workshop_Tokeniser
                     return tk_ne;
                 }else
                 {
-                    return tk_ne;
+                    return tk_not;
                 }
 
                     //Math
@@ -201,6 +211,12 @@ namespace Workshop_Tokeniser
                     //Digits
             case '0' ... '9': return tk_integer;
                 
+//                // keyword
+//            case 'var': return tk_var;
+//            case 'while': return tk_while;
+//            case 'if': return tk_if;
+//            case 'else': return tk_else;
+//            case 'let': return tk_let;
         }
         return tk_identifier ;
     }
@@ -210,7 +226,19 @@ namespace Workshop_Tokeniser
     // this is only called by new_token()
     string correct_spelling(TokenKind kind,string spelling)
     {
-        return spelling ;
+        if(kind == tk_label)
+        {
+            int length = spelling.length();
+
+            for(int i = 0; i < length; i++){
+                spelling[i] = spelling[i+1];
+            }
+            
+            spelling.pop_back();
+            spelling.pop_back();
+            return spelling ;
+            
+        }else return spelling ;
     }
 
 }

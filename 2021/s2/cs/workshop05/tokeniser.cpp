@@ -98,22 +98,9 @@ namespace Workshop_Tokeniser
     // ch is '<', '=', '!', or '>'
     static void parse_varop()
     {
-        if(next_char_isa('<'))
-        {
-            parse_lt_le();
-        }else if(next_char_isa('='))
-        {
-            parse_assign_eq();
-        }else if(next_char_isa('!'))
-        {
-            parse_not_ne();
-        }else if(next_char_isa('>'))
-        {
-            parse_gt_ge();
-        }else
-        {
-            did_not_find_char(cg_varop);
-        }
+        read_next_char();
+        if(next_char_isa('='))
+        read_next_char();
     }
 
     // token ::= wspace | identifier | label | integer | op | varop | symbol
