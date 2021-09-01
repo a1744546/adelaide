@@ -12,7 +12,7 @@
 M=0
 @sum
 M=0
-(loop)
+(LOOP)
     @10
     D=A
     @x
