@@ -7,4 +7,17 @@
 	@numbers
 	@arr
 // add your instructions after this line
-
+@x
+M=1
+@y
+M=10
+@sum
+M=0
+@x
+D=M
+@sum
+M=D+M
+@y
+D=M
+@sum
+M=D+M
