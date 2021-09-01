@@ -7,4 +7,13 @@
 	@numbers
 	@arr
 // add your instructions after this line
+@ptr
+D=M
 
+@arr
+D=M//D=arr
+@1
+D=D+A
+
+@x
+M=D // x=arr[y]
