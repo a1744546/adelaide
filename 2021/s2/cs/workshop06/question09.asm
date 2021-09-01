@@ -8,3 +8,32 @@
 	@arr
 // add your instructions after this line
 
+@x
+M=0
+@sum
+M=0
+(loop)
+    @10
+    D=A
+    @x
+    D=M-D
+    @END
+    D;JGE
+    
+    @numbers
+D=M
+@x
+A=D+M
+D=M // D=numbers[x]
+    
+    @sum
+    M=M+D
+    @x
+    M=M+1
+    @LOOP
+    0;JMP
+(END)
+    @END
+    0;JMP
+
+

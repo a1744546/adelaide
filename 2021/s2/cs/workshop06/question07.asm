@@ -21,7 +21,7 @@ M=0
     
     @x
     D=M
-    @SUM
+    @sum
     M=M+D
     @x
     M=M+1
