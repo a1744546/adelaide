@@ -21,6 +21,6 @@ M=D+M
 D=M
 @sum
 M=D+M
-
+(END)
 @END
 0;JMP
