@@ -24,7 +24,7 @@ M=0
     @SUM
     M=M+D
     @x
-    M+=1
+    M=M+1
     @LOOP
     0;JMP
 (END)
