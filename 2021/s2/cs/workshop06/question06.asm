@@ -9,18 +9,17 @@
 // add your instructions after this line
 @x
 M=1
+
+@10
+D=A
 @y
-M=10
-@sum
-M=0
+M=D
+
 @x
 D=M
-@sum
-M=D+M
 @y
-D=M
+D=D+M
+
 @sum
-M=D+M
-(END)
-@END
-0;JMP
+M=D
+
