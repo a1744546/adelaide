@@ -8,6 +8,7 @@
 	@arr
 // add your instructions after this line
 @ptr
-D=M // D=*ptr
+
 A=M //A=RAM[Ptr]
+D=M // D=*ptr
 M=M+1//ptr++
