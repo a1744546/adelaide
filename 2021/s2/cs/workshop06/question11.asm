@@ -28,6 +28,9 @@ D=M
 M=M+D
 @numbers
 M=M+1
+@x
+M=M+1
+
 @LOOP
 0;JMP
 (END)
