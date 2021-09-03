@@ -12,3 +12,5 @@
 A=M //A=RAM[Ptr]
 D=M // D=*ptr
 M=M+1//ptr++
+@x
+D=M
