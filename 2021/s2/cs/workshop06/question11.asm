@@ -12,11 +12,13 @@
 M=0
 @sum
 M=0
+
 (LOOP)
 @10
 D=A
 @x
 D=M-D
+@ENDS
 D;JGE//break
 
 @numbers
@@ -29,5 +31,6 @@ M=M+1
 @LOOP
 0;JMP
 (END)
+
 @END
 0;JMP
