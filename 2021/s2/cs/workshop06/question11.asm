@@ -18,7 +18,7 @@ M=0
 D=A
 @x
 D=M-D
-@ENDS
+@END
 D;JGE//break
 
 @numbers
