@@ -214,7 +214,7 @@ namespace Assignment_Tokeniser
                 // the single character symbol tokens
         case '@':       return tk_at;
         //case '~':       return tk_not;
-        case '/':       return tk_div;
+       
 
             
         case '{':       return tk_lcb;
@@ -228,7 +228,7 @@ namespace Assignment_Tokeniser
             //Math
         case '+':       return tk_add;
         case '-':       return tk_sub;
-        case '/':       return tk_divide;
+        case '/':       return tk_div;
             
             //Identifiers
         case 'a' ... 'z': return keyword_or_identifier(spelling);
@@ -239,7 +239,7 @@ namespace Assignment_Tokeniser
             //Digits
         case '0' ... '9': return tk_integer;
         case '.':
-            if (spelling[1]== '1' ... '9') {
+            if (spelling[1]== '1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9') {
                 return tk_scientific;
             }else
             {
@@ -306,7 +306,7 @@ namespace Assignment_Tokeniser
     // the spelling is a valid token and kind is its kind
 string correct_spelling(TokenKind kind,string spelling)
 {
-    if(kind == tk_label)
+    if(kind == tk_lrb)
     {
         int length = spelling.length();
 
