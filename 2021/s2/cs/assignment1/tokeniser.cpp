@@ -1,5 +1,5 @@
 // tokeniser implementation for the workshop example language
-
+#include "tokeniser.h"
 #include "iobuffer.h"
 #include "tokeniser-extras.h"
 
@@ -7,13 +7,112 @@
 using namespace std ;
 using namespace CS_IO_Buffers ;
 
-// we are extending the Assignment_Tokeniser namespace
+// we are extending the Workshop_Tokeniser namespace
 
-namespace Assignment_Tokeniser
+namespace Workshop_Tokeniser
 {
-    // token ::= ...
+    // identifier ::= letter alnum*
+    static void parse_identifier()
+    {
+        next_char_mustbe(cg_letter);
+        while(next_char_isa(cg_alnum))
+        {
+            next_char_mustbe(cg_alnum);
+        };
+    }
+
+    // label ::= '(' identifier ')'
+    static void parse_label()
+    {
+        next_char_mustbe('(');
+        parse_identifier();
+        next_char_mustbe(')');
+    }
+
+    // integer ::= '0' | (digit19 digit*)
+    static void parse_integer()
+    {
+        if(next_char_isa('0') )
+        {
+            next_char_mustbe('0');
+        }else
+        {
+            if(next_char_isa(cg_digit19))
+            {
+                next_char_mustbe(cg_digit19);
+            }
+            while(next_char_isa(cg_digit))
+            {
+                next_char_mustbe(cg_digit);
+            }
+        }
+    }
+
+    // these 4 functions are commented out to avoid unused function warnings
+    // if you choose not to use them, delete them
+
+    // lt_le := '<' | '<='
+//    static void parse_lt_le()
+//    {
+//        next_char_mustbe('<');
+//        if(next_char_isa('='))
+//        {
+//            read_next_char();
+//        }
+//    }
+//
+//    // assign_eq ::= '=' | '=='
+//    static void parse_assign_eq()
+//    {
+//        next_char_mustbe('=');
+//
+//        if(next_char_isa('='))
+//        {
+//            read_next_char();
+//        }
+//    }
+//
+//    // not_ne ::= '!' | '!='
+//    static void parse_not_ne()
+//    {
+//        next_char_mustbe('!');
+//
+//        if(next_char_isa('='))
+//        {
+//            read_next_char();
+//        }
+//    }
+//
+//    // gt_ge ::= '>' | '>='
+//    static void parse_gt_ge()
+//    {
+//        next_char_mustbe('>');
+//
+//        if(next_char_isa('='))
+//        {
+//            read_next_char();
+//        }
+//    }
+
+    // varop ::= lt_le | assign_eq | not_ne | gt_ge
+    // ch is '<', '=', '!', or '>'
+    static void parse_varop()
+    {
+        read_next_char();
+        if(next_char_isa('='))
+        read_next_char();
+    }
+
+    // token ::= wspace | identifier | label | integer | op | varop | symbol
     static void parse_token()
     {
+        if ( next_char_isa(cg_wspace) ) read_next_char() ; else
+        if ( next_char_isa(cg_identifier) ) parse_identifier() ; else
+        if ( next_char_isa('(') ) parse_label() ; else
+        if ( next_char_isa(cg_integer) ) parse_integer() ; else
+        if ( next_char_isa(cg_op) ) read_next_char() ; else
+        if ( next_char_isa(cg_varop) ) parse_varop() ; else
+        if ( next_char_isa(cg_symbol) ) read_next_char() ; else
         if ( next_char_isa(EOF) ) ; else
         did_not_find_start_of_token() ;
     }
@@ -21,7 +120,6 @@ namespace Assignment_Tokeniser
     // parse the next token in the input and return a new
     // Token object that describes its kind and spelling
     // Note: you must not call new_token() anywhere else in your program
-    // Note: you should not modify this function
     //
     Token read_next_token()
     {
