@@ -151,7 +151,8 @@ namespace Assignment_Tokeniser
         case cg_telegu:             // characters that start rule telegu
                 switch(ch)
             {
-                case '0x0C00' ... '0x0C7F':
+               case '0x0C00' ... '0x0C7F':
+                case '0':
                 return true ;
             default:
                 return false ;
@@ -167,6 +168,18 @@ namespace Assignment_Tokeniser
                     case '.':
                     case ',':
                     case '"':
+                    case '*':
+                    case '~':
+                    case '=':
+                    case '<':
+                    case '>':
+                    case '(':
+                    case ')':
+                    case '[':
+                    case ']':
+                    case '+':
+                    case '-':
+                        
                     return true ;
                 default:
                     return false ;
@@ -177,10 +190,9 @@ namespace Assignment_Tokeniser
                 case '\t':
                 case '\r':
                 case ' ':
-                case '-':
                 case '~':
-                case '0x0530' ... '0x058F':
-                case '0xFB13' ... '0xFB17':
+               case '0x0530' ... '0x058F':
+               case '0xFB13' ... '0xFB17':
                 return true ;
             default:
                 return false ;
@@ -188,6 +200,7 @@ namespace Assignment_Tokeniser
             case cg_armenian:           // characters that start rule armenian
                 switch(ch)
             {
+                case '0x0530' ... '0x058F':
                 case '0xFB13' ... '0xFB17':
                 return true ;
             default:
@@ -237,14 +250,15 @@ namespace Assignment_Tokeniser
 
 
             //Digits
-        case '0' ... '9': return tk_integer;
-        case '.':
-            if (spelling[1]== '1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9') {
+        case '0' ... '9':
+            if (spelling[1]== '.') {
                 return tk_scientific;
             }else
             {
-                return tk_dot;
+                return tk_integer;
             }
+        case '.':
+                return tk_dot;
             
 
         case '=':
@@ -306,6 +320,7 @@ namespace Assignment_Tokeniser
     // the spelling is a valid token and kind is its kind
 string correct_spelling(TokenKind kind,string spelling)
 {
+    //missing tk_scientific || tk_string || tk_eol_comment || tk_hash_comment
     if(kind == tk_lrb)
     {
         int length = spelling.length();
