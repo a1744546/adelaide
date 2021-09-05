@@ -42,24 +42,24 @@ static void parse_identifier()
     };
 }
 
-//static void parse_number()
-//{
-//    if(next_char_isa('0') )
-//    {
-//        next_char_mustbe('0');
-//    }else if(next_char_isa(cg_digit19))
-//        {
-//            next_char_mustbe(cg_digit19);
-//            while(next_char_isa(cg_digit))
-//            {
-//                read_next_char();
-//            }
-//        }
-//    else
-//    {
-//        next_char_mustbe(cg_scientific);
-//    }
-//}
+static void parse_number()
+{
+    if(next_char_isa('0') )
+    {
+        next_char_mustbe('0');
+    }else if(next_char_isa(cg_digit19))
+        {
+            next_char_mustbe(cg_digit19);
+            while(next_char_isa(cg_digit))
+            {
+                read_next_char();
+            }
+        }
+    else
+    {
+        next_char_mustbe(cg_scientific);
+    }
+}
 
 //static void parse_string()
 //{
@@ -73,60 +73,60 @@ static void parse_identifier()
 //    read_next_char();
 //}
 
-//static void parse_symbol()
-//{
-////    read_next_char();
-////    if(next_char_isa('@'))
-////    {
-////        next_char_mustbe(cg_symbol);
-////    }else if(next_char_isa('~'))
-////    {
-////        next_char_mustbe(cg_symbol);
-////    }else if(next_char_isa('='))
-////    {
-////        next_char_mustbe(cg_symbol);
-////    }else if(next_char_isa('-'))
-////    {
-////
-////    }else if(next_char_isa('+'))
-////    {
-////        next_char_mustbe(cg_symbol);
-////    }else if(next_char_isa('/'))
-////    {
-////        next_char_mustbe(cg_symbol);
-////    }else if(next_char_isa('<'))
-////    {
-////        next_char_mustbe(cg_symbol);
-////    }else if(next_char_isa('>'))
-////    {
-////        next_char_mustbe(cg_symbol);
-////    }else if(next_char_isa('|'))
-////    {
-////        next_char_mustbe(cg_symbol);
-////    }else if(next_char_isa('{'))
-////    {
-////        next_char_mustbe(cg_symbol);
-////    }else if(next_char_isa('}'))
-////    {
-////        next_char_mustbe(cg_symbol);
-////    }else if(next_char_isa('('))
-////    {
-////        next_char_mustbe(cg_symbol);
-////    }else if(next_char_isa(')'))
-////    {
-////        next_char_mustbe(cg_symbol);
-////    }else if(next_char_isa('['))
-////    {
-////        next_char_mustbe(cg_symbol);
-////    }else if(next_char_isa(']'))
-////    {
-////        next_char_mustbe(cg_symbol);
-////    }else if(next_char_isa('.'))
-////    {
-////        next_char_mustbe(cg_symbol);
-////    }
-////    read_next_char();
-//}
+static void parse_symbol()
+{
+    read_next_char();
+    if(next_char_isa('@'))
+    {
+        next_char_mustbe(cg_symbol);
+    }else if(next_char_isa('~'))
+    {
+        next_char_mustbe(cg_symbol);
+    }else if(next_char_isa('='))
+    {
+        next_char_mustbe(cg_symbol);
+    }else if(next_char_isa('-'))
+    {
+
+    }else if(next_char_isa('+'))
+    {
+        next_char_mustbe(cg_symbol);
+    }else if(next_char_isa('/'))
+    {
+        next_char_mustbe(cg_symbol);
+    }else if(next_char_isa('<'))
+    {
+        next_char_mustbe(cg_symbol);
+    }else if(next_char_isa('>'))
+    {
+        next_char_mustbe(cg_symbol);
+    }else if(next_char_isa('|'))
+    {
+        next_char_mustbe(cg_symbol);
+    }else if(next_char_isa('{'))
+    {
+        next_char_mustbe(cg_symbol);
+    }else if(next_char_isa('}'))
+    {
+        next_char_mustbe(cg_symbol);
+    }else if(next_char_isa('('))
+    {
+        next_char_mustbe(cg_symbol);
+    }else if(next_char_isa(')'))
+    {
+        next_char_mustbe(cg_symbol);
+    }else if(next_char_isa('['))
+    {
+        next_char_mustbe(cg_symbol);
+    }else if(next_char_isa(']'))
+    {
+        next_char_mustbe(cg_symbol);
+    }else if(next_char_isa('.'))
+    {
+        next_char_mustbe(cg_symbol);
+    }
+    read_next_char();
+}
 
 //static void parse_eol_comment()
 //{
@@ -148,6 +148,8 @@ static void parse_identifier()
         if ( next_char_isa(cg_symbol) ) read_next_char(); else
         if ( next_char_isa(cg_wspace) ) read_next_char(); else
         if ( next_char_isa(cg_identifier) ) parse_identifier(); else
+        if ( next_char_isa(cg_number) ) parse_number(); else
+        //if ( next_char_isa(cg_symbol) ) parse_symbol(); else
         //if ( next_char_isa('"') ) parse_string(); else
         did_not_find_start_of_token() ;
     }
