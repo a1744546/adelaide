@@ -75,57 +75,57 @@ static void parse_string()
 
 static void parse_symbol()
 {
-    read_next_char();
-    if(next_char_isa('@'))
-    {
-        next_char_mustbe(cg_symbol);
-    }else if(next_char_isa('~'))
-    {
-        next_char_mustbe(cg_symbol);
-    }else if(next_char_isa('='))
-    {
-        next_char_mustbe(cg_symbol);
-    }else if(next_char_isa('-'))
-    {
-        
-    }else if(next_char_isa('+'))
-    {
-        next_char_mustbe(cg_symbol);
-    }else if(next_char_isa('/'))
-    {
-        next_char_mustbe(cg_symbol);
-    }else if(next_char_isa('<'))
-    {
-        next_char_mustbe(cg_symbol);
-    }else if(next_char_isa('>'))
-    {
-        next_char_mustbe(cg_symbol);
-    }else if(next_char_isa('|'))
-    {
-        next_char_mustbe(cg_symbol);
-    }else if(next_char_isa('{'))
-    {
-        next_char_mustbe(cg_symbol);
-    }else if(next_char_isa('}'))
-    {
-        next_char_mustbe(cg_symbol);
-    }else if(next_char_isa('('))
-    {
-        next_char_mustbe(cg_symbol);
-    }else if(next_char_isa(')'))
-    {
-        next_char_mustbe(cg_symbol);
-    }else if(next_char_isa('['))
-    {
-        next_char_mustbe(cg_symbol);
-    }else if(next_char_isa(']'))
-    {
-        next_char_mustbe(cg_symbol);
-    }else if(next_char_isa('.'))
-    {
-        next_char_mustbe(cg_symbol);
-    }
-    read_next_char();
+//    read_next_char();
+//    if(next_char_isa('@'))
+//    {
+//        next_char_mustbe(cg_symbol);
+//    }else if(next_char_isa('~'))
+//    {
+//        next_char_mustbe(cg_symbol);
+//    }else if(next_char_isa('='))
+//    {
+//        next_char_mustbe(cg_symbol);
+//    }else if(next_char_isa('-'))
+//    {
+//
+//    }else if(next_char_isa('+'))
+//    {
+//        next_char_mustbe(cg_symbol);
+//    }else if(next_char_isa('/'))
+//    {
+//        next_char_mustbe(cg_symbol);
+//    }else if(next_char_isa('<'))
+//    {
+//        next_char_mustbe(cg_symbol);
+//    }else if(next_char_isa('>'))
+//    {
+//        next_char_mustbe(cg_symbol);
+//    }else if(next_char_isa('|'))
+//    {
+//        next_char_mustbe(cg_symbol);
+//    }else if(next_char_isa('{'))
+//    {
+//        next_char_mustbe(cg_symbol);
+//    }else if(next_char_isa('}'))
+//    {
+//        next_char_mustbe(cg_symbol);
+//    }else if(next_char_isa('('))
+//    {
+//        next_char_mustbe(cg_symbol);
+//    }else if(next_char_isa(')'))
+//    {
+//        next_char_mustbe(cg_symbol);
+//    }else if(next_char_isa('['))
+//    {
+//        next_char_mustbe(cg_symbol);
+//    }else if(next_char_isa(']'))
+//    {
+//        next_char_mustbe(cg_symbol);
+//    }else if(next_char_isa('.'))
+//    {
+//        next_char_mustbe(cg_symbol);
+//    }
+//    read_next_char();
 }
 
 //static void parse_eol_comment()
@@ -147,8 +147,8 @@ static void parse_symbol()
         if ( next_char_isa(EOF) ) ; else
         if ( next_char_isa(cg_symbol) ) read_next_char(); else
         if ( next_char_isa(cg_wspace) ) read_next_char(); else
-        if ( next_char_isa(cg_identifier) ) parse_identifier; else
-        if ( next_char_isa('"') ) parse_string; else
+        if ( next_char_isa(cg_identifier) ) parse_identifier(); else
+        if ( next_char_isa('"') ) parse_string(); else
         did_not_find_start_of_token() ;
     }
 
