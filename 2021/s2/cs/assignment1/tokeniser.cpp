@@ -14,13 +14,28 @@ namespace Assignment_Tokeniser
 //static void parse_wspace ()
 //{
 //    read_next_char();
-//    if(next_char_isa('='))
-//    read_next_char();
+//    if(next_char_isa('\t'))
+//    {
+//        next_char_mustbe('\t');
+//    }
+//    else if(next_char_isa('\n'))
+//    {
+//        next_char_mustbe('\n');
+//    }
+//    else if(next_char_isa('\r'))
+//    {
+//        next_char_mustbe('r');
+//    }
+//    else if(next_char_isa(' '))
+//    {
+//        next_char_mustbe(' ');
+//    }
+//    else did_not_find_char(cg_wspace);
 //}
 
 static void parse_identifier()
 {
-    next_char_mustbe(cg_letter);
+    next_char_mustbe(cg_identifier);
     while(next_char_isa(cg_letter))
     {
         next_char_mustbe(cg_letter);
