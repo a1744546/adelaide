@@ -57,11 +57,6 @@ namespace Assignment_Tokeniser
                 switch(ch)
             {
             case '0' ... '9':
-            case '.':
-            case 'e':
-            case 'E':
-            case '+':
-            case '-':
                 return true ;
             default:
                 return false ;
@@ -78,11 +73,6 @@ namespace Assignment_Tokeniser
                 switch(ch)
             {
                 case '0' ... '9':
-//            case '.':
-//            case 'e':
-//            case 'E':
-//            case '+':
-//            case '-':
                 return true ;
             default:
                 return false ;
@@ -108,9 +98,6 @@ namespace Assignment_Tokeniser
                 {
                     case 'e':
                     case 'E':
-//                    case '+':
-//                    case '-':
-//                    case '0' ... '9':
                     return true ;
                 default:
                     return false ;
@@ -139,67 +126,66 @@ namespace Assignment_Tokeniser
                 case ' ':
                 case '!':
                 case '#' ... '~':
-                case 0x0C00 ... 0x0C7F:
+                //case 0x0C00 ... 0x0C7F:
                 return true ;
             default:
                 return false ;
             }
         case cg_telegu:             // characters that start rule telegu
-                switch(ch)
-            {
-               case 0x0C00 ... 0x0C7F:
-                return true ;
-            default:
-                return false ;
-            }
+//                switch(ch)
+//            {
+//               case 0x0C00 ... 0x0C7F:
+//                return true ;
+//            default:
+//                return false ;
+//            }
             case cg_symbol:              // characters that start rule symbol
                 switch(ch)
                 {
                     case '@':
-                    case '{':
-                    case '}':
-                    case '.':
-                    case ',':
-                    case '"':
-                    case '*':
                     case '~':
                     case '=':
-                    case '<':
-                    case '>':
-                    case '(':
-                    case ')':
-                    case '[':
-                    case ']':
                     case '+':
                     case '-':
-                        
+                    case '/':
+                    case '*':
+                    case '{':
+                    case '}':
+                    case '[':
+                    case ']':
+                    case '(':
+                    case ')':
+                    case '.':
+                    case '<':
+                    case '>':
+                    case '|':
                     return true ;
                 default:
                     return false ;
                 }
         case cg_comment_char:       // characters that start rule comment_char
-                switch(ch)
-            {
-                case '\t':
-                case '\r':
-                case ' ':
-                case '~':
-               case 0x0530 ... 0x058F:
-               case 0xFB13 ... 0xFB17:
-                return true ;
-            default:
-                return false ;
-            }
+//                switch(ch)
+//            {
+//                case '\t':
+//                case '\r':
+//                case ' ':
+//                case '~':
+//               case 0x0530 ... 0x058F:
+//               case 0xFB13 ... 0xFB17:
+//                return true ;
+//            default:
+//                return false ;
+//            }
             case cg_armenian:           // characters that start rule armenian
-                switch(ch)
-            {
-                case 0x0530 ... 0x058F:
-                case 0xFB13 ... 0xFB17:
-                return true ;
-            default:
-                return false ;
-            }
-
+//                switch(ch)
+//            {
+//                case 0x0530 ... 0x058F:
+//                case 0xFB13 ... 0xFB17:
+//                return true ;
+//            default:
+//                return false ;
+//            }
+//
         default:
             return false ;
         }
@@ -210,6 +196,34 @@ namespace Assignment_Tokeniser
     TokenKind classify_spelling(string spelling)
 {
     if ( spelling == "" ) return tk_eoi ;
+    if (spelling == "*=")
+    {
+      return tk_mult;
+    }
+    if (spelling == "~=")
+    {
+      return tk_ne;
+    }
+    if (spelling == "==")
+    {
+      return tk_eq;
+    }
+    if (spelling == "<<")
+    {
+        return tk_la_shift;
+    }
+    if (spelling == "<<<")
+    {
+      return tk_ll_shift;
+    }
+    if (spelling == ">>")
+    {
+        return tk_ra_shift;
+    }
+    if (spelling == ">>>")
+    {
+      return tk_rl_shift;
+    }
     switch(spelling[0])                    // ch is always the next char to read
     {
         case ' ':       return tk_space;
@@ -238,7 +252,7 @@ namespace Assignment_Tokeniser
             
             //Identifiers
         case 'a' ... 'z': return keyword_or_identifier(spelling);
-
+        case '$':         return tk_identifier;
         case 'A' ... 'Z': return keyword_or_identifier(spelling);
 
 
@@ -250,49 +264,13 @@ namespace Assignment_Tokeniser
             {
                 return tk_integer;
             }
-        case '.':
-                return tk_dot;
-            
-
-        case '=':
-            if (spelling[1]=='=') {
-                return tk_eq;
-            }else
-            {
-                return tk_assign;
-            }
-        case '>':
-            if (spelling[1]=='>') {
-                if(spelling[2]=='>')
-                {
-                    return  tk_ra_shift;
-                }else
-                {
-                    return tk_rl_shift;
-                }
-            }
-        case '<':
-            if (spelling[1]=='<') {
-                if(spelling[2]=='<')
-                {
-                    return  tk_ll_shift;
-                }else
-                {
-                    return tk_la_shift;
-                }
-            }
-        case '~':
-            if (spelling[1]=='=') {
-                return tk_ne;
-            }else
-            {
-                return tk_not;
-            }
-        case '*':
-            if (spelling[1]=='=') {
-                return tk_mult;
-            }
-
+        case '.': return tk_dot;
+        case '=': return tk_assign;
+        case '~': return tk_not;
+        default:  return tk_oops;
+        }
+    return tk_identifier;
+}
 //            tk_constructor,     // 'constructor'
 //            tk_function,        // 'function'
 //            tk_if_goto,         // 'if-goto'
@@ -305,28 +283,15 @@ namespace Assignment_Tokeniser
 
 
             
-    }
-    return tk_identifier ;
-}
 
     // work out the correct spelling to use in the Token object being created by new_token()
     // the spelling is a valid token and kind is its kind
-string correct_spelling(TokenKind kind,string spelling)
+string correct_spelling(TokenKind kind, string spelling)
 {
-    //missing tk_scientific || tk_string || tk_eol_comment || tk_hash_comment
-    if(kind == tk_lrb)
-    {
-        int length = spelling.length();
+  if (spelling == "")
+    return "";
 
-        for(int i = 0; i < length; i++){
-            spelling[i] = spelling[i+1];
-        }
-        
-        spelling.pop_back();
-        spelling.pop_back();
-        return spelling ;
-        
-    }else return spelling ;
+  return spelling;
 }
 
 }

@@ -47,6 +47,27 @@ static void parse_number()
     if(next_char_isa('0') )
     {
         next_char_mustbe('0');
+        if(next_char_isa('.'))
+        {
+            next_char_mustbe('.');
+            read_next_char();
+            while(next_char_isa(cg_digit))
+            {
+                read_next_char();
+            }
+            while(next_char_isa(cg_eee))
+            {
+                read_next_char();
+            }
+            while(next_char_isa(cg_sign))
+            {
+                read_next_char();
+            }
+            while(next_char_isa(cg_integer))
+            {
+                read_next_char();
+            }
+        }
     }else if(next_char_isa(cg_digit19))
         {
             next_char_mustbe(cg_digit19);
