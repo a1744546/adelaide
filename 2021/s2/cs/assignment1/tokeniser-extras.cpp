@@ -250,9 +250,10 @@ namespace Assignment_Tokeniser
         case '/':       return tk_div;
             
             //Identifiers
-        case 'a' ... 'z': return keyword_or_identifier(spelling);
-        case '$':         return keyword_or_identifier(spelling);
-        case 'A' ... 'Z': return keyword_or_identifier(spelling);
+        case 'a' ... 'z':
+        case 'A' ... 'Z':
+        case '$':
+            return keyword_or_identifier(spelling);
 
 
             //Digits
