@@ -236,19 +236,16 @@ namespace Assignment_Tokeniser
 
                 // the single character symbol tokens
         case '@':       return tk_at;
-        //case '~':       return tk_not;
-       
-
-            
+        case '.':       return tk_dot;
+        case '=':       return tk_assign;
+        case '~':       return tk_not;
         case '{':       return tk_lcb;
         case '}':       return tk_rcb;
         case '(':       return tk_lrb;
         case ')':       return tk_rrb;
         case '[':       return tk_lsb;
         case ']':       return tk_rsb;
-        //case '.':       return tk_dot;
-            
-            //Math
+        case '.':       return tk_dot;
         case '+':       return tk_add;
         case '-':       return tk_sub;
         case '/':       return tk_div;
@@ -267,9 +264,7 @@ namespace Assignment_Tokeniser
             {
                 return tk_integer;
             }
-        case '.': return tk_dot;
-        case '=': return tk_assign;
-        case '~': return tk_not;
+
         default:  return tk_oops;
         }
     return tk_identifier;
