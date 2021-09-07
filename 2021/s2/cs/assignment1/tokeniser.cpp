@@ -11,27 +11,7 @@ using namespace CS_IO_Buffers ;
 
 namespace Assignment_Tokeniser
 {
-//static void parse_wspace ()
-//{
-//    read_next_char();
-//    if(next_char_isa('\t'))
-//    {
-//        next_char_mustbe('\t');
-//    }
-//    else if(next_char_isa('\n'))
-//    {
-//        next_char_mustbe('\n');
-//    }
-//    else if(next_char_isa('\r'))
-//    {
-//        next_char_mustbe('r');
-//    }
-//    else if(next_char_isa(' '))
-//    {
-//        next_char_mustbe(' ');
-//    }
-//    else did_not_find_char(cg_wspace);
-//}
+
 // token identifier::= ...
 static void parse_identifier()
 {
@@ -41,6 +21,7 @@ static void parse_identifier()
         next_char_mustbe(cg_letter);
     };
 }
+
 // token number::= ...
 static void parse_number()
 {
@@ -159,6 +140,7 @@ static void parse_number()
 //    if(next_char_isa('='))
 //    read_next_char();
 //}
+
     // token ::= ...
 static void parse_token()
 {
@@ -167,8 +149,6 @@ static void parse_token()
     if ( next_char_isa(cg_wspace) ) read_next_char(); else
     if ( next_char_isa(cg_identifier) ) parse_identifier(); else
     if ( next_char_isa(cg_number) ) parse_number(); else
-    //if ( next_char_isa(cg_symbol) ) parse_symbol(); else
-    //if ( next_char_isa('"') ) parse_string(); else
     did_not_find_start_of_token() ;
 }
 
