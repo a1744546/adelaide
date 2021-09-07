@@ -264,7 +264,7 @@ namespace Assignment_Tokeniser
                 return tk_integer;
             }
 
-        default:  return tk_oops;
+        //default:  return tk_oops;
         }
     return tk_identifier;
 }
