@@ -47,45 +47,45 @@ static void parse_number()
     if(next_char_isa('0') )
     {
         next_char_mustbe('0');
-        if(next_char_isa('.'))
-        {
-            next_char_mustbe('.');
-            read_next_char();
-            while(next_char_isa(cg_digit))
-            {
-                read_next_char();
-            }
-            while(next_char_isa(cg_eee))
-            {
-                read_next_char();
-            }
-            while(next_char_isa(cg_sign))
-            {
-                read_next_char();
-            }
-            while(next_char_isa(cg_integer))
-            {
-                read_next_char();
-            }
-        }
-    }else if(next_char_isa(cg_digit19))
+//        if(next_char_isa('.'))
+//        {
+//            next_char_mustbe('.');
+//            read_next_char();
+//            while(next_char_isa(cg_digit))
+//            {
+//                read_next_char();
+//            }
+//            while(next_char_isa(cg_eee))
+//            {
+//                read_next_char();
+//            }
+//            while(next_char_isa(cg_sign))
+//            {
+//                read_next_char();
+//            }
+//            while(next_char_isa(cg_integer))
+//            {
+//                read_next_char();
+//            }
+        //}
+    }else
         {
             next_char_mustbe(cg_digit19);
             while(next_char_isa(cg_digit))
             {
                 read_next_char();
             }
+//            while(next_char_isa(cg_scientific))
+//            {
+//                read_next_char();
+//            }
         }
-    else
-    {
-        next_char_mustbe(cg_scientific);
-    }
 }
 
-//static void parse_string()
-//{
-//
-//}
+static void parse_string()
+{
+
+}
 
 //static void parse_keyword()
 //{
@@ -108,7 +108,7 @@ static void parse_symbol()
         next_char_mustbe(cg_symbol);
     }else if(next_char_isa('-'))
     {
-
+        next_char_mustbe(cg_symbol);
     }else if(next_char_isa('+'))
     {
         next_char_mustbe(cg_symbol);
@@ -119,9 +119,6 @@ static void parse_symbol()
     {
         next_char_mustbe(cg_symbol);
     }else if(next_char_isa('>'))
-    {
-        next_char_mustbe(cg_symbol);
-    }else if(next_char_isa('|'))
     {
         next_char_mustbe(cg_symbol);
     }else if(next_char_isa('{'))
@@ -170,8 +167,7 @@ static void parse_symbol()
         if ( next_char_isa(cg_wspace) ) read_next_char(); else
         if ( next_char_isa(cg_identifier) ) parse_identifier(); else
         if ( next_char_isa(cg_number) ) parse_number(); else
-        if ( next_char_isa(cg_symbol) ) parse_symbol(); else
-        //if ( next_char_isa('"') ) parse_string(); else
+        if ( next_char_isa('"') ) parse_string(); else
         did_not_find_start_of_token() ;
     }
 
