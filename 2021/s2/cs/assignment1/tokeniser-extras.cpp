@@ -36,7 +36,7 @@ namespace Assignment_Tokeniser
                     case '$':
                     case 'a' ... 'z':
                     case 'A' ... 'Z':
-                    //case '0' ... '9':
+                    case '.' :
                     return true ;
                 default:
                     return false ;
@@ -132,7 +132,7 @@ namespace Assignment_Tokeniser
                 case ' ':
                 case '!':
                 case '#' ... '~':
-                case 0x0C00 ... 0x0C7F:
+                //case 0x0C00 ... 0x0C7F:
                 return true ;
             default:
                 return false ;
@@ -140,7 +140,7 @@ namespace Assignment_Tokeniser
         case cg_telegu:             // characters that start rule telegu
                 switch(ch)
             {
-               case 0x0C00 ... 0x0C7F:
+               //case 0x0C00 ... 0x0C7F:
                 return true ;
             default:
                 return false ;
@@ -175,8 +175,8 @@ namespace Assignment_Tokeniser
                 case '\r':
                 case ' ':
                 case '~':
-               case 0x0530 ... 0x058F:
-               case 0xFB13 ... 0xFB17:
+               //case 0x0530 ... 0x058F:
+               //case 0xFB13 ... 0xFB17:
                 return true ;
             default:
                 return false ;
@@ -184,8 +184,8 @@ namespace Assignment_Tokeniser
             case cg_armenian:           // characters that start rule armenian
                 switch(ch)
             {
-                case 0x0530 ... 0x058F:
-                case 0xFB13 ... 0xFB17:
+                //case 0x0530 ... 0x058F:
+                //case 0xFB13 ... 0xFB17:
                 return true ;
             default:
                 return false ;
