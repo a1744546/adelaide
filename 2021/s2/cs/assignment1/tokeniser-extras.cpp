@@ -236,7 +236,6 @@ namespace Assignment_Tokeniser
 
                 // the single character symbol tokens
         case '@':       return tk_at;
-        case '.':       return tk_dot;
         case '=':       return tk_assign;
         case '~':       return tk_not;
         case '{':       return tk_lcb;
@@ -252,7 +251,7 @@ namespace Assignment_Tokeniser
             
             //Identifiers
         case 'a' ... 'z': return keyword_or_identifier(spelling);
-        case '$':         return tk_identifier;
+        case '$':         return keyword_or_identifier(spelling);
         case 'A' ... 'Z': return keyword_or_identifier(spelling);
 
 
