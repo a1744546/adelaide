@@ -32,7 +32,7 @@ namespace Assignment_Tokeniser
 //    }
 //    else did_not_find_char(cg_wspace);
 //}
-
+// token identifier::= ...
 static void parse_identifier()
 {
     next_char_mustbe(cg_identifier);
@@ -41,7 +41,7 @@ static void parse_identifier()
         next_char_mustbe(cg_letter);
     };
 }
-
+// token number::= ...
 static void parse_number()
 {
     if(next_char_isa('0') )
