@@ -2,3 +2,11 @@ function Silly.func 0
 (Silly.func)
 
 push static 6
+@Silly.6            // ptr of stack[6]
+D=M                 // D = *stack[6]
+
+@SP
+AM=M+1
+
+A=A-1
+M=D

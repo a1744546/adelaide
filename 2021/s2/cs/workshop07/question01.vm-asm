@@ -1,1 +1,7 @@
 push constant 5
+@5
+D=A             // D=5
+@SP             // A= ptr
+AM=M+1          // val of SP++
+A=A-1           // SP(after move)-1
+M=D             //RAM[old_SP] = 5

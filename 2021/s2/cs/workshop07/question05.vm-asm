@@ -2,3 +2,10 @@ function Question.zero 0
 (Question.zero)
 
 if-goto trickiest
+
+@SP
+AM=M-1
+D=M
+
+@Question.zero$trickiest
+D;JNE                       // Jump if D != 0
