@@ -227,6 +227,27 @@ namespace Assignment_Tokeniser
     {
       return tk_rl_shift;
     }
+    if ( spelling == "constructor" )
+    {
+        return tk_constructor ;
+    }
+    if ( spelling == "function" )
+    {
+        return tk_function ;
+    }
+    if ( spelling == "if-goto" )
+    {
+        return tk_if_goto ;
+    }
+    if ( spelling == "procedure" )
+    {
+        return tk_procedure ;
+    }
+    if ( spelling == "this" )
+    {
+        return tk_this ;
+    }
+        
     switch(spelling[0])                    // ch is always the next char to read
     {
         case ' ':       return tk_space;
@@ -284,12 +305,34 @@ namespace Assignment_Tokeniser
 
     // work out the correct spelling to use in the Token object being created by new_token()
     // the spelling is a valid token and kind is its kind
-string correct_spelling(TokenKind kind, string spelling)
-{
-  if (spelling == "")
-    return "";
+    string correct_spelling(TokenKind kind,string spelling)
+    {
+        if(kind == tk_hash_comment || kind == tk_string)
+        {
+            int length = spelling.length();
 
-  return spelling;
-}
-
+            for(int i = 0; i < length; i++)
+            {
+                spelling[i] = spelling[i + 1];
+            }
+            spelling.pop_back();
+            spelling.pop_back();
+            return spelling;
+        }else
+        {
+            return spelling;
+        }
+        if(kind == tk_eol_comment)
+        {
+            int length = spelling.length();
+            for(int i = 0; i < length; i++)
+            {
+                spelling[i] = spelling[i + 2];
+            }
+            spelling.pop_back();
+            spelling.pop_back();
+            spelling.pop_back();
+            return spelling;
+        }
+    }
 }

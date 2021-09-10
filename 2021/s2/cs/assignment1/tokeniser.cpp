@@ -25,121 +25,79 @@ static void parse_identifier()
 // token number::= ...
 static void parse_number()
 {
-    if(next_char_isa('0') )
+    if ( next_char_isa('0') )
     {
         next_char_mustbe('0');
-        if(next_char_isa('.'))
+        if ( next_char_isa('.') )
         {
             next_char_mustbe('.');
-            read_next_char();
             while(next_char_isa(cg_digit))
             {
                 read_next_char();
             }
-            while(next_char_isa(cg_eee))
+            if (next_char_isa(cg_eee))
             {
-                read_next_char();
+                next_char_mustbe(cg_eee);
             }
-            while(next_char_isa(cg_sign))
+            if (next_char_isa(cg_sign))
             {
-                read_next_char();
+                next_char_mustbe(cg_sign);
             }
-            while(next_char_isa(cg_integer))
+            while (next_char_isa(cg_integer))
             {
-                read_next_char();
+                next_char_mustbe(cg_integer);
             }
         }
-    }else
+    }else if ( next_char_isa(cg_digit19) )
+    {
+        next_char_mustbe(cg_digit19);
+        if (next_char_isa(cg_digit)){
+            while (next_char_isa(cg_digit))
+            {
+                read_next_char();
+            }
+            if ( next_char_isa('.') )
+            {
+                next_char_mustbe('.');
+                while(next_char_isa(cg_digit))
+                {
+                    read_next_char();
+                }
+                if (next_char_isa(cg_eee))
+                {
+                    next_char_mustbe(cg_eee);
+                }
+                if (next_char_isa(cg_sign))
+                {
+                    next_char_mustbe(cg_sign);
+                }
+                while (next_char_isa(cg_integer))
+                {
+                    next_char_mustbe(cg_integer);
+                }
+            }
+        }else if ( next_char_isa('.') )
         {
-            next_char_mustbe(cg_digit19);
+            next_char_mustbe('.');
             while(next_char_isa(cg_digit))
             {
                 read_next_char();
             }
-            while(next_char_isa(cg_scientific))
+            if (next_char_isa(cg_eee))
             {
-                read_next_char();
+                next_char_mustbe(cg_eee);
+            }
+            if (next_char_isa(cg_sign))
+            {
+                next_char_mustbe(cg_sign);
+            }
+            while (next_char_isa(cg_integer))
+            {
+                next_char_mustbe(cg_integer);
             }
         }
+    }
 }
-
-//static void parse_string()
-//{
-//
-//}
-
-//static void parse_keyword()
-//{
-//    read_next_char();
-//    if(next_char_isa('='))
-//    read_next_char();
-//}
-
-//static void parse_symbol()
-//{
-//    read_next_char();
-//    if(next_char_isa('@'))
-//    {
-//        next_char_mustbe(cg_symbol);
-//    }else if(next_char_isa('~'))
-//    {
-//        next_char_mustbe(cg_symbol);
-//    }else if(next_char_isa('='))
-//    {
-//        next_char_mustbe(cg_symbol);
-//    }else if(next_char_isa('-'))
-//    {
-//        next_char_mustbe(cg_symbol);
-//    }else if(next_char_isa('+'))
-//    {
-//        next_char_mustbe(cg_symbol);
-//    }else if(next_char_isa('/'))
-//    {
-//        next_char_mustbe(cg_symbol);
-//    }else if(next_char_isa('<'))
-//    {
-//        next_char_mustbe(cg_symbol);
-//    }else if(next_char_isa('>'))
-//    {
-//        next_char_mustbe(cg_symbol);
-//    }else if(next_char_isa('{'))
-//    {
-//        next_char_mustbe(cg_symbol);
-//    }else if(next_char_isa('}'))
-//    {
-//        next_char_mustbe(cg_symbol);
-//    }else if(next_char_isa('('))
-//    {
-//        next_char_mustbe(cg_symbol);
-//    }else if(next_char_isa(')'))
-//    {
-//        next_char_mustbe(cg_symbol);
-//    }else if(next_char_isa('['))
-//    {
-//        next_char_mustbe(cg_symbol);
-//    }else if(next_char_isa(']'))
-//    {
-//        next_char_mustbe(cg_symbol);
-//    }else if(next_char_isa('.'))
-//    {
-//        next_char_mustbe(cg_symbol);
-//    }
-//    read_next_char();
-//}
-
-//static void parse_eol_comment()
-//{
-//    read_next_char();
-//    if(next_char_isa('='))
-//    read_next_char();
-//}
-//
-//static void parse_hash_comment()
-//{
-//    read_next_char();
-//    if(next_char_isa('='))
-//    read_next_char();
-//}
 
     // token ::= ...
 static void parse_token()
