@@ -1,3 +1,4 @@
+//a1744546
 #include "iobuffer.h"
 #include "tokeniser-extras.h"
 
@@ -73,11 +74,6 @@ namespace Assignment_Tokeniser
                 switch(ch)
             {
                 case '0' ... '9':
-//                case 'e':
-//                case 'E':
-//                case '+':
-//                case '-':
-//                case '.':
                 return true ;
             default:
                 return false ;
@@ -286,19 +282,15 @@ namespace Assignment_Tokeniser
                 return tk_integer;
             }
 
+        case '#':
+            return tk_hash_comment;
+        case '"':
+            return tk_string;
+            
         //default:  return tk_oops;
         }
     return tk_identifier;
 }
-//            tk_constructor,     // 'constructor'
-//            tk_function,        // 'function'
-//            tk_if_goto,         // 'if-goto'
-//            tk_procedure,       // 'procedure'
-//            tk_this,
-//            tk_hash_comment,    // '#' comment_char* '\n', '#' and '\n' are not part of the spelling
-//            tk_eol_comment,     // '//' comment_char* '\n', '//' and '\n' are not part of the spelling
-//
-//            tk_string,          // '"' instring* '"', '"' and '"' are not part of the spelling
 
 
             
