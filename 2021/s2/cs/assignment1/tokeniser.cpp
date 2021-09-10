@@ -120,6 +120,34 @@ namespace Assignment_Tokeniser
         }
     }
 
+//eol common
+static void parse_eol_comment()
+{
+    if (next_char_isa('/'))
+    {
+        next_char_mustbe('/');
+        if (next_char_isa('/'))
+        {
+            next_char_mustbe('/');
+            while (next_char_isa(cg_comment_char))
+            {
+                next_char_mustbe(cg_comment_char);
+            }
+            next_char_mustbe('\n');
+        }
+    }
+}
+
+//hash common
+static void parse_hash_comment()
+{
+    next_char_mustbe('#');
+    while (next_char_isa(cg_comment_char))
+    {
+        read_next_char();
+    }
+    next_char_mustbe('\n');
+}
     // token ::= ...
     static void parse_token()
     {
@@ -128,8 +156,8 @@ namespace Assignment_Tokeniser
         if ( next_char_isa(cg_identifier) ) parse_identifier(); else
         if ( next_char_isa(cg_number) ) parse_number(); else
         if ( next_char_isa('"') ) parse_instring(); else
-//        if ( next_char_isa('#') ) parse_hash_comment(); else
-//        if ( next_char_isa('/')) parse_eol_comment(); else
+        if ( next_char_isa('#') ) parse_hash_comment(); else
+        if ( next_char_isa('/')) parse_eol_comment(); else
         if ( next_char_isa(cg_symbol) ) parse_symbol(); else
         
 
