@@ -264,7 +264,14 @@ namespace Assignment_Tokeniser
         case '.':       return tk_dot;
         case '+':       return tk_add;
         case '-':       return tk_sub;
-        case '/':       return tk_div;
+        case '/':
+            if (spelling[1] == '/')
+            {
+                return tk_eol_comment;
+            }else
+            {
+                return tk_div;
+            }
             
             //Identifiers
         case 'a' ... 'z':

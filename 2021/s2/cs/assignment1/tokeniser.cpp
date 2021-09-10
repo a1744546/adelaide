@@ -97,7 +97,7 @@ namespace Assignment_Tokeniser
         }
     }
 
-
+//string
     static void parse_instring()
     {
             next_char_mustbe('"');
@@ -109,7 +109,7 @@ namespace Assignment_Tokeniser
     }
 
 
-
+//symbol
     static void parse_symbol()
     {
         if (next_char_isa('*'))
