@@ -37,14 +37,13 @@ int max_value(int a, int b)
 }
 
 //used to find the min value node
-Node * min_node(Node* node)
+Node * max_node(Node* node)
 {
-    Node* current = node;
-    while (current->right != NULL){
-        current = current->right;
+    if (node->right == NULL) {
+        return node;
+    }else {
+        return max_node(node->right);
     }
-  
-    return current;
 }
 // set new node
 Node* setNewNode(int value)
@@ -160,10 +159,10 @@ Node* deleteNode(Node* n, int value)
         return n;
     }
    
-    if ( value < n->value )
+    if (  n->value > value )
     {
         n->left = deleteNode(n->left, value);
-    }else if( value > n->value )
+    }else if( n->value < value  )
     {
         n->right = deleteNode(n->right, value);
     }else
@@ -189,9 +188,9 @@ Node* deleteNode(Node* n, int value)
             }
             free(node1);
         }else{
-            Node* temp = min_node(n->right);
+            Node* temp = max_node(n->left);
             n->value = temp->value;
-            n->right = deleteNode(n->right,temp->value);
+            n->left = deleteNode(n->left,temp->value);
         }
     }
   
@@ -327,4 +326,3 @@ int main(){
     }
     return 0;
 }
-
