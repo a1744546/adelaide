@@ -40,8 +40,8 @@ int max_value(int a, int b)
 Node * min_node(Node* node)
 {
     Node* current = node;
-    while (current->left != NULL){
-        current = current->left;
+    while (current->right != NULL){
+        current = current->right;
     }
   
     return current;
