@@ -1,0 +1,9 @@
+210929-173244,make,install
+210929-173244,svn,"a1744546","2021/s2/cs/assignment2"
+210929-173244,error,"Cannot find any zip files in updates/"
+210929-173311,make,install
+210929-173311,svn,"a1744546","2021/s2/cs/assignment2"
+210929-173311,startups,assignment2-20210831-135521.zip
+210929-173311,updater,Updating: Makefile
+210929-173311,updater,Updating: updates/README
+210929-173311,updater,Update installed
