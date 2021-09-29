@@ -50,7 +50,7 @@ static void emulate_instruction()
     int ainst = inst >> 15;
     if ( ainst == 0 ) {
         write_A(inst);
-        write_PC(read_PC()++);
+        write_PC(read_PC()+1);
     }
 }
 
