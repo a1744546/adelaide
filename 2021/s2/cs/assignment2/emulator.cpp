@@ -1,3 +1,4 @@
+//a1744546
 // emulate executing Hack CPU instructions
 #include "iobuffer.h"
 #include "symbols.h"
@@ -36,7 +37,8 @@ using namespace Hack_Computer ;
 // omit ;jump if all jump bits are 0
 string disassemble_instruction(uint16_t instruction)
 {
-    return "A=D+1;JGT" ;
+
+    return "" ;
 }
 
 // emulate a cpu instruction - the Hack Computer has been initialised
@@ -44,6 +46,12 @@ string disassemble_instruction(uint16_t instruction)
 // if you want to produce additional output, use write_to_traces()
 static void emulate_instruction()
 {
+    uint16_t inst = read_ROM(read_PC() );
+    int ainst = inst >> 15;
+    if ( ainst == 0 ) {
+        write_A(inst);
+        write_PC(read_PC()+1);
+    }
 }
 
 
@@ -61,6 +69,7 @@ string disassemble(uint16_t instruction)
     // default is to display instruction in binary
     return "\"" + std::bitset<16>(instruction).to_string() + "\"" ;
 }
+
 
 
 // main program
