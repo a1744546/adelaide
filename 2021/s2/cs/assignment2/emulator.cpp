@@ -37,7 +37,10 @@ using namespace Hack_Computer ;
 // omit ;jump if all jump bits are 0
 string disassemble_instruction(uint16_t instruction)
 {
-
+    int ainst = instruction >> 15;
+    if ( ainst == 0 ) {
+        return "@"+to_string(instruction);
+    }
     return "" ;
 }
 
