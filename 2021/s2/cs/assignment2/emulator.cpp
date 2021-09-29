@@ -1,4 +1,4 @@
-//a1744546
+a1744546
 // emulate executing Hack CPU instructions
 #include "iobuffer.h"
 #include "symbols.h"
