@@ -28,20 +28,69 @@ using namespace Hack_Computer ;
 //
 
 /*****************   REPLACE THE FOLLOWING CODE  ******************/
-static void jump1(uint16_t jmp)
+static void jump1(uint16_t jmp,uint16_t value)
 {
     switch (jmp) {
+            //JGT
         case 1:
-                if(read_A() > 0)
+                if(value > 0 && value<32768)
                 {
                     write_PC(read_A());
-                }else
-                {
+                }else{
                     write_PC(read_PC()+1);
                 }
             break;
-        default:
+            //JEQ
+        case 2:
+            if(value == 0)
+            {
+                write_PC(read_A());
+            }else{
+                write_PC(read_PC()+1);
+            }
             break;
+            //JGE
+        case 3:
+            if(value >= 0 && value<32768)
+            {
+                write_PC(read_A());
+            }else{
+                write_PC(read_PC()+1);
+            }
+            break;
+            //JLT
+        case 4:
+            if(value > 32768)
+            {
+                write_PC(read_A());
+            }else{
+                write_PC(read_PC()+1);
+            }
+            break;
+            //JNE
+        case 5:
+            if(value != 0)
+            {
+                write_PC(read_A());
+            }else{
+                write_PC(read_PC()+1);
+            }
+            break;
+            //JLE
+        case 6:
+            if(value > 32768 || value ==0)
+            {
+                write_PC(read_A());
+            }else{
+                write_PC(read_PC()+1);
+            }
+            break;
+            //Jmp
+        case 7:
+            write_PC(read_A());
+            break;
+        default:
+            write_PC(read_PC()+1);
     }
 }
 static void write_memory(uint16_t des, uint16_t value)
@@ -138,14 +187,31 @@ static void emulate_instruction()
         if ( c1_c6 == 51 )//110011
         {
             write_memory(des,~read_A() + 1);
-            jump1(jmp);
-            write_PC(read_PC()+1);
+            jump1(jmp,~read_A()+1);
         }
         //A+1
         if ( c1_c6 == 55 )//110111
         {
             write_memory(des,read_A() + 1);
-            jump1(jmp);
+            jump1(jmp,read_A() + 1);
+        }
+        //M = -1
+        if ( c1_c6 == 58 )//111010
+        {
+            write_memory(des,-1);
+            jump1(jmp,-1);
+        }
+        //M = 1
+        if ( c1_c6 == 63 )//111111
+        {
+            write_memory(des,1);
+            jump1(jmp,1);
+        }
+        //D&M
+        if ( c1_c6 == 64 )//1000000
+        {
+            write_memory(des,read_D()&read_RAM(read_A()));
+            jump1(jmp,read_D()&read_RAM(read_A()));
         }
     }
 }
