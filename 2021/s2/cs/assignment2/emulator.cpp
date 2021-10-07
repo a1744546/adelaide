@@ -1,4 +1,4 @@
-a1744546
+//a1744546
 // emulate executing Hack CPU instructions
 #include "iobuffer.h"
 #include "symbols.h"
@@ -38,8 +38,16 @@ using namespace Hack_Computer ;
 string disassemble_instruction(uint16_t instruction)
 {
     int ainst = instruction >> 15;
-    if ( ainst == 0 ) {
+    uint16_t cinst = instruction >> 13;
+    if ( ainst == 0 )
+    {
         return "@"+to_string(instruction);
+    }
+    if ( cinst == 7 )
+    {
+        uint16_t c1_c6 = instruction >> 6;
+        c1_c6 = c1_c6 << 9;
+        return aluop(c1_c6);
     }
     return "" ;
 }
@@ -51,9 +59,23 @@ static void emulate_instruction()
 {
     uint16_t inst = read_ROM(read_PC() );
     int ainst = inst >> 15;
-    if ( ainst == 0 ) {
+    uint16_t cinst = inst >> 13;
+    if ( ainst == 0 )
+    {
         write_A(inst);
         write_PC(read_PC()+1);
+    }
+    if ( cinst == 7 )
+    {
+        uint16_t c1_c6 = inst >> 6;
+        c1_c6 = c1_c6 << 9;
+        aluop(c1_c6);
+        
+        // D&A only need PC++
+        if ( c1_c6 == 0 )
+        {
+            write_PC(read_PC()+1);
+        }
     }
 }
 
