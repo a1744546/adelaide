@@ -28,8 +28,36 @@ using namespace Hack_Computer ;
 //
 
 /*****************   REPLACE THE FOLLOWING CODE  ******************/
-
-
+static void jump1(uint16_t jmp)
+{
+    switch (jmp) {
+        case 1:
+                if(read_A() > 0)
+                {
+                    write_PC(read_A());
+                }else
+                {
+                    write_PC(read_PC()+1);
+                }
+            break;
+        default:
+            break;
+    }
+}
+static void write_memory(uint16_t des, uint16_t value)
+{
+    switch (des)
+    {
+        case 4: write_A(value);
+            break;
+        case 2: write_D(value);
+            break;
+        case 1: write_RAM(read_A(),value);
+            break;
+        default:
+            break;
+    }
+}
 // disassemble an instruction - convert binary to symbolic form
 // A instructions should be "@" followed by the value in decimal
 // C instructions should be dest=alu;jump
@@ -89,56 +117,35 @@ static void emulate_instruction()
         
         uint16_t jmp = inst << 13;
         jmp = jmp >> 13;
-        // D&A only need PC++
+        // D&A
         if ( c1_c6 == 0 )
         {
+            write_memory(des,read_A());
             write_PC(read_PC()+1);
         }
         //M-1
-        if ( c1_c6 == 114 )
+        if ( c1_c6 == 114 )//1110010
         {
             write_PC(read_PC()+1);
         }
         // A=0
-        if ( c1_c6 == 42 )
+        if ( c1_c6 == 42 )//101010
         {
-            //100
-            if(des == 4)
-            {
-                write_A(0);
-            }
-            //010
-            if(des == 2)
-            {
-                write_D(0);
-            }
-            //001
-            if(des == 1)
-            {
-                write_RAM(read_A(),0);
-            }
+            write_memory(des,0);
             write_PC(read_PC()+1);
         }
-        
         //-A
-        if ( c1_c6 == 51 )
+        if ( c1_c6 == 51 )//110011
         {
-            //100
-            if(des == 4)
-            {
-                write_A(~read_A() + 1);
-            }
-            //010
-            if(des == 2)
-            {
-                write_D(~read_A() + 1);
-            }
-            //001
-            if(des == 1)
-            {
-                write_RAM(read_A(),~read_A() + 1);
-            }
+            write_memory(des,~read_A() + 1);
+            jump1(jmp);
             write_PC(read_PC()+1);
+        }
+        //A+1
+        if ( c1_c6 == 55 )//110111
+        {
+            write_memory(des,read_A() + 1);
+            jump1(jmp);
         }
     }
 }
