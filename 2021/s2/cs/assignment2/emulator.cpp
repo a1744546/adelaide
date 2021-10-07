@@ -216,7 +216,13 @@ static void emulate_instruction()
             jump1(jmp,-1);
         }
         //1
-        if ( c1_c6 == 63 )//111111
+        if ( c1_c6 == 63)//111111
+        {
+            write_memory(des,1);
+            jump1(jmp,1);
+        }
+        //.1.
+        if ( c1_c6 == 127)//111111
         {
             write_memory(des,1);
             jump1(jmp,1);
@@ -276,7 +282,13 @@ static void emulate_instruction()
             jump1(jmp, read_RAM(read_A()) + 1);
         }
         //D
-        if ( c1_c6 == 12 )//001100
+        if ( c1_c6 == 12)//001100
+        {
+            write_memory(des, read_D() );
+            jump1(jmp, read_D() );
+        }
+        //.D.
+        if ( c1_c6 == 10)//001100
         {
             write_memory(des, read_D() );
             jump1(jmp, read_D() );
