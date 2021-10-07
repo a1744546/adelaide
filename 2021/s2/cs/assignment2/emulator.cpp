@@ -70,6 +70,7 @@ static void emulate_instruction()
         uint16_t c1_c6 = inst >> 6;
         c1_c6 = c1_c6 << 9;
         aluop(c1_c6);
+        write_PC(read_PC()+1);
         
         // D&A only need PC++
         if ( c1_c6 == 0 )
