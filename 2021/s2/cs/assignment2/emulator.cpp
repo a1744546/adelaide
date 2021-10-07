@@ -33,11 +33,11 @@ static void jump1(uint16_t jmp,uint16_t value)
     switch (jmp) {
             //JGT
         case 1:
-                if(value > 0 && value<32768)
+                if(value > 0 && value < 32768)
                 {
                     write_PC(read_A());
                 }else{
-                    write_PC(read_PC()+1);
+                    write_PC(read_PC() + 1);
                 }
             break;
             //JEQ
@@ -46,16 +46,16 @@ static void jump1(uint16_t jmp,uint16_t value)
             {
                 write_PC(read_A());
             }else{
-                write_PC(read_PC()+1);
+                write_PC(read_PC() + 1);
             }
             break;
             //JGE
         case 3:
-            if(value >= 0 && value<32768)
+            if(value >= 0 && value < 32768)
             {
                 write_PC(read_A());
             }else{
-                write_PC(read_PC()+1);
+                write_PC(read_PC()+ 1 );
             }
             break;
             //JLT
@@ -97,11 +97,24 @@ static void write_memory(uint16_t des, uint16_t value)
 {
     switch (des)
     {
-        case 4: write_A(value);
+        case 1: write_RAM(read_A(),value);//M
             break;
-        case 2: write_D(value);
+        case 2: write_D(value);//D
             break;
-        case 1: write_RAM(read_A(),value);
+        case 3: write_RAM(read_A(),value);//MD
+                write_D(value);
+            break;
+        case 4: write_A(value);//A
+            break;
+        case 5: write_A(value);
+                write_RAM(read_A(),value);//AM
+            break;
+        case 6:  write_A(value);//AD
+                 write_D(value);
+            break;
+        case 7: write_A(value);//AMD
+                write_D(value);
+                write_RAM(read_A(),value);
             break;
         default:
             break;
@@ -195,13 +208,13 @@ static void emulate_instruction()
             write_memory(des,read_A() + 1);
             jump1(jmp,read_A() + 1);
         }
-        //M = -1
+        //-1
         if ( c1_c6 == 58 )//111010
         {
             write_memory(des,-1);
             jump1(jmp,-1);
         }
-        //M = 1
+        //1
         if ( c1_c6 == 63 )//111111
         {
             write_memory(des,1);
@@ -212,6 +225,30 @@ static void emulate_instruction()
         {
             write_memory(des,read_D()&read_RAM(read_A()));
             jump1(jmp,read_D()&read_RAM(read_A()));
+        }
+        //D+M
+        if ( c1_c6 == 66 )//1000010
+        {
+            write_memory(des, read_D() + read_RAM(read_A()) );
+            jump1(jmp, read_D() + read_RAM(read_A()) );
+        }
+        //D-M
+        if ( c1_c6 == 83 )//1010011
+        {
+            write_memory(des, read_D() - read_RAM(read_A()) );
+            jump1(jmp, read_D() - read_RAM(read_A()) );
+        }
+        //M-D
+        if ( c1_c6 == 71 )//1000111
+        {
+            write_memory(des, read_RAM(read_A()) - read_D() );
+            jump1(jmp, read_RAM(read_A()) - read_D() );
+        }
+        //D|M
+        if ( c1_c6 == 85 )//1010101
+        {
+            write_memory(des, read_RAM(read_A()) | read_D() );
+            jump1(jmp, read_RAM(read_A()) | read_D() );
         }
     }
 }
