@@ -183,18 +183,19 @@ static void emulate_instruction()
         if ( c1_c6 == 0 )
         {
             write_memory(des,read_A());
-            write_PC(read_PC()+1);
+            jump1(jmp,read_D() & read_A());
         }
         //M-1
         if ( c1_c6 == 114 )//1110010
         {
-            write_PC(read_PC()+1);
+            write_memory(des, read_RAM(read_A()) - 1);
+            jump1(jmp, read_RAM(read_A()) - 1);
         }
         // A=0
         if ( c1_c6 == 42 )//101010
         {
             write_memory(des,0);
-            write_PC(read_PC()+1);
+            jump1(jmp,0);
         }
         //-A
         if ( c1_c6 == 51 )//110011
@@ -249,6 +250,102 @@ static void emulate_instruction()
         {
             write_memory(des, read_RAM(read_A()) | read_D() );
             jump1(jmp, read_RAM(read_A()) | read_D() );
+        }
+        //!M
+        if ( c1_c6 == 113 )//1110001
+        {
+            write_memory(des, ~read_RAM(read_A()));
+            jump1(jmp, ~read_RAM(read_A()));
+        }
+        //M
+        if ( c1_c6 == 112 )//1110000
+        {
+            write_memory(des, read_RAM(read_A()));
+            jump1(jmp, read_RAM(read_A()));
+        }
+        //-M
+        if ( c1_c6 == 115 )//1110011
+        {
+            write_memory(des, ~read_RAM(read_A()) + 1);
+            jump1(jmp, ~read_RAM(read_A()) + 1);
+        }
+        //M+1
+        if ( c1_c6 == 119 )//1110111
+        {
+            write_memory(des, read_RAM(read_A()) + 1);
+            jump1(jmp, read_RAM(read_A()) + 1);
+        }
+        //D
+        if ( c1_c6 == 12 )//001100
+        {
+            write_memory(des, read_D() );
+            jump1(jmp, read_D() );
+        }
+        //A
+        if ( c1_c6 == 48 )//110000
+        {
+            write_memory(des, read_A() );
+            jump1(jmp, read_A() );
+        }
+        //!D
+        if ( c1_c6 == 13 )//001101
+        {
+            write_memory(des, ~read_D() );
+            jump1(jmp, ~read_D() );
+        }
+        //!A
+        if ( c1_c6 == 49 )//110001
+        {
+            write_memory(des, ~read_A() );
+            jump1(jmp, ~read_A() );
+        }
+        //-D
+        if ( c1_c6 == 15 )//001111
+        {
+            write_memory(des, ~read_D() + 1 );
+            jump1(jmp, ~read_D() + 1 );
+        }
+        //D+1
+        if ( c1_c6 == 31 )//11111
+        {
+            write_memory(des,read_D() + 1);
+            jump1(jmp,read_D() + 1);
+        }
+        //A-1
+        if ( c1_c6 == 50 )//110010
+        {
+            write_memory(des,read_A() - 1);
+            jump1(jmp,read_A() - 1);
+        }
+        //D-1
+        if ( c1_c6 == 14 )//001110
+        {
+            write_memory(des,read_D() - 1);
+            jump1(jmp,read_D() - 1);
+        }
+        //A+D
+        if ( c1_c6 == 2 )//000010
+        {
+            write_memory(des,read_A() + read_D());
+            jump1(jmp,read_A() + read_D());
+        }
+        //A-D
+        if ( c1_c6 == 7 )//000111
+        {
+            write_memory(des,read_A() - read_D());
+            jump1(jmp,read_A() - read_D());
+        }
+        //D-A
+        if ( c1_c6 == 19 )//10011
+        {
+            write_memory(des,read_D() - read_A());
+            jump1(jmp, read_D() - read_A());
+        }
+        //D|A
+        if ( c1_c6 == 21 )//10101
+        {
+            write_memory(des,read_D() | read_A());
+            jump1(jmp, read_D() | read_A());
         }
     }
 }
