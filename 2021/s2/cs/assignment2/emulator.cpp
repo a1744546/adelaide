@@ -55,7 +55,10 @@ string disassemble_instruction(uint16_t instruction)
         des = des << 13;
         des = des >> 13;
         
-        return destination(des) + aluop(c1_c6);
+        //jmp
+        uint16_t jmp = instruction << 13;
+        jmp = jmp >> 13;
+        return destination(des)  + aluop(c1_c6) + jump(jmp);
     }
     return "" ;
 }
@@ -68,6 +71,7 @@ static void emulate_instruction()
     uint16_t inst = read_ROM(read_PC() );
     int ainst = inst >> 15;
     uint16_t cinst = inst >> 13;
+    
     if ( ainst == 0 )
     {
         write_A(inst);
@@ -82,6 +86,9 @@ static void emulate_instruction()
         uint16_t des = inst >> 3;
         des = des << 13;
         des = des >> 13;
+        
+        uint16_t jmp = inst << 13;
+        jmp = jmp >> 13;
         // D&A only need PC++
         if ( c1_c6 == 0 )
         {
@@ -95,9 +102,41 @@ static void emulate_instruction()
         // A=0
         if ( c1_c6 == 42 )
         {
+            //100
             if(des == 4)
             {
                 write_A(0);
+            }
+            //010
+            if(des == 2)
+            {
+                write_D(0);
+            }
+            //001
+            if(des == 1)
+            {
+                write_RAM(read_A(),0);
+            }
+            write_PC(read_PC()+1);
+        }
+        
+        //-A
+        if ( c1_c6 == 51 )
+        {
+            //100
+            if(des == 4)
+            {
+                write_A(~read_A() + 1);
+            }
+            //010
+            if(des == 2)
+            {
+                write_D(~read_A() + 1);
+            }
+            //001
+            if(des == 1)
+            {
+                write_RAM(read_A(),~read_A() + 1);
             }
             write_PC(read_PC()+1);
         }
