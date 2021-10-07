@@ -47,6 +47,7 @@ string disassemble_instruction(uint16_t instruction)
     {
         uint16_t c1_c6 = instruction >> 6;
         c1_c6 = c1_c6 << 9;
+        c1_c6 = c1_c6 >> 9;
         return aluop(c1_c6);
     }
     return "" ;
@@ -69,11 +70,14 @@ static void emulate_instruction()
     {
         uint16_t c1_c6 = inst >> 6;
         c1_c6 = c1_c6 << 9;
-        aluop(c1_c6);
-        write_PC(read_PC()+1);
-        
+        c1_c6 = c1_c6 >> 9;
         // D&A only need PC++
         if ( c1_c6 == 0 )
+        {
+            write_PC(read_PC()+1);
+        }
+        //M-1
+        else if ( c1_c6 == 114 )
         {
             write_PC(read_PC()+1);
         }
