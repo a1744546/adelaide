@@ -45,10 +45,17 @@ string disassemble_instruction(uint16_t instruction)
     }
     if ( cinst == 7 )
     {
+        //c1-c6
         uint16_t c1_c6 = instruction >> 6;
         c1_c6 = c1_c6 << 9;
         c1_c6 = c1_c6 >> 9;
-        return aluop(c1_c6);
+        
+        //des
+        uint16_t des = instruction >> 3;
+        des = des << 13;
+        des = des >> 13;
+        
+        return destination(des) + aluop(c1_c6);
     }
     return "" ;
 }
@@ -71,14 +78,27 @@ static void emulate_instruction()
         uint16_t c1_c6 = inst >> 6;
         c1_c6 = c1_c6 << 9;
         c1_c6 = c1_c6 >> 9;
+        
+        uint16_t des = inst >> 3;
+        des = des << 13;
+        des = des >> 13;
         // D&A only need PC++
         if ( c1_c6 == 0 )
         {
             write_PC(read_PC()+1);
         }
         //M-1
-        else if ( c1_c6 == 114 )
+        if ( c1_c6 == 114 )
         {
+            write_PC(read_PC()+1);
+        }
+        // A=0
+        if ( c1_c6 == 42 )
+        {
+            if(des == 4)
+            {
+                write_A(0);
+            }
             write_PC(read_PC()+1);
         }
     }
