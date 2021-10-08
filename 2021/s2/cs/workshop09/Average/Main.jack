@@ -1,3 +1,39 @@
 class Main
 {
+    function void main()
+    {
+        var array a;
+        var int n, count, sum, average;
+        var DP countD, sumD, averageD;
+        var string result;
+        let a = Array.new(10);
+        let n = 0;
+        while(n<10)
+        {
+            let a[n]=Unix.readInt("");
+            if (a[n]=0)
+            {
+                let n=10;
+            }
+            let n=n+1;
+        }
+        let n = 0;
+        while(n<10)
+        {
+            let sum = sum + a[n];
+            if(~(a[n]=0))
+            {
+                let count=count+1;
+            }
+            let n = n+1;
+        }
+        let sumD = DP.new(sum);
+        let countD = DP.new(count);
+        let averageD = DP.new(average);
+        do DP.divide(averageD,sumD,countD);
+        let result=DP.toString(averageD);
+        do Unix.printString(result) ;
+        do Unix.println() ;
+        return ;
+    }
 }
