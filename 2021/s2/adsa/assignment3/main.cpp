@@ -43,7 +43,7 @@ public:
             for(int stop = 0; stop<26; stop++)
             {
                 i = i%26;
-                i++;
+                
                 if (hash_table[i] == str && tombstone[i] == 0)
                 {
                     return i;
@@ -53,6 +53,7 @@ public:
                 {
                     return -1;
                 }
+                i++;
             }
 
             return 0;
@@ -83,13 +84,14 @@ public:
             for(int stop = 0; stop<26; stop++)
             {
                 i = i%26;
-                i++;
+                
                 if (hash_table[i] == "" || tombstone[i] == 1)
                 {
                     hash_table[i] = str;
                     tombstone[i] = 0;
                     return;
                 }
+                i++;
             }
 
         }
@@ -133,10 +135,10 @@ int main()
 {
     vector<string> commands;
     string line;
-//1
+
     //Takes input
     getline(cin, line);
-    int tracker = -1;
+    int k = -1;
     int commandNum = 0;
     for (int i = 0; i < (int)line.length(); i++)
     {
@@ -150,11 +152,11 @@ int main()
             }
             commands.push_back("");
         
-            for (int j = tracker + 1; j < i; j++)
+            for (int j = k + 1; j < i; j++)
             {
                 commands[commandNum] += line[j];
             }
-            tracker = i;
+            k = i;
             commandNum++;
         }
 
