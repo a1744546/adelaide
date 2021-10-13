@@ -42,13 +42,8 @@ public:
             
             for(int stop = 0; stop<26; stop++)
             {
-                if(i > 25)
-                {
-                    i = i-26;
-                }else
-                {
-                    i++;
-                }
+                i = i%26;
+                i++;
                 if (hash_table[i] == str && tombstone[i] == 0)
                 {
                     return i;
@@ -87,13 +82,8 @@ public:
             int i = hashKey + 1;
             for(int stop = 0; stop<26; stop++)
             {
-                if(i > 25)
-                {
-                    i = i - 26;
-                }else
-                {
-                    i++;
-                }
+                i = i%26;
+                i++;
                 if (hash_table[i] == "" || tombstone[i] == 1)
                 {
                     hash_table[i] = str;
