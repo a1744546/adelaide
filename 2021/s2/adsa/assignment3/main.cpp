@@ -138,19 +138,19 @@ int main()
     getline(cin, line);
     int tracker = -1;
     int commandNum = 0;
-    for (unsigned i = 0; i < line.length(); i++)
+    for (int i = 0; i < (int)line.length(); i++)
     {
         //Push  space or end of line
         if (line[i] == ' ' || i == line.length()-1)
         {
         
-            if (i == line.length()-1)
+            if (i == (int)line.length()-1)
             {
                 i++;
             }
             commands.push_back("");
         
-            for (unsigned j = tracker + 1; j < i; j++)
+            for (int j = tracker + 1; j < i; j++)
             {
                 commands[commandNum] += line[j];
             }
@@ -162,7 +162,7 @@ int main()
 
     HashTable hash_table;
 
-    for (unsigned i = 0; i < commands.size(); i++)
+    for (unsigned i = 0; i < (int)commands.size(); i++)
     {
         //Insert
         if (commands[i][0] == 'A')
