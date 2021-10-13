@@ -133,7 +133,7 @@ int main()
 {
     vector<string> commands;
     string line;
-
+//1
     //Takes input
     getline(cin, line);
     int tracker = -1;
