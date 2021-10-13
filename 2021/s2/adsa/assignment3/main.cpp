@@ -124,7 +124,7 @@ public:
 
             }
         }
-        cout << endl;
+        
     };
 
 };
@@ -179,6 +179,7 @@ int main()
     }
     //Print
     hash_table.pring();
+    cout<< endl;
 
     return 0;
 }
