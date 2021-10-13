@@ -42,6 +42,13 @@ public:
             
             for(int stop = 0; stop<26; stop++)
             {
+                if(i > 25)
+                {
+                    i = i-26;
+                }else
+                {
+                    i++;
+                }
                 if (hash_table[i] == str && tombstone[i] == 0)
                 {
                     return i;
@@ -51,7 +58,6 @@ public:
                 {
                     return -1;
                 }
-                i++;
             }
 
             return 0;
@@ -81,13 +87,19 @@ public:
             int i = hashKey + 1;
             for(int stop = 0; stop<26; stop++)
             {
+                if(i > 25)
+                {
+                    i = i - 26;
+                }else
+                {
+                    i++;
+                }
                 if (hash_table[i] == "" || tombstone[i] == 1)
                 {
                     hash_table[i] = str;
                     tombstone[i] = 0;
                     return;
                 }
-                i++;
             }
 
         }
@@ -132,6 +144,7 @@ int main()
     vector<string> commands;
     string line;
 
+    //Takes input
     getline(cin, line);
     int tracker = -1;
     int commandNum = 0;
