@@ -1,3 +1,4 @@
+//a1744546
 #include "iobuffer.h"
 #include "symbols.h"
 #include "tokeniser.h"
@@ -70,11 +71,13 @@ static ast parse_program()
 {
     push_error_context("parse_program()") ;
 
-    // a declaration node and a statement node
     ast decls = nullptr ;
     ast stat = nullptr ;
 
     // add parsing code here ...
+    decls = parse_declarations() ;
+    stat = parse_statement() ;
+    mustbe(tk_eoi) ;
 
     // return a program node
     ast ret = create_program(decls,stat) ;
@@ -87,10 +90,13 @@ static ast parse_declarations()
 {
     push_error_context("parse_declarations()") ;
 
-    // a vector of declaration nodes
     vector<ast> decls ;
 
     // add parsing code here ...
+    while ( have(tk_var) )
+    {
+        decls.push_back(parse_declaration()) ;
+    }
 
     // return a declarations node
     ast ret = create_declarations(decls) ;
@@ -115,6 +121,11 @@ static ast parse_declaration()
     // * declare the variable as being in segment "local"
 
     // add parsing code here ...
+    mustbe(tk_var) ;
+    Token t = mustbe(tg_type) ;
+    Token v = mustbe(tk_identifier) ;
+    var = declare_variable(v,t,"local") ;
+    mustbe(tk_semi) ;
 
     // return a declaration node
     ast ret = create_declaration(var) ;
@@ -131,7 +142,22 @@ static ast parse_statement()
     ast stat = nullptr ;
 
     // add parsing code here ...
-
+    if(have(tk_while))
+    {
+        stat = parse_while() ;
+    }
+    else if (have(tk_if))
+    {
+        stat = parse_if() ;
+    }
+    else if (have(tk_let))
+    {
+        stat = parse_let() ;
+    }
+    else if (have(tk_lcb))
+    {
+        stat = parse_sequence() ;
+    }
     // return a statement node
     stat = create_statement(stat) ;
     pop_error_context() ;
@@ -148,6 +174,11 @@ static ast parse_while()
     ast stat = nullptr ;
 
     // add parsing code here ...
+    mustbe(tk_while) ;
+    mustbe(tk_lrb) ;
+    cond = parse_condition() ;
+    mustbe(tk_rrb) ;
+    stat = parse_statement() ;
 
     // return a while node
     ast ret = create_while(cond,stat) ;
@@ -166,10 +197,18 @@ static ast parse_if()
     ast else_stat = nullptr ;
 
     // add parsing code here ...
+    mustbe(tk_if) ;
+    mustbe(tk_lrb) ;
+    cond = parse_condition() ;
+    mustbe(tk_rrb) ;
+    then_stat = parse_statement() ;
 
     // if there is an else statement - execute this block
+    if(have(tk_else))
     {
         // return an if else node
+        mustbe(tk_else) ;
+        else_stat = parse_statement() ;
         ast ret = create_if_else(cond,then_stat,else_stat) ;
         pop_error_context() ;
         return ret ;
@@ -194,6 +233,12 @@ static ast parse_let()
     ast expr = nullptr ;
 
     // add parsing code here ...
+    mustbe(tk_let) ;
+    id = lookup_variable(mustbe(tk_identifier)) ;
+    mustbe(tk_assign) ;
+    expr = parse_expression();
+    mustbe(tk_semi) ;
+
 
     // return a let node
     ast ret = create_let(id,expr) ;
@@ -210,7 +255,12 @@ static ast parse_sequence()
     vector<ast> seq ;
 
     // add parsing code here ...
-
+    mustbe(tk_lcb) ;
+    while( have(tg_statement) )
+    {
+        seq.push_back(parse_statement()) ;
+    }
+    mustbe(tk_rcb) ;
     // return a statements node
     ast ret = create_statements(seq) ;
     pop_error_context() ;
@@ -229,9 +279,14 @@ static ast parse_expression()
 
     // add parsing code here ...
 
+    lhs = parse_term() ;
     // if the expression has an infix operator - execute this block
+    if(have(tg_infix_op))
     {
         // return an infix expression node
+        //  mustbe(tg_infix_op) ;
+        infix_op = mustbe(tg_infix_op);
+        rhs = parse_term() ;
         ast ret = create_expression(create_infix_op(lhs,token_spelling(infix_op),rhs)) ;
         pop_error_context() ;
         return ret ;
@@ -254,7 +309,9 @@ static ast parse_condition()
     ast rhs = nullptr ;
 
     // add parsing code here ...
-
+    lhs = parse_term() ;
+    relop = mustbe(tg_relop) ;
+    rhs = parse_term() ;
     // return the parsed condition as an expression node
     ast ret = create_expression(create_infix_op(lhs,token_spelling(relop),rhs)) ;
     pop_error_context() ;
@@ -281,7 +338,16 @@ static ast parse_term()
     ast term = nullptr ;
 
     // add parsing code here ...
-
+    if( have(tk_identifier) )
+    {
+        term = lookup_variable(mustbe(tk_identifier)) ;
+    }
+    else if ( have(tk_integer) )
+    {
+        term = integer_to_ast(mustbe(tk_integer)) ;
+    }
+    // else
+    // did_not_find() ;
     // return the parsed term in a term node
     ast ret = create_term(term) ;
     pop_error_context() ;
