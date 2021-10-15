@@ -180,7 +180,7 @@ static ast parse_class()
     pop_symbol_table() ;
     pop_symbol_table() ;
 
-    ast ret = create_empty() ;
+    ast ret = create_class(classname,statics,fields,class_subrs) ;
     pop_error_context() ;
     return ret ;
 }
