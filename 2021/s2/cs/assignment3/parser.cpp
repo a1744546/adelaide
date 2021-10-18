@@ -1,7 +1,7 @@
 //
 //
-// Author: axxxxxxx
-// Name:   ... ...
+// Author: a1744546
+// Name:   WEI GAO
 //
 
 #include <string>
@@ -170,7 +170,7 @@ static ast parse_class()
 
     // add code here ...
     mustbe(tk_class);
-    myclassname = token_spelling(mustbe(tk_identifier));
+    string myclassname = token_spelling(mustbe(tk_identifier));
     mustbe(tk_lcb);
     ast statics = parse_static_var_decs();
     ast fields = parse_field_var_decs();
@@ -267,7 +267,7 @@ static ast parse_field_var_dec()
     push_error_context("parse_field_var_dec()") ;
 
     // add code here ...
-    mustbe(tk_field);
+    //mustbe(tk_field);
     vector<ast> decs;
     Token type = mustbe(tg_type);
     Token name = mustbe(tk_identifier);
@@ -299,7 +299,7 @@ static ast parse_subr_decs()
     // add code here ...
 
     
-    ast ret = create_empty() ;
+    ast ret = create_subr_decs(subrs) ;
     pop_error_context() ;
     return ret ;
 }
