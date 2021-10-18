@@ -156,7 +156,7 @@ static ast parse_fn_call() ;
 static ast parse_method_call() ;
 static ast parse_expr_list() ;
 
-string classname = "";
+string myclassname = "";
 
 // class ::= tk_class tk_identifier tk_lcb static_var_decs field_var_decs subr_decs tk_rcb
 // create_class(myclassname,statics,fields,class_subrs)
@@ -170,7 +170,7 @@ static ast parse_class()
 
     // add code here ...
     mustbe(tk_class);
-    classname = token_spelling(mustbe(tk_identifier));
+    myclassname = token_spelling(mustbe(tk_identifier));
     mustbe(tk_lcb);
     ast statics = parse_static_var_decs();
     ast fields = parse_field_var_decs();
@@ -180,7 +180,7 @@ static ast parse_class()
     pop_symbol_table() ;
     pop_symbol_table() ;
 
-    ast ret = create_class(classname,statics,fields,class_subrs) ;
+    ast ret = create_class(myclassname,statics,fields,class_subrs) ;
     pop_error_context() ;
     return ret ;
 }
@@ -200,7 +200,7 @@ static ast parse_static_var_decs()
         decs.push_back(parse_static_var_decs());
     }
     
-    ast ret = create_var_decs(decs) ;
+    ast ret = create_class_var_decs(decs);
     pop_error_context() ;
     return ret ;
 }
@@ -251,7 +251,7 @@ static ast parse_field_var_decs()
         decs.push_back(parse_field_var_dec());
     }
         
-    ast ret = create_var_decs(decs) ;
+    ast ret = create_class_var_decs(decs) ;
     pop_error_context() ;
     return ret ;
 }
@@ -279,7 +279,7 @@ static ast parse_field_var_dec()
     }
     mustbe(tk_semi);
         
-    ast ret = create_var_decs(decs) ;
+    ast ret =  create_var_decs(decs);
 
     pop_error_context() ;
     return ret ;
@@ -298,6 +298,7 @@ static ast parse_subr_decs()
 
     // add code here ...
 
+    
     ast ret = create_empty() ;
     pop_error_context() ;
     return ret ;
