@@ -170,7 +170,8 @@ static ast parse_class()
 
     // add code here ...
     mustbe(tk_class);
-    string myclassname = token_spelling(mustbe(tk_identifier));
+    myclassname = token_spelling(mustbe(tk_identifier));
+    //write_to_traces(myclassname);
     mustbe(tk_lcb);
     ast statics = parse_static_var_decs();
     ast fields = parse_field_var_decs();
@@ -197,7 +198,7 @@ static ast parse_static_var_decs()
     vector<ast> decs;
     while(have(tk_static))
     {
-        decs.push_back(parse_static_var_decs());
+        decs.push_back(parse_static_var_dec());
     }
     
     ast ret = create_class_var_decs(decs);
@@ -267,7 +268,7 @@ static ast parse_field_var_dec()
     push_error_context("parse_field_var_dec()") ;
 
     // add code here ...
-    //mustbe(tk_field);
+    mustbe(tk_field);
     vector<ast> decs;
     Token type = mustbe(tg_type);
     Token name = mustbe(tk_identifier);
@@ -299,7 +300,7 @@ static ast parse_subr_decs()
     // add code here ...
 
     
-    ast ret = create_subr_decs(subrs) ;
+    ast ret = create_empty();
     pop_error_context() ;
     return ret ;
 }
