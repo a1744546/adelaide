@@ -298,9 +298,24 @@ static ast parse_subr_decs()
     push_error_context("parse_subr_decs()") ;
 
     // add code here ...
-
+    vector<ast> subrs;
+    while(have(tk_constructor) || have(tk_function) || have(tk_method))
+    {
+        if(have(tk_constructor))
+        {
+            subrs.push_back(create_subr(parse_constructor()));
+        }
+        if(have(tk_function))
+        {
+            subrs.push_back(create_subr(parse_function()));
+        }
+        if(have(tk_method))
+        {
+            subrs.push_back(create_subr(parse_method()));
+        }
+    }
     
-    ast ret = create_empty();
+    ast ret = create_subr_decs(subrs);
     pop_error_context() ;
     return ret ;
 }
@@ -321,11 +336,18 @@ static ast parse_constructor()
     push_symbol_table() ;
 
     // add code here ...
-
+    mustbe(tk_constructor);
+    string vtype = token_spelling(mustbe(tk_identifier));
+    string name = token_spelling(mustbe(tk_identifier));
+    mustbe(tk_lrb);
+    ast params = parse_param_list();
+    mustbe(tk_rrb);
+    ast body = parse_subr_body();
+    
     // delete the constructor's symbol table
     pop_symbol_table() ;
 
-    ast ret = create_empty() ;
+    ast ret = create_constructor(vtype,name,params,body);
     pop_error_context() ;
     return ret ;
 }
@@ -346,11 +368,18 @@ static ast parse_function()
     push_symbol_table() ;
 
     // add code here ...
-
+    mustbe(tk_function);
+    string vtype = token_spelling(mustbe(tg_type));
+    string name = token_spelling(mustbe(tk_identifier));
+    mustbe(tk_lrb);
+    ast params = parse_param_list();
+    mustbe(tk_rrb);
+    ast body = parse_subr_body();
+    
     // delete the function's symbol table
     pop_symbol_table() ;
 
-    ast ret = create_empty() ;
+    ast ret = create_function(vtype,name,params,body);
     pop_error_context() ;
     return ret ;
 }
