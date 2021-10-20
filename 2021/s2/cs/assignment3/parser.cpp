@@ -302,18 +302,18 @@ static ast parse_subr_decs()
     vector<ast> subrs;
     while(have(tg_subroutine))
     {
-//        if(have(tk_constructor))
-//        {
-//            subrs.push_back(create_subr(parse_constructor()));
-//        }
-        if( have(tk_function) )
+        if(have(tk_constructor))
+        {
+            subrs.push_back(create_subr(parse_constructor()));
+        }
+        else if( have(tk_function) )
         {
             subrs.push_back(create_subr(parse_function()));
         }
-//        if(have(tk_method))
-//        {
-//            subrs.push_back(create_subr(parse_method()));
-//        }
+        else if(have(tk_method))
+        {
+            subrs.push_back(create_subr(parse_method()));
+        }
     }
     
     ast ret = create_subr_decs(subrs);
@@ -337,19 +337,19 @@ static ast parse_constructor()
     push_symbol_table() ;
 
     // add code here ...
-//    mustbe(tk_constructor);
-//    string vtype = token_spelling(mustbe(tk_identifier));
-//    string name = token_spelling(mustbe(tk_identifier));
-//    mustbe(tk_lrb);
-//    //ast params = parse_param_list();
-//    mustbe(tk_rrb);
-//    ast body = parse_subr_body();
-//
-//    // delete the constructor's symbol table
-//    pop_symbol_table() ;
-//
-//    ast ret = create_constructor(vtype,name,nullptr,body);
-    ast ret = create_empty() ;
+    mustbe(tk_constructor);
+    string vtype = token_spelling(mustbe(tk_identifier));
+    string name = token_spelling(mustbe(tk_identifier));
+    mustbe(tk_lrb);
+    ast params = parse_param_list();
+    mustbe(tk_rrb);
+    ast body = parse_subr_body();
+
+    // delete the constructor's symbol table
+    pop_symbol_table() ;
+
+    ast ret = create_constructor(vtype,name,params,body);
+   
     pop_error_context() ;
     return ret ;
 }
@@ -374,14 +374,14 @@ static ast parse_function()
     string vtype = token_spelling(mustbe(tg_vtype));
     string name = token_spelling(mustbe(tk_identifier));
     mustbe(tk_lrb);
-    //ast params = parse_param_list();
+    ast params = parse_param_list();
     mustbe(tk_rrb);
     ast body = parse_subr_body();
     
     // delete the function's symbol table
     pop_symbol_table() ;
 
-    ast ret = create_function(vtype,name,nullptr,body);
+    ast ret = create_function(vtype,name,params,body);
     pop_error_context() ;
     return ret ;
 }
@@ -406,14 +406,14 @@ static ast parse_method()
     string vtype = token_spelling(mustbe(tg_type));
     string name = token_spelling(mustbe(tk_identifier));
     mustbe(tk_lrb);
-    //ast params = parse_param_list();
+    ast params = parse_param_list();
     mustbe(tk_rrb);
     ast body = parse_subr_body();
     
     // delete the method's symbol table
     pop_symbol_table() ;
 
-    ast ret = create_function(vtype,name,nullptr,body) ;
+    ast ret = create_function(vtype,name,params,body) ;
     pop_error_context() ;
     return ret ;
 }
@@ -429,25 +429,25 @@ static ast parse_param_list()
     push_error_context("parse_param_list()") ;
 
     // add code here ...
-//    vector<ast> params;
-//    if(have(tg_type))
-//    {
-//        Token type = mustbe(tg_type);
-//        Token name = mustbe(tk_identifier);
-//        params.push_back(declare_variable(name,type,"param"));
-//        //
-//
-//        while(have(tk_comma))
-//        {
-//            have(tk_comma);
-//            Token type = mustbe(tg_type);
-//            name = mustbe(tk_identifier);
-//            params.push_back(declare_variable(name,type,"param"));
-//        }
-//    }
-//
-//    ast ret = create_param_list(params) ;
-    ast ret = create_empty();
+    vector<ast> params;
+    if(have(tg_type))
+    {
+        Token type = mustbe(tg_type);
+        Token name = mustbe(tk_identifier);
+        params.push_back(declare_variable(name,type,"param"));
+        //
+
+        while(have(tk_comma))
+        {
+            have(tk_comma);
+            Token type = mustbe(tg_type);
+            name = mustbe(tk_identifier);
+            params.push_back(declare_variable(name,type,"param"));
+        }
+    }
+
+    ast ret = create_param_list(params) ;
+    //ast ret = create_empty();
     pop_error_context() ;
     return ret ;
 }
@@ -594,6 +594,7 @@ static ast parse_let()
     push_error_context("parse_let()") ;
 
     // add code here ...
+    
     
     ast ret = create_empty() ;
     pop_error_context() ;
@@ -769,15 +770,9 @@ static ast parse_return()
     {
         mustbe(tk_semi);
         ret = create_return();
-
         pop_error_context() ;
         return ret ;
     }
-    
-    mustbe(tk_semi);
-    
-    pop_error_context() ;
-    return ret ;
 }
 
 // expr ::= term (tg_infix_op expr)?
@@ -794,8 +789,18 @@ static ast parse_expr()
     push_error_context("parse_expr()") ;
 
     // add code here ...
-
-    ast ret = create_empty() ;
+    
+    if ( have(tg_infix_op) )
+    {
+        ast lhs = parse_term();;
+        ast op = create_infix_op(token_spelling(mustbe(tg_infix_op)));
+        ast rhs = create_term(parse_expr());
+        ast ret = create_expr(lhs, op, rhs);
+        return ret;
+    }
+    
+    ast term = parse_term();
+    ast ret = create_expr(term) ;
     pop_error_context() ;
     return ret ;
 }
@@ -826,8 +831,54 @@ static ast parse_term()
     push_error_context("parse_term()") ;
 
     // add code here ...
-
     ast ret = create_empty() ;
+    
+    if (have(tk_integer))
+    {
+        ret = create_term(create_int(token_ivalue(mustbe(tk_integer))));
+    }
+    else if (have(tk_string))
+    {
+        ret = create_term(create_string(token_spelling(mustbe(tk_string))));
+    }
+    else if (have(tk_true))
+    {
+        mustbe(tk_true);
+        ret = create_term(create_bool(true));
+    }
+    else if (have(tk_false))
+    {
+        mustbe(tk_false);
+        ret = create_term(create_bool(false));
+    }
+    else if(have(tk_null))
+    {
+        mustbe(tk_null);
+        ret = create_null();
+    }
+    else if(have(tk_lrb))
+    {
+        mustbe(tk_lrb);
+        ret = create_term(parse_expr());
+        mustbe(tk_rrb);
+    }
+    else if(have(tg_unary_op))
+    {
+        string op = token_spelling(mustbe(tg_unary_op));
+        ast term = parse_term();
+        mustbe(tg_term);
+        ret = create_unary_op(op, term);
+    }
+    else if (have(tk_this))
+    {
+        ret = create_term(parse_this_term());
+    }
+    else if (have(tk_identifier))
+    {
+        ret = create_term(parse_var_term());
+    }
+
+
     pop_error_context() ;
     return ret ;
 }
@@ -858,8 +909,8 @@ static ast parse_var_term()
     push_error_context("parse_var_term()") ;
 
     // add code here ...
-
     ast ret = create_empty() ;
+    
     pop_error_context() ;
     return ret ;
 }
