@@ -156,7 +156,7 @@ static ast parse_fn_call() ;
 static ast parse_method_call() ;
 static ast parse_expr_list() ;
 
-string myclassname = "";
+
 
 // class ::= tk_class tk_identifier tk_lcb static_var_decs field_var_decs subr_decs tk_rcb
 // create_class(myclassname,statics,fields,class_subrs)
@@ -170,13 +170,14 @@ static ast parse_class()
 
     // add code here ...
     mustbe(tk_class);
-    myclassname = token_spelling(mustbe(tk_identifier));
+    string myclassname = token_spelling(mustbe(tk_identifier));
     //write_to_traces(myclassname);
     mustbe(tk_lcb);
     ast statics = parse_static_var_decs();
     ast fields = parse_field_var_decs();
     ast class_subrs = parse_subr_decs();
     mustbe(tk_rcb);
+    
     // delete the statics and fields symbol tables
     pop_symbol_table() ;
     pop_symbol_table() ;
@@ -299,20 +300,20 @@ static ast parse_subr_decs()
 
     // add code here ...
     vector<ast> subrs;
-    while(have(tk_constructor) || have(tk_function) || have(tk_method))
+    while(have(tg_subroutine))
     {
-        if(have(tk_constructor))
-        {
-            subrs.push_back(create_subr(parse_constructor()));
-        }
-        if(have(tk_function))
+//        if(have(tk_constructor))
+//        {
+//            subrs.push_back(create_subr(parse_constructor()));
+//        }
+        if( have(tk_function) )
         {
             subrs.push_back(create_subr(parse_function()));
         }
-        if(have(tk_method))
-        {
-            subrs.push_back(create_subr(parse_method()));
-        }
+//        if(have(tk_method))
+//        {
+//            subrs.push_back(create_subr(parse_method()));
+//        }
     }
     
     ast ret = create_subr_decs(subrs);
@@ -336,18 +337,19 @@ static ast parse_constructor()
     push_symbol_table() ;
 
     // add code here ...
-    mustbe(tk_constructor);
-    string vtype = token_spelling(mustbe(tk_identifier));
-    string name = token_spelling(mustbe(tk_identifier));
-    mustbe(tk_lrb);
-    //ast params = parse_param_list();
-    mustbe(tk_rrb);
-    ast body = parse_subr_body();
-    
-    // delete the constructor's symbol table
-    pop_symbol_table() ;
-
-    ast ret = create_constructor(vtype,name,nullptr,body);
+//    mustbe(tk_constructor);
+//    string vtype = token_spelling(mustbe(tk_identifier));
+//    string name = token_spelling(mustbe(tk_identifier));
+//    mustbe(tk_lrb);
+//    //ast params = parse_param_list();
+//    mustbe(tk_rrb);
+//    ast body = parse_subr_body();
+//
+//    // delete the constructor's symbol table
+//    pop_symbol_table() ;
+//
+//    ast ret = create_constructor(vtype,name,nullptr,body);
+    ast ret = create_empty() ;
     pop_error_context() ;
     return ret ;
 }
@@ -369,7 +371,7 @@ static ast parse_function()
 
     // add code here ...
     mustbe(tk_function);
-    string vtype = token_spelling(mustbe(tg_type));
+    string vtype = token_spelling(mustbe(tg_vtype));
     string name = token_spelling(mustbe(tk_identifier));
     mustbe(tk_lrb);
     //ast params = parse_param_list();
