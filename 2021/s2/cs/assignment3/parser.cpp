@@ -464,11 +464,11 @@ static ast parse_subr_body()
 
     // add code here ...
     mustbe(tk_lcb);
-    //ast decs = parse_var_decs();
+    ast decs = parse_var_decs();
     ast body = parse_statements();
     mustbe(tk_rcb);
 
-    ast ret = create_subr_body(nullptr, body) ;
+    ast ret = create_subr_body(decs, body) ;
     pop_error_context() ;
     return ret ;
 }
@@ -551,22 +551,22 @@ static ast parse_statement()
 
     // add code here ...
     ast statement;
-//    if (have(tk_let))
-//    {
-//        statement = parse_let();
-//    }
-//    if (have(tk_if))
-//    {
-//        statement = parse_if();
-//    }
-//    if (have(tk_while))
-//    {
-//        statement = parse_while();
-//    }
-//    if (have(tk_do))
-//    {
-//        statement = parse_do();
-//    }
+    if (have(tk_let))
+    {
+        statement = parse_let();
+    }
+    if (have(tk_if))
+    {
+        statement = parse_if();
+    }
+    if (have(tk_while))
+    {
+        statement = parse_while();
+    }
+    if (have(tk_do))
+    {
+        statement = parse_do();
+    }
     if (have(tk_return))
     {
         statement = parse_return();
@@ -755,24 +755,25 @@ static ast parse_return()
     ast ret = create_empty() ;
     mustbe(tk_return);
 
-//    if (have(tg_expression))
-//    {
-//        ast expr = parse_expr();
-//
-//        mustbe(tk_semi);
-//        ret = create_return_expr(expr);
-//
-//        pop_error_context() ;
-//        return ret ;
-//    }
-//    else
-//    {
-//        mustbe(tk_semi);
-//        ret = create_return();
-//
-//        pop_error_context() ;
-//        return ret ;
-//    }
+    if (have(tg_expression))
+    {
+        ast expr = parse_expr();
+
+        mustbe(tk_semi);
+        ret = create_return_expr(expr);
+
+        pop_error_context() ;
+        return ret ;
+    }
+    else
+    {
+        mustbe(tk_semi);
+        ret = create_return();
+
+        pop_error_context() ;
+        return ret ;
+    }
+    
     mustbe(tk_semi);
     
     pop_error_context() ;
