@@ -340,14 +340,14 @@ static ast parse_constructor()
     string vtype = token_spelling(mustbe(tk_identifier));
     string name = token_spelling(mustbe(tk_identifier));
     mustbe(tk_lrb);
-    ast params = parse_param_list();
+    //ast params = parse_param_list();
     mustbe(tk_rrb);
     ast body = parse_subr_body();
     
     // delete the constructor's symbol table
     pop_symbol_table() ;
 
-    ast ret = create_constructor(vtype,name,params,body);
+    ast ret = create_constructor(vtype,name,nullptr,body);
     pop_error_context() ;
     return ret ;
 }
@@ -372,14 +372,14 @@ static ast parse_function()
     string vtype = token_spelling(mustbe(tg_type));
     string name = token_spelling(mustbe(tk_identifier));
     mustbe(tk_lrb);
-    ast params = parse_param_list();
+    //ast params = parse_param_list();
     mustbe(tk_rrb);
     ast body = parse_subr_body();
     
     // delete the function's symbol table
     pop_symbol_table() ;
 
-    ast ret = create_function(vtype,name,params,body);
+    ast ret = create_function(vtype,name,nullptr,body);
     pop_error_context() ;
     return ret ;
 }
@@ -400,11 +400,18 @@ static ast parse_method()
     push_symbol_table() ;
 
     // add code here ...
-
+    mustbe(tk_function);
+    string vtype = token_spelling(mustbe(tg_type));
+    string name = token_spelling(mustbe(tk_identifier));
+    mustbe(tk_lrb);
+    //ast params = parse_param_list();
+    mustbe(tk_rrb);
+    ast body = parse_subr_body();
+    
     // delete the method's symbol table
     pop_symbol_table() ;
 
-    ast ret = create_empty() ;
+    ast ret = create_function(vtype,name,nullptr,body) ;
     pop_error_context() ;
     return ret ;
 }
@@ -420,8 +427,25 @@ static ast parse_param_list()
     push_error_context("parse_param_list()") ;
 
     // add code here ...
-
-    ast ret = create_empty() ;
+//    vector<ast> params;
+//    if(have(tg_type))
+//    {
+//        Token type = mustbe(tg_type);
+//        Token name = mustbe(tk_identifier);
+//        params.push_back(declare_variable(name,type,"param"));
+//        //
+//
+//        while(have(tk_comma))
+//        {
+//            have(tk_comma);
+//            Token type = mustbe(tg_type);
+//            name = mustbe(tk_identifier);
+//            params.push_back(declare_variable(name,type,"param"));
+//        }
+//    }
+//
+//    ast ret = create_param_list(params) ;
+    ast ret = create_empty();
     pop_error_context() ;
     return ret ;
 }
@@ -437,8 +461,12 @@ static ast parse_subr_body()
     push_error_context("parse_subr_body()") ;
 
     // add code here ...
+    mustbe(tk_lcb);
+    //ast decs = parse_var_decs();
+    ast body = parse_statements();
+    mustbe(tk_rcb);
 
-    ast ret = create_empty() ;
+    ast ret = create_subr_body(nullptr, body) ;
     pop_error_context() ;
     return ret ;
 }
@@ -452,8 +480,13 @@ static ast parse_var_decs()
     push_error_context("parse_var_decs()") ;
 
     // add code here ...
-
-    ast ret = create_empty() ;
+    vector<ast> decs;
+    while (have(tk_var))
+    {
+        decs.push_back(parse_var_dec());
+    }
+    
+    ast ret = create_var_decs(decs) ;
     pop_error_context() ;
     return ret ;
 }
@@ -469,8 +502,19 @@ static ast parse_var_dec()
     push_error_context("parse_var_dec()") ;
 
     // add code here ...
-
-    ast ret = create_empty() ;
+    mustbe(tk_var);
+    vector<ast> decs;
+    Token type = mustbe(tg_type);
+    Token name = mustbe(tk_identifier);
+    decs.push_back(declare_variable(name,type,"local"));
+    while(have_next(tk_comma))
+    {
+        name = mustbe(tk_identifier);
+        decs.push_back(declare_variable(name,type,"local"));
+    }
+    mustbe(tk_semi);
+    
+    ast ret = create_var_decs(decs) ;
     pop_error_context() ;
     return ret ;
 }
@@ -484,8 +528,13 @@ static ast parse_statements()
     push_error_context("parse_statements()") ;
 
     // add code here ...
+    vector<ast> statements;
+    while(have(tg_statement))
+    {
+        statements.push_back(parse_statement());
+    }
 
-    ast ret = create_empty() ;
+    ast ret = create_statements(statements) ;
     pop_error_context() ;
     return ret ;
 }
@@ -499,8 +548,29 @@ static ast parse_statement()
     push_error_context("parse_statement()") ;
 
     // add code here ...
-
-    ast ret = create_empty() ;
+    ast statement;
+//    if (have(tk_let))
+//    {
+//        statement = parse_let();
+//    }
+//    if (have(tk_if))
+//    {
+//        statement = parse_if();
+//    }
+//    if (have(tk_while))
+//    {
+//        statement = parse_while();
+//    }
+//    if (have(tk_do))
+//    {
+//        statement = parse_do();
+//    }
+    if (have(tk_return))
+    {
+        statement = parse_return();
+    }
+    
+    ast ret = create_statement(statement) ;
     pop_error_context() ;
     return ret ;
 }
@@ -522,7 +592,7 @@ static ast parse_let()
     push_error_context("parse_let()") ;
 
     // add code here ...
-
+    
     ast ret = create_empty() ;
     pop_error_context() ;
     return ret ;
@@ -545,10 +615,29 @@ static ast parse_if()
     push_error_context("parse_if()") ;
 
     // add code here ...
-
-    ast ret = create_empty() ;
-    pop_error_context() ;
-    return ret ;
+    mustbe(tk_if);
+    mustbe(tk_lrb);
+    ast condition = parse_expr();
+    mustbe(tk_rrb);
+    mustbe(tk_lcb);
+    ast if_true = parse_statements();
+    mustbe(tk_rcb);
+    if (have(tk_else))
+    {
+        have(tk_else);
+        mustbe(tk_lcb);
+        ast if_false = parse_statements();
+        mustbe(tk_rcb);
+        ast ret = create_if_else(condition,if_true,if_false);
+        pop_error_context() ;
+        return ret ;
+    }else
+    {
+        ast ret = create_if(condition,if_true);
+        pop_error_context() ;
+        return ret ;
+    }
+    
 }
 
 // while ::= tk_while tk_lrb expr tk_rrb tk_lcb statements tk_rcb
@@ -562,7 +651,15 @@ static ast parse_while()
 
     // add code here ...
 
-    ast ret = create_empty() ;
+    mustbe(tk_while);
+    mustbe(tk_lrb);
+    ast condition = parse_expr();
+    mustbe(tk_rrb);
+    mustbe(tk_lcb);
+    ast body = parse_statements();
+    mustbe(tk_rcb);
+    
+    ast ret = create_while(condition,body) ;
     pop_error_context() ;
     return ret ;
 }
@@ -577,8 +674,17 @@ static ast parse_do()
     push_error_context("parse_do()") ;
 
     // add code here ...
-
-    ast ret = create_empty() ;
+    mustbe(tk_do);
+    ast call;
+    if (have(tk_identifier)){
+        call = parse_void_var_call();
+    }
+    if (have(tk_this)){
+        call = parse_void_this_call();
+    }
+    mustbe(tk_semi);
+    
+    ast ret = create_do(call) ;
     pop_error_context() ;
     return ret ;
 }
@@ -645,6 +751,28 @@ static ast parse_return()
     // add code here ...
 
     ast ret = create_empty() ;
+    mustbe(tk_return);
+
+//    if (have(tg_expression))
+//    {
+//        ast expr = parse_expr();
+//
+//        mustbe(tk_semi);
+//        ret = create_return_expr(expr);
+//
+//        pop_error_context() ;
+//        return ret ;
+//    }
+//    else
+//    {
+//        mustbe(tk_semi);
+//        ret = create_return();
+//
+//        pop_error_context() ;
+//        return ret ;
+//    }
+    mustbe(tk_semi);
+    
     pop_error_context() ;
     return ret ;
 }
