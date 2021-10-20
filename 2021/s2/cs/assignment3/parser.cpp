@@ -337,19 +337,19 @@ static ast parse_constructor()
     push_symbol_table() ;
 
     // add code here ...
-    mustbe(tk_constructor);
-    string vtype = token_spelling(mustbe(tk_identifier));
-    string name = token_spelling(mustbe(tk_identifier));
-    mustbe(tk_lrb);
-    ast params = parse_param_list();
-    mustbe(tk_rrb);
-    ast body = parse_subr_body();
-
-    // delete the constructor's symbol table
-    pop_symbol_table() ;
-
-    ast ret = create_constructor(vtype,name,params,body);
-   
+//    mustbe(tk_constructor);
+//    string vtype = token_spelling(mustbe(tk_identifier));
+//    string name = token_spelling(mustbe(tk_identifier));
+//    mustbe(tk_lrb);
+//    ast params = parse_param_list();
+//    mustbe(tk_rrb);
+//    ast body = parse_subr_body();
+//
+//    // delete the constructor's symbol table
+//    pop_symbol_table() ;
+//
+//    ast ret = create_constructor(vtype,name,params,body);
+    ast ret = create_empty() ;
     pop_error_context() ;
     return ret ;
 }
@@ -374,14 +374,14 @@ static ast parse_function()
     string vtype = token_spelling(mustbe(tg_vtype));
     string name = token_spelling(mustbe(tk_identifier));
     mustbe(tk_lrb);
-    ast params = parse_param_list();
+    //ast params = parse_param_list();
     mustbe(tk_rrb);
     ast body = parse_subr_body();
     
     // delete the function's symbol table
     pop_symbol_table() ;
 
-    ast ret = create_function(vtype,name,params,body);
+    ast ret = create_function(vtype,name,nullptr,body);
     pop_error_context() ;
     return ret ;
 }
@@ -402,18 +402,19 @@ static ast parse_method()
     push_symbol_table() ;
 
     // add code here ...
-    mustbe(tk_function);
-    string vtype = token_spelling(mustbe(tg_type));
-    string name = token_spelling(mustbe(tk_identifier));
-    mustbe(tk_lrb);
-    ast params = parse_param_list();
-    mustbe(tk_rrb);
-    ast body = parse_subr_body();
+//    mustbe(tk_function);
+//    string vtype = token_spelling(mustbe(tg_type));
+//    string name = token_spelling(mustbe(tk_identifier));
+//    mustbe(tk_lrb);
+//    ast params = parse_param_list();
+//    mustbe(tk_rrb);
+//    ast body = parse_subr_body();
     
     // delete the method's symbol table
     pop_symbol_table() ;
 
-    ast ret = create_function(vtype,name,params,body) ;
+    ast ret = create_empty() ;
+    //ast ret = create_function(vtype,name,params,body) ;
     pop_error_context() ;
     return ret ;
 }
@@ -429,25 +430,25 @@ static ast parse_param_list()
     push_error_context("parse_param_list()") ;
 
     // add code here ...
-    vector<ast> params;
-    if(have(tg_type))
-    {
-        Token type = mustbe(tg_type);
-        Token name = mustbe(tk_identifier);
-        params.push_back(declare_variable(name,type,"param"));
-        //
+//    vector<ast> params;
+//    if(have(tg_type))
+//    {
+//        Token type = mustbe(tg_type);
+//        Token name = mustbe(tk_identifier);
+//        params.push_back(declare_variable(name,type,"param"));
+//        //
+//
+//        while(have(tk_comma))
+//        {
+//            have(tk_comma);
+//            Token type = mustbe(tg_type);
+//            name = mustbe(tk_identifier);
+//            params.push_back(declare_variable(name,type,"param"));
+//        }
+//    }
 
-        while(have(tk_comma))
-        {
-            have(tk_comma);
-            Token type = mustbe(tg_type);
-            name = mustbe(tk_identifier);
-            params.push_back(declare_variable(name,type,"param"));
-        }
-    }
-
-    ast ret = create_param_list(params) ;
-    //ast ret = create_empty();
+    //ast ret = create_param_list(params) ;
+    ast ret = create_empty();
     pop_error_context() ;
     return ret ;
 }
@@ -550,24 +551,24 @@ static ast parse_statement()
     push_error_context("parse_statement()") ;
 
     // add code here ...
-    ast statement;
-    if (have(tk_let))
-    {
-        statement = parse_let();
-    }
-    if (have(tk_if))
-    {
-        statement = parse_if();
-    }
+    ast statement = nullptr;
     if (have(tk_while))
     {
         statement = parse_while();
     }
-    if (have(tk_do))
+    else if (have(tk_let))
+    {
+        statement = parse_let();
+    }
+    else if (have(tk_if))
+    {
+        statement = parse_if();
+    }
+    else if (have(tk_do))
     {
         statement = parse_do();
     }
-    if (have(tk_return))
+    else if (have(tk_return))
     {
         statement = parse_return();
     }
@@ -761,14 +762,15 @@ static ast parse_return()
         ast expr = parse_expr();
 
         mustbe(tk_semi);
+        
         ret = create_return_expr(expr);
-
         pop_error_context() ;
         return ret ;
     }
     else
     {
         mustbe(tk_semi);
+        
         ret = create_return();
         pop_error_context() ;
         return ret ;
