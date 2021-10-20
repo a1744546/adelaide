@@ -626,12 +626,14 @@ static ast parse_if()
     mustbe(tk_lcb);
     ast if_true = parse_statements();
     mustbe(tk_rcb);
+    
     if (have(tk_else))
     {
-        have(tk_else);
+        mustbe(tk_else);
         mustbe(tk_lcb);
         ast if_false = parse_statements();
         mustbe(tk_rcb);
+        
         ast ret = create_if_else(condition,if_true,if_false);
         pop_error_context() ;
         return ret ;
