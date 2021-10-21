@@ -971,7 +971,7 @@ static ast parse_var_term()
     }
     else if ( have(tk_stop) )
     {
-        ast object = parse_var_term();
+        ast object = var;
         ast subr_call = parse_method_call();
         ret = create_call_as_method(type_name, object, subr_call);
     }

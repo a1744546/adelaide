@@ -936,3 +936,51 @@
 211021-214950,svn,"a1744546","2021/s2/cs/assignment3"
 211021-214950,startups,assignment3-20210913-122612.zip
 211021-214950,svndiff,UEsDBC0ACAAIAHqaVVMAAAAA//////////8BABQALQEAEAAAAAAAAAAAAAAAAAAAAAAApY9BTsMwEEXX+BSztOUYFTYRoErZcgrLdQYS6iSWx62QuAC9Q7fskFiy4jYUrkHcBNJK3fE3M5r/5o9925b4eA3eBMJwbr1n8/+LKaUOIs/49+b5a/sKl1e5YFLKI2/3/vL5sd1t3npCsKIAdTGb5VkOcqxFwSCpvgMOlVkjj0tNsfMCxOA8DSWJYqjbe7DOEOnWNAhziN0SW00enes9Lm6Y+sUNRegWD2hjz+1fpWNVk44YmgTKkyDYgCYOaKLgkKLVImhrnPtL3E9KtMfs1AVMoWNm2tSGdIOx6ko+fSQb72fThT7uB1BLBwh/dWhp6AAAAAAAAADAAQAAAAAAAFBLAQIeAy0ACAAIAHqaVVN/dWhp6AAAAMABAAABAAAAAAAAAAEAAACwEQAAAAAtUEsFBgAAAAABAAEALwAAADMBAAAAAA==
+211021-215204,make,test 0parser
+211021-215204,svn,"a1744546","2021/s2/cs/assignment3"
+211021-215204,startups,assignment3-20210913-122612.zip
+211021-215204,svndiff,UEsDBC0ACAAIAMOaVVMAAAAA//////////8BABQALQEAEAAAAAAAAAAAAAAAAAAAAAAApY0xbsJAEEVr5hRT7mq9kaBxwLLkllOs1vZEQGy82l2sIOQe7kBLh0SZKrcJyTWCsUOIlC6/+dL8pzfTZU4vEzTaOrIPmTEQ/z8gpbxTDtjnbvuxP+Jo/MhBCPFrO78e3t/2593pQnBIEpTjcBiEKLpKEsA2TVdUOML5EzKc6ZqYf1bOV4Yj7+YNSOyjnccqXVDmMe4eqlpb5cmWjEcg/uQuRAR4P7lValWmi+JmKcnPqvx6a0U32lJryCxpT9dVadfDzK8NqaUuKeh/BT/ib0cDX1BLBwj7X3qs0wAAAAAAAACNAQAAAAAAAFBLAQIeAy0ACAAIAMOaVVP7X3qs0wAAAI0BAAABAAAAAAAAAAEAAACwEQAAAAAtUEsFBgAAAAABAAEALwAAAB4BAAAAAA==
+211021-215409,make,
+211021-215409,svn,"a1744546","2021/s2/cs/assignment3"
+211021-215409,startups,assignment3-20210913-122612.zip
+211021-215409,svndiff,UEsDBC0ACAAIAAWbVVMAAAAA//////////8BABQALQEAEAAAAAAAAAAAAAAAAAAAAAAApY0xbsJAEEVr5hRT7mq9kaBxwLLkllOs1vZEQGy82l2sIOQe7kBLh0SZKrcJyTWCsUOIlC6/+dL8pzfTZU4vEzTaOrIPmTEQ/z8gpbxTDtjnbvuxP+Jo/MhBCPFrO78e3t/2593pQnBIEpTjcBiEKLpKEsA2TVdUOML5EzKc6ZqYf1bOV4Yj7+YNSOyjnccqXVDmMe4eqlpb5cmWjEcg/uQuRAR4P7lValWmi+JmKcnPqvx6a0U32lJryCxpT9dVadfDzK8NqaUuKeh/BT/ib0cDX1BLBwj7X3qs0wAAAAAAAACNAQAAAAAAAFBLAQIeAy0ACAAIAAWbVVP7X3qs0wAAAI0BAAABAAAAAAAAAAEAAACwEQAAAAAtUEsFBgAAAAABAAEALwAAAB4BAAAAAA==
+211021-215910,make,
+211021-215910,svn,"a1744546","2021/s2/cs/assignment3"
+211021-215910,startups,assignment3-20211017-081737.zip
+211021-215910,updater,Updating: ./tests/0parser/tests.csv
+211021-215910,updater,Updating: ./tests/5pretty/Square-Square-1-output
+211021-215910,updater,Updating: ./tests/5pretty/Pong-PongGame-1-output
+211021-215910,updater,Updating: ./tests/5pretty/Minint-Main-1-output
+211021-215910,updater,Updating: ./tests/5pretty/ElSquare-SquareGame-1-output
+211021-215910,updater,Updating: ./tests/5pretty/11-Main-1-output
+211021-215910,updater,Updating: ./tests/5pretty/Square-Main-1-output
+211021-215910,updater,Updating: ./tests/5pretty/Average-Main-1-output
+211021-215910,updater,Updating: ./tests/5pretty/18-Main-1-output
+211021-215910,updater,Updating: ./tests/5pretty/Square-SquareGame-1-output
+211021-215910,updater,Updating: ./tests/5pretty/Pong-Main-1-output
+211021-215910,updater,Updating: ./tests/5pretty/Pong-Ball-1-output
+211021-215910,updater,Updating: ./tests/5pretty/ArrayTst-Main-1-output
+211021-215910,updater,Updating: ./tests/5pretty/08-Main-1-output
+211021-215910,updater,Updating: ./tests/5pretty/ConvertB-Main-1-output
+211021-215910,updater,Updating: ./tests/5pretty/Seven-Main-1-output
+211021-215910,updater,Updating: ./tests/5pretty/09-Main-1-output
+211021-215910,updater,Updating: ./tests/5pretty/19-Main-1-output
+211021-215910,updater,Updating: ./tests/5pretty/20-Main-1-output
+211021-215910,updater,Updating: ./tests/5pretty/Pong-Bat-1-output
+211021-215910,updater,Updating: ./tests/5pretty/ElSquare-Square-1-output
+211021-215910,updater,Updating: ./tests/5pretty/10-Main-1-output
+211021-215910,updater,Updating: ./tests/5pretty/ComplexA-Main-1-output
+211021-215910,updater,Updating: ./lib/cats/bin/parser
+211021-215910,updater,Updating: ./lib/cats/bin/pretty
+211021-215910,updater,Updating: ./lib/cats/libcs_jc.a
+211021-215910,updater,Updating: ./lib/macos/bin/optimiser-r
+211021-215910,updater,Updating: ./lib/macos/bin/parser
+211021-215910,updater,Updating: ./lib/macos/bin/codegen
+211021-215910,updater,Updating: ./lib/macos/bin/pretty
+211021-215910,updater,Updating: ./lib/macos/bin/optimiser-e
+211021-215910,updater,Updating: ./lib/macos/libcs_jc.a
+211021-215910,updater,Updating: ./lib/centos8/bin/parser
+211021-215910,updater,Updating: ./lib/centos8/bin/pretty
+211021-215910,updater,Updating: ./lib/centos8/libcs_jc.a
+211021-215910,updater,Updating: updates/README
+211021-215910,updater,Update installed
