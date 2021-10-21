@@ -805,6 +805,11 @@ static ast parse_return()
 
     if (have(tg_expression))
     {
+        if (have(tk_integer))
+        {
+            ret = create_term(parse_this_term());
+            return ret;
+        }
         ast expr = parse_expr();
 
         mustbe(tk_semi);
@@ -816,7 +821,6 @@ static ast parse_return()
     else
     {
         mustbe(tk_semi);
-        
         ret = create_return();
         pop_error_context() ;
         return ret ;
