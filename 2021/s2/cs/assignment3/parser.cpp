@@ -747,7 +747,7 @@ static ast parse_void_var_call()
     }
     else if ( have(tk_fn) )
     {
-        string class_name = token_spelling(mustbe(tk_identifier));
+        string class_name = token_spelling(tk_id);
         ast subr_call = parse_fn_call();
         ret = create_call_as_function(class_name, subr_call);
     }
