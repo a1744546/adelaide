@@ -738,18 +738,18 @@ static ast parse_void_var_call()
     ast ret = create_empty() ;
 
     
-    if ( have(tk_fn) )
-    {
-        string class_name = token_spelling(mustbe(tk_identifier));
-        ast subr_call = parse_fn_call();
-        ret = create_call_as_function(class_name, subr_call);
-    }
-    else if ( have(tk_stop) )
+    if ( have(tk_stop) )
     {
         ast object = lookup_variable_fatal(mustbe(tk_identifier));
         string class_name = get_var_type(object);
         ast subr_call = parse_method_call();
-        ret = create_call_as_method(get_var_type(object), object, subr_call);
+        ret = create_call_as_method(class_name, object, subr_call);
+    }
+    else if ( have(tk_fn) )
+    {
+        string class_name = token_spelling(mustbe(tk_identifier));
+        ast subr_call = parse_fn_call();
+        ret = create_call_as_function(class_name, subr_call);
     }
     else
     {
@@ -775,8 +775,13 @@ static ast parse_void_this_call()
     push_error_context("parse_void_this_call()") ;
 
     // add code here ...
-
     ast ret = create_empty() ;
+    
+    mustbe(tk_this);
+    ast object = create_this();
+    ast subr_call = parse_method_call();
+
+    ret =  create_call_as_method("this", object, subr_call);
     pop_error_context() ;
     return ret ;
 }
@@ -837,7 +842,7 @@ static ast parse_expr()
     if ( have(tg_infix_op) ) {
         ast lhs = term;
         ast op = create_infix_op(token_spelling(mustbe(tg_infix_op)));
-        ast rhs = create_term(parse_expr());        // extern ast create_term(ast term) ;
+        ast rhs = create_term(parse_expr());
 
         ast ret = create_expr(lhs, op, rhs);
         return ret;
@@ -1000,8 +1005,22 @@ static ast parse_this_term()
     push_error_context("parse_this_term()") ;
 
     // add code here ...
+    ast ret = create_empty();
+    
+    mustbe(tk_this);
+    if ( have(tk_stop) )
+    {
+        string class_name = token_spelling();
+        ast object = parse_this_term();
+        ast subr_call = parse_subr_decs();
+        
+        ret = create_call_as_method(class_name, object, subr_call);
+    }
+    else
+    {
+        ret = create_this();
+    }
 
-    ast ret = create_empty() ;
     pop_error_context() ;
     return ret ;
 }
