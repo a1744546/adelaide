@@ -351,7 +351,6 @@ static ast parse_constructor()
     pop_symbol_table() ;
 
     ast ret = create_constructor(vtype,name,params,body);
-    //ast ret = create_empty() ;
     pop_error_context() ;
     return ret ;
 }
@@ -440,8 +439,9 @@ static ast parse_param_list()
         params.push_back(declare_variable(name,type,"param"));
         //
 
-        while(have_next(tk_comma))
+        while(have(tk_comma))
         {
+            mustbe(tk_comma);
             type = mustbe(tg_type);
             name = mustbe(tk_identifier);
             params.push_back(declare_variable(name,type,"param"));
@@ -832,17 +832,18 @@ static ast parse_expr()
     push_error_context("parse_expr()") ;
 
     // add code here ...
-    
-    if ( have(tg_infix_op) )
-    {
-        ast lhs = parse_term();;
+    ast term = parse_term();
+
+    if ( have(tg_infix_op) ) {
+        ast lhs = term;
         ast op = create_infix_op(token_spelling(mustbe(tg_infix_op)));
-        ast rhs = create_term(parse_expr());
+        ast rhs = create_term(parse_expr());        // extern ast create_term(ast term) ;
+
         ast ret = create_expr(lhs, op, rhs);
         return ret;
     }
-    
-    ast term = parse_term();
+
+
     ast ret = create_expr(term) ;
     pop_error_context() ;
     return ret ;
@@ -953,7 +954,32 @@ static ast parse_var_term()
 
     // add code here ...
     ast ret = create_empty() ;
-    
+
+    string class_name = token_spelling(current_token());
+    ast var = lookup_variable_fatal(mustbe(tk_identifier));
+    string type_name = get_var_type(var);
+    if ( have(tk_lsb) )
+    {
+        ast index = parse_index();
+        ret = create_array_index(var,index);
+    }
+    else if ( have(tk_fn) )
+    {
+        ast subr_call = parse_fn_call();
+        ret = create_call_as_function(class_name, subr_call);
+    }
+    else if ( have(tk_stop) )
+    {
+        ast object = parse_var_term();
+        ast subr_call = parse_method_call();
+        ret = create_call_as_method(type_name, object, subr_call);
+    }
+    else
+    {
+        ret = var;
+    }
+
+
     pop_error_context() ;
     return ret ;
 }
