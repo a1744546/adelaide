@@ -915,8 +915,7 @@ static ast parse_term()
     {
         string op = token_spelling(mustbe(tg_unary_op));
         ast term = parse_term();
-        mustbe(tg_term);
-        ret = create_unary_op(op, term);
+        ret =  create_term(create_unary_op(op, term));
     }
     else if (have(tk_this))
     {
