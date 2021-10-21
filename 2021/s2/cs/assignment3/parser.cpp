@@ -1007,7 +1007,7 @@ static ast parse_this_term()
     if ( have(tk_stop) )
     {
         string class_name = token_spelling();
-        ast object = parse_this_term();
+        ast object =  create_this();
         ast subr_call = parse_subr_decs();
         
         ret = create_call_as_method(class_name, object, subr_call);
