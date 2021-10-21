@@ -890,19 +890,16 @@ static ast parse_term()
     {
         ret = create_term(create_string(token_spelling(mustbe(tk_string))));
     }
-    else if (have(tk_true))
+    else if (have_next(tk_true))
     {
-        mustbe(tk_true);
         ret = create_term(create_bool(true));
     }
-    else if (have(tk_false))
+    else if (have_next(tk_false))
     {
-        mustbe(tk_false);
         ret = create_term(create_bool(false));
     }
-    else if(have(tk_null))
+    else if(have_next(tk_null))
     {
-        mustbe(tk_null);
         ret = create_null();
     }
     else if(have(tk_lrb))
@@ -1031,8 +1028,13 @@ static ast parse_index()
     push_error_context("parse_index()") ;
 
     // add code here ...
-
     ast ret = create_empty() ;
+
+    mustbe(tk_lsb);
+    ast expr = parse_expr();
+    mustbe(tk_rsb);
+
+    ret = expr;
     pop_error_context() ;
     return ret ;
 }
