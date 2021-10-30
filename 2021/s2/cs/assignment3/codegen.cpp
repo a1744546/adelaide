@@ -7,6 +7,7 @@
 #include "iobuffer.h"
 #include "symbols.h"
 #include "abstract-syntax-tree.h"
+#include <vector>
 
 // to shorten our code:
 using namespace std ;
@@ -360,21 +361,32 @@ static void visit_if_else(ast t)
 // condition - an ast expr node
 // body      - an ast statements node
 //
+static int current=0;
+static int maxwhile=0;
+static vector<bool> whiles;
 static void visit_while(ast t)
 {
+    
     ast condition = get_while_condition(t) ;
     ast body = get_while_body(t) ;
-
-    write_to_output("label WHILE_EXP0\n");
+    
+    current = maxwhile;
+    maxwhile++;
+    whiles.push_back(false);
+    write_to_output("label WHILE_EXP"+std::to_string(current)+"\n");
     
     visit_expr(condition) ;
     write_to_output("not\n");
-    write_to_output("if-goto WHILE_END0\n");
+    write_to_output("if-goto WHILE_END"+std::to_string(current)+"\n");
     
     visit_statements(body) ;
-    
-    write_to_output("goto WHILE_EXP0\n");
-    write_to_output("label WHILE_END0\n");
+    while (whiles[current] != false)
+    {
+        current--;
+    }
+    whiles[current] = true;
+    write_to_output("goto WHILE_EXP"+std::to_string(current)+"\n");
+    write_to_output("label WHILE_END"+std::to_string(current)+"\n");
 }
 
 // walk an ast do node with a single field
