@@ -69,6 +69,7 @@ static void visit_subr_call(ast t) ;
 static void visit_expr_list(ast t) ;
 static void visit_infix_op(ast t) ;
 
+static string classname;
 // walk an ast class node with fields:
 // class_name - a string
 // var_decs   - ast vector of variable declarations
@@ -81,6 +82,9 @@ static void visit_class(ast t)
     ast fields = get_class_fields(t) ;
     ast subr_decs = get_class_subr_decs(t) ;
 
+    classname = myclassname;
+    
+    //write_to_output("function" + classname + "." +name);
     visit_class_var_decs(statics) ;
     visit_class_var_decs(fields) ;
     visit_subr_decs(subr_decs) ;
@@ -175,11 +179,13 @@ static void visit_constructor(ast t)
 static void visit_function(ast t)
 {
     //string vtype = get_function_vtype(t) ;
-    //string name = get_function_name(t) ;
+    string name = get_function_name(t) ;
     ast param_list = get_function_param_list(t) ;
     ast subr_body = get_function_subr_body(t) ;
-
+    
+    write_to_output("function " + classname + "." + name);
     visit_param_list(param_list) ;
+    
     visit_subr_body(subr_body) ;
 }
 
@@ -235,6 +241,7 @@ static void visit_var_decs(ast t)
     {
         visit_var_dec(get_var_decs(t,i)) ;
     }
+    write_to_output(" " + std::to_string(ndecs) + "\n");
 }
 
 // walk an ast statements node
@@ -387,6 +394,8 @@ static void visit_do(ast t)
 //
 static void visit_return(ast t)
 {
+    write_to_output("push constant 0\n");
+    write_to_output("return\n");
 }
 
 // walk an ast return expr node with a single field
