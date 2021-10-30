@@ -365,8 +365,16 @@ static void visit_while(ast t)
     ast condition = get_while_condition(t) ;
     ast body = get_while_body(t) ;
 
+    write_to_output("label WHILE_EXP0\n");
+    
     visit_expr(condition) ;
+    write_to_output("not\n");
+    write_to_output("if-goto WHILE_END0\n");
+    
     visit_statements(body) ;
+    
+    write_to_output("goto WHILE_EXP0\n");
+    write_to_output("label WHILE_END0\n");
 }
 
 // walk an ast do node with a single field
@@ -502,7 +510,15 @@ static void visit_string(ast t)
 //
 static void visit_bool(ast t)
 {
-    //bool _constant = get_bool_t_or_f(t) ;
+    bool _constant = get_bool_t_or_f(t) ;
+    if (_constant == true)
+    {
+        write_to_output("push constant 0\n");
+        write_to_output("not\n");
+    }else
+    {
+        write_to_output("push constant 0\n");
+    }
 }
 
 // walk an ast null node, it has not fields
