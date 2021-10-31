@@ -110,12 +110,16 @@ static void visit_class_var_decs(ast t)
 // offset - an int
 // this is used for statics, fields, parameters and local variables
 //
+static int field = 0;
 static void visit_var_dec(ast t)
 {
     //string name = get_var_dec_name(t) ;
     //string type = get_var_dec_type(t) ;
     //string segment = get_var_dec_segment(t) ;
     //int offset = get_var_dec_offset(t) ;
+    if (get_var_dec_segment(t) == "this"){
+        field++;
+    }
 }
 
 // walk an ast class var decs node
@@ -166,7 +170,14 @@ static void visit_constructor(ast t)
     string name = get_constructor_name(t) ;
     ast param_list = get_constructor_param_list(t) ;
     ast subr_body = get_constructor_subr_body(t) ;
-
+    ast var_decs = get_subr_body_decs(subr_body);
+        
+    write_to_output("function " + classname + "." + name + " "
+                    + std::to_string(size_of_var_decs(var_decs)) + "\n");
+    write_to_output("push constant " + std::to_string(field) + "\n");
+    write_to_output("call Memory.alloc 1\n");
+    write_to_output("pop pointer 0\n");
+    
     visit_param_list(param_list) ;
     visit_subr_body(subr_body) ;
 }
@@ -630,9 +641,7 @@ static void visit_var(ast t)
     string segment = get_var_segment(t) ;
     int offset = get_var_offset(t) ;
 
-    write_to_output("push " + segment + " ");
-    write_to_output(to_string(offset));
-    write_to_output("\n");
+    write_to_output("push " + segment + " " + std::to_string(offset) +"\n");
 }
 
 // walk an ast array index node with fields
@@ -652,11 +661,15 @@ static void visit_array_index(ast t)
 // class name - a string
 // call       - an ast subr call node
 //
+static int param = 0;
+static string function_name = "";
 static void visit_call_as_function(ast t)
 {
-    string class_name = get_call_as_function_class_name(t) ;
+    //string class_name = get_call_as_function_class_name(t) ;
     ast subr_call = get_call_as_function_subr_call(t) ;
-
+    function_name = get_call_as_function_class_name(t) ;
+    
+    param = 1;
     visit_subr_call(subr_call) ;
 }
 
@@ -667,10 +680,13 @@ static void visit_call_as_function(ast t)
 //
 static void visit_call_as_method(ast t)
 {
-    string class_name = get_call_as_method_class_name(t) ;
+    function_name = get_call_as_method_class_name(t) ;
+    //string class_name = get_call_as_method_class_name(t) ;
     ast var = get_call_as_method_var(t) ;
     ast subr_call = get_call_as_method_subr_call(t) ;
 
+    
+    param = 2;
     switch(ast_node_kind(var))
     {
     case ast_this:
@@ -696,6 +712,15 @@ static void visit_subr_call(ast t)
     ast expr_list = get_subr_call_expr_list(t) ;
 
     visit_expr_list(expr_list) ;
+    
+    int size = size_of_expr_list(expr_list);
+
+    if (param==2)
+    {
+        size += 1;
+    }
+    
+    write_to_output("call " + function_name + "." + subr_name + " " + to_string(size) + "\n");
 }
 
 // walk an ast expr list node
