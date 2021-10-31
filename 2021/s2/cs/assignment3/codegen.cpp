@@ -474,6 +474,7 @@ static void visit_do(ast t)
         fatal_error(0,"Unexpected call kind") ;
         break ;
     }
+    write_to_output("pop temp 0\n");
 }
 
 // walk an ast return node, it has not fields
@@ -626,6 +627,13 @@ static void visit_unary_op(ast t)
     ast term = get_unary_op_term(t) ;
 
     visit_term(term) ;
+    
+    if (uop == "-"){
+        write_to_output("neg\n");
+    }
+    else if(uop == "~"){
+        write_to_output("not\n");
+    }
 }
 
 // walk an ast variable node with fields
