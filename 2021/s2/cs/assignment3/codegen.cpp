@@ -162,8 +162,8 @@ static void visit_subr(ast t)
 //
 static void visit_constructor(ast t)
 {
-    //string vtype = get_constructor_vtype(t) ;
-    //string name = get_constructor_name(t) ;
+    string vtype = get_constructor_vtype(t) ;
+    string name = get_constructor_name(t) ;
     ast param_list = get_constructor_param_list(t) ;
     ast subr_body = get_constructor_subr_body(t) ;
 
@@ -179,12 +179,14 @@ static void visit_constructor(ast t)
 //
 static void visit_function(ast t)
 {
-    //string vtype = get_function_vtype(t) ;
+    string vtype = get_function_vtype(t) ;
     string name = get_function_name(t) ;
     ast param_list = get_function_param_list(t) ;
     ast subr_body = get_function_subr_body(t) ;
     
-    write_to_output("function " + classname + "." + name);
+    ast var_decs = get_subr_body_decs(subr_body);
+
+    write_to_output("function " + classname + "." + name + " " + to_string(size_of_var_decs(var_decs)) + "\n");
     visit_param_list(param_list) ;
     
     visit_subr_body(subr_body) ;
@@ -198,11 +200,17 @@ static void visit_function(ast t)
 //
 static void visit_method(ast t)
 {
-    //string vtype = get_method_vtype(t) ;
-    //string name = get_method_name(t) ;
+    string vtype = get_method_vtype(t) ;
+    string name = get_method_name(t) ;
     ast param_list = get_method_param_list(t) ;
     ast subr_body = get_method_subr_body(t) ;
-
+    
+    ast var_decs = get_subr_body_decs(subr_body);
+    
+    write_to_output("function " + classname + "."+ name + " " + to_string(size_of_var_decs(var_decs)) + "\n");
+    write_to_output("push argument 0\n");
+    write_to_output("pop pointer 0\n");
+    
     visit_param_list(param_list) ;
     visit_subr_body(subr_body) ;
 }
@@ -242,7 +250,7 @@ static void visit_var_decs(ast t)
     {
         visit_var_dec(get_var_decs(t,i)) ;
     }
-    write_to_output(" " + std::to_string(ndecs) + "\n");
+    //write_to_output(" " + std::to_string(ndecs) + "\n");
 }
 
 // walk an ast statements node
@@ -308,8 +316,9 @@ static void visit_let(ast t)
     ast var = get_let_var(t) ;
     ast expr = get_let_expr(t) ;
 
-    visit_var(var) ;
+    //visit_var(var) ;
     visit_expr(expr) ;
+    write_to_output("pop " + get_var_segment(var) + " " + to_string(get_var_offset(var)) + "\n");
 }
 
 // walk an ast let array node with fields
@@ -324,6 +333,8 @@ static void visit_let_array(ast t)
     ast expr = get_let_array_expr(t) ;
 
     visit_var(var) ;
+    
+    //write_to_output("add\n");
     visit_expr(index) ;
     visit_expr(expr) ;
 }
@@ -470,6 +481,7 @@ static void visit_return_expr(ast t)
     ast expr = get_return_expr(t) ;
 
     visit_expr(expr) ;
+    write_to_output("return\n");
 }
 
 // walk an ast param list node
@@ -481,17 +493,15 @@ static void visit_return_expr(ast t)
 static void visit_expr(ast t)
 {
     int term_ops = size_of_expr(t) ;
-    for ( int i = 0 ; i < term_ops ; i++ )
+    visit_term(get_expr(t,0));
+    int i=1;
+    for (i; i < term_ops ; i=i+2 )
     {
-        ast term_op = get_expr(t,i) ;
-        if ( i % 2 == 0 )
-        {
-            visit_term(term_op) ;
-        }
-        else
-        {
-            visit_infix_op(term_op) ;
-        }
+        ast term_op = get_expr(t,i+1) ;
+        visit_term(term_op) ;
+
+        term_op = get_expr(t,i) ;
+        visit_infix_op(term_op) ;
     }
 }
 
@@ -550,7 +560,9 @@ static void visit_term(ast t)
 //
 static void visit_int(ast t)
 {
-    //int _constant = get_int_constant(t) ;
+    int _constant = get_int_constant(t) ;
+    write_to_output("push constant ");
+    write_to_output(to_string(_constant) + "\n");
 }
 
 // walk an ast string node with a single field
@@ -581,12 +593,14 @@ static void visit_bool(ast t)
 //
 static void visit_null(ast t)
 {
+    write_to_output("push constant 0\n");
 }
 
 // walk an ast this node, it has not fields
 //
 static void visit_this(ast t)
 {
+    write_to_output("push pointer 0\n");
 }
 
 // walk an ast unary op node with fields
@@ -611,10 +625,14 @@ static void visit_unary_op(ast t)
 //
 static void visit_var(ast t)
 {
-    //string name = get_var_name(t) ;
-    //string type = get_var_type(t) ;
-    //string segment = get_var_segment(t) ;
-    //int offset = get_var_offset(t) ;
+    string name = get_var_name(t) ;
+    string type = get_var_type(t) ;
+    string segment = get_var_segment(t) ;
+    int offset = get_var_offset(t) ;
+
+    write_to_output("push " + segment + " ");
+    write_to_output(to_string(offset));
+    write_to_output("\n");
 }
 
 // walk an ast array index node with fields
@@ -697,7 +715,37 @@ static void visit_expr_list(ast t)
 //
 static void visit_infix_op(ast t)
 {
-    //string op = get_infix_op_op(t) ;
+    string op = get_infix_op_op(t) ;
+    switch (op[0])
+    {
+        case '+':
+            write_to_output("add\n");
+            break;
+        case '-':
+            write_to_output("sub\n");
+            break;
+        case '*':
+            write_to_output("call Math.multiply 2\n");
+            break;
+        case '/':
+            write_to_output("call Math.divide 2\n");
+            break;
+        case '&':
+            write_to_output("and\n");
+            break;
+        case '|':
+            write_to_output("or\n");
+            break;
+        case '<':
+            write_to_output("lt\n");
+            break;
+        case '>':
+            write_to_output("gt\n");
+            break;
+        case '=':
+            write_to_output("eq\n");
+            break;
+    }
 }
 
 // main program
