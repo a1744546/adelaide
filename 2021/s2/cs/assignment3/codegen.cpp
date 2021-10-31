@@ -1,7 +1,7 @@
 //
 //
-// Author: axxxxxxx
-// Name:   ... ...
+// Author: a1744546
+// Name:   WEI GAO
 //
 
 #include "iobuffer.h"
@@ -327,7 +327,6 @@ static void visit_let(ast t)
     ast var = get_let_var(t) ;
     ast expr = get_let_expr(t) ;
 
-    //visit_var(var) ;
     visit_expr(expr) ;
     write_to_output("pop " + get_var_segment(var) + " " + to_string(get_var_offset(var)) + "\n");
 }
@@ -343,11 +342,16 @@ static void visit_let_array(ast t)
     ast index = get_let_array_index(t) ;
     ast expr = get_let_array_expr(t) ;
 
+    visit_expr(index) ;
     visit_var(var) ;
     
-    //write_to_output("add\n");
-    visit_expr(index) ;
+    write_to_output("add\n");
     visit_expr(expr) ;
+    
+    write_to_output("pop temp 0\n");
+    write_to_output("pop pointer 1\n");
+    write_to_output("push temp 0\n");
+    write_to_output("pop that 0\n");
 }
 
 // walk an ast if node with fields
@@ -573,8 +577,7 @@ static void visit_term(ast t)
 static void visit_int(ast t)
 {
     int _constant = get_int_constant(t) ;
-    write_to_output("push constant ");
-    write_to_output(to_string(_constant) + "\n");
+    write_to_output("push constant "+ std::to_string(_constant) + "\n");
 }
 
 // walk an ast string node with a single field
@@ -582,7 +585,15 @@ static void visit_int(ast t)
 //
 static void visit_string(ast t)
 {
-    //string _constant = get_string_constant(t) ;
+    string _constant = get_string_constant(t) ;
+    write_to_output("push constant " + std::to_string( _constant.length()) + "\n");
+    write_to_output("call String.new 1\n");
+
+    for (unsigned int i = 0; i < _constant.length(); i++)
+    {
+        write_to_output("push constant " + std::to_string(_constant.at(i)) + "\n");
+        write_to_output("call String.appendChar 2\n");
+    }
 }
 
 // walk an ast bool node with a single field
@@ -661,8 +672,12 @@ static void visit_array_index(ast t)
     ast var = get_array_index_var(t) ;
     ast index = get_array_index_index(t) ;
 
-    visit_var(var) ;
     visit_expr(index) ;
+    visit_var(var) ;
+    
+    write_to_output("add\n");
+    write_to_output("pop pointer 1\n");
+    write_to_output("push that 0\n");
 }
 
 // walk an ast subr call as method with fields
