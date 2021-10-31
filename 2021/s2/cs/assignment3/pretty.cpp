@@ -75,6 +75,14 @@ static void print_infix_op(ast t) ;
 // fields     - ast vector of variable declarations
 // subr_decs  - ast vector of subroutine declarations
 //
+static int currentwhile=0;
+static string space(){
+    string str = "";
+    for (int i = 0; i<currentwhile; i++) {
+        str= str+"  ";
+    }
+    return str;
+}
 static void print_class(ast t)
 {
     string myclassname = get_class_class_name(t) ;
@@ -111,10 +119,13 @@ static void print_class_var_decs(ast t)
 //
 static void print_var_dec(ast t)
 {
-    //string name = get_var_dec_name(t) ;
-    //string type = get_var_dec_type(t) ;
-    //string segment = get_var_dec_segment(t) ;
+    string name = get_var_dec_name(t) ;
+    string type = get_var_dec_type(t) ;
+    string segment = get_var_dec_segment(t) ;
     //int offset = get_var_dec_offset(t) ;
+    
+    write_to_output("    var "+type+" "+name+" ;\n");
+    
 }
 
 // walk an ast class var decs node
@@ -247,6 +258,10 @@ static void print_var_decs(ast t)
     {
         print_var_dec(get_var_decs(t,i)) ;
     }
+    if(ndecs>0)
+    {
+        write_to_output("\n");
+    }
 }
 
 // walk an ast statements node
@@ -259,6 +274,7 @@ static void print_statements(ast t)
     {
         print_statement(get_statements(t,i)) ;
     }
+    
 }
 
 // walk an ast statement node with a single field
@@ -341,8 +357,20 @@ static void print_if(ast t)
     ast condition = get_if_condition(t) ;
     ast if_true = get_if_if_true(t) ;
 
+    write_to_output("    "+space()+"if (");
     print_expr(condition) ;
+    write_to_output(")\n");
+    
+    write_to_output("    "+space()+"{\n");
+    currentwhile++;
     print_statements(if_true) ;
+    currentwhile--;
+    write_to_output("    "+space()+"}\n");
+    
+    if (currentwhile==0) {
+        write_to_output("\n");
+    }
+
 }
 
 // walk an ast if else node with fields
@@ -356,22 +384,51 @@ static void print_if_else(ast t)
     ast if_true = get_if_else_if_true(t) ;
     ast if_false = get_if_else_if_false(t) ;
 
+    write_to_output("    "+space()+"if (");
     print_expr(condition) ;
+    write_to_output(")\n");
+    
+    write_to_output("    "+space()+"{\n");
+    currentwhile++;
     print_statements(if_true) ;
+    currentwhile--;
+    write_to_output("    "+space()+"}\n");
+    
+    write_to_output("    "+space()+"else\n");
+    write_to_output("    "+space()+"{\n");
+    currentwhile++;
     print_statements(if_false) ;
+    currentwhile--;
+    write_to_output("    "+space()+"}\n");
+    
+    if (currentwhile==0) {
+        write_to_output("\n");
+    }
 }
 
 // walk an ast while node with fields
 // condition - an ast expr node
 // body      - an ast statements node
 //
+
 static void print_while(ast t)
 {
     ast condition = get_while_condition(t) ;
     ast body = get_while_body(t) ;
 
+    write_to_output("    "+space()+"while (");
     print_expr(condition) ;
+    write_to_output(")\n");
+    write_to_output("    "+space()+"{\n");
+    
+    currentwhile++;
     print_statements(body) ;
+    currentwhile--;
+    write_to_output("    "+space()+"}\n");
+    if (currentwhile==0) {
+        write_to_output("\n");
+    }
+    
 }
 
 // walk an ast do node with a single field
@@ -506,7 +563,14 @@ static void print_string(ast t)
 //
 static void print_bool(ast t)
 {
-    //bool _constant = get_bool_t_or_f(t) ;
+    bool _constant = get_bool_t_or_f(t) ;
+    
+    if (_constant==1) {
+        write_to_output("true");
+    }else
+    {
+        write_to_output("false");
+    }
 }
 
 // walk an ast null node, it has not fields
