@@ -494,8 +494,8 @@ static void visit_expr(ast t)
 {
     int term_ops = size_of_expr(t) ;
     visit_term(get_expr(t,0));
-    int i=1;
-    for (i; i < term_ops ; i=i+2 )
+    int i;
+    for (i=1; i < term_ops ; i=i+2 )
     {
         ast term_op = get_expr(t,i+1) ;
         visit_term(term_op) ;
