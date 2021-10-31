@@ -1,7 +1,7 @@
 //
 //
-// Author: axxxxxxx
-// Name:   ... ...
+// Author: a1744546
+// Name:   WEI GAO
 //
 
 #include "iobuffer.h"
@@ -82,9 +82,12 @@ static void print_class(ast t)
     ast fields = get_class_fields(t) ;
     ast subr_decs = get_class_subr_decs(t) ;
 
+    write_to_output("class "+myclassname+"\n");
+    write_to_output("{\n");
     print_class_var_decs(statics) ;
     print_class_var_decs(fields) ;
     print_subr_decs(subr_decs) ;
+    write_to_output("}\n");
 }
 
 // walk an ast class var decs node
@@ -120,6 +123,10 @@ static void print_var_dec(ast t)
 static void print_subr_decs(ast t)
 {
     int size = size_of_subr_decs(t) ;
+    if (size > 0)
+    {
+        write_to_output("// public:\n");
+    }
     for ( int i = 0 ; i < size ; i++ )
     {
         print_subr(get_subr_decs(t,i)) ;
@@ -175,13 +182,17 @@ static void print_constructor(ast t)
 //
 static void print_function(ast t)
 {
-    //string vtype = get_function_vtype(t) ;
-    //string name = get_function_name(t) ;
+    string vtype = get_function_vtype(t) ;
+    string name = get_function_name(t) ;
     ast param_list = get_function_param_list(t) ;
     ast subr_body = get_function_subr_body(t) ;
 
+    write_to_output("  function "+vtype+" "+name+"(");
     print_param_list(param_list) ;
+    write_to_output(")\n");
+    write_to_output("  {\n");
     print_subr_body(subr_body) ;
+    write_to_output("  }\n");
 }
 
 // walk an ast method node with fields
@@ -388,6 +399,7 @@ static void print_do(ast t)
 //
 static void print_return(ast t)
 {
+    write_to_output("    return ;\n");
 }
 
 // walk an ast return expr node with a single field
