@@ -242,11 +242,16 @@ static void visit_param_list(ast t)
 // decs - an ast vector of variable declarations
 // body - an ast vector of statement nodes
 //
+static int current=0;
+static int currentif=0;
 static void visit_subr_body(ast t)
 {
     ast decs = get_subr_body_decs(t) ;
     ast body = get_subr_body_body(t) ;
 
+    current = 0;
+    currentif = 0;
+    
     visit_var_decs(decs) ;
     visit_statements(body) ;
 }
@@ -358,34 +363,22 @@ static void visit_let_array(ast t)
 // condition - an ast expr node
 // if true   - an ast statements node
 //
-static int currentif=0;
-static int maxif=0;
-static vector<bool> ifs;
-
 //
 static void visit_if(ast t)
 {
     ast condition = get_if_condition(t) ;
     ast if_true = get_if_if_true(t) ;
-    
-    currentif = maxif;
-    maxif++;
-    ifs.push_back(false);
+    int count = currentif++;
 
     visit_expr(condition) ;
-    write_to_output("if-goto IF_TRUE"+std::to_string(currentif)+"\n");
-    write_to_output("goto IF_FALSE"+std::to_string(currentif)+"\n");
-    write_to_output("label IF_TRUE"+std::to_string(currentif)+"\n");
-    
+
+    write_to_output("if-goto IF_TRUE" + to_string(count) + "\n");
+    write_to_output("goto IF_FALSE" + to_string(count) + "\n");
+    write_to_output("label IF_TRUE" + to_string(count) + "\n");
+
     visit_statements(if_true) ;
-    
-    while (ifs[currentif] != false)
-    {
-        currentif--;
-    }
-    ifs[currentif] = true;
-    
-    write_to_output("label IF_FALSE"+std::to_string(currentif)+"\n");
+
+    write_to_output("label IF_FALSE" + to_string(count) + "\n");
 }
 
 // walk an ast if else node with fields
@@ -399,64 +392,40 @@ static void visit_if_else(ast t)
     ast condition = get_if_else_condition(t) ;
     ast if_true = get_if_else_if_true(t) ;
     ast if_false = get_if_else_if_false(t) ;
+    int count = currentif++;
 
-    
-    currentif = maxif;
-    maxif++;
-    ifs.push_back(false);
-    
     visit_expr(condition) ;
-    
-    write_to_output("if-goto IF_TRUE"+std::to_string(currentif)+"\n");
-    write_to_output("goto IF_FALSE"+std::to_string(currentif)+"\n");
-    
-    write_to_output("label IF_TRUE"+std::to_string(currentif)+"\n");
-    visit_statements(if_true) ;
-    
-    while (ifs[currentif] != false)
-    {
-        currentif--;
-    }
-    ifs[currentif] = true;
-    
-    write_to_output("goto IF_END"+std::to_string(currentif)+"\n");
-    
-    write_to_output("label IF_FALSE"+std::to_string(currentif)+"\n");
+
+    write_to_output("if-goto IF_TRUE" + to_string(count) + "\n");
+    write_to_output("goto IF_FALSE" + to_string(count) + "\n");
+    write_to_output("label IF_TRUE" + to_string(count) + "\n");
+    visit_statements(if_true);
+    write_to_output("goto IF_END" + to_string(count) + "\n");
+
+
+    write_to_output("label IF_FALSE" + to_string(count) + "\n");
     visit_statements(if_false) ;
-    
-    write_to_output("label IF_END"+std::to_string(currentif)+"\n");
+    write_to_output("label IF_END" + to_string(count) + "\n");
 }
 
 // walk an ast while node with fields
 // condition - an ast expr node
 // body      - an ast statements node
 //
-static int current=0;
-static int maxwhile=0;
-static vector<bool> whiles;
 static void visit_while(ast t)
 {
-    
     ast condition = get_while_condition(t) ;
     ast body = get_while_body(t) ;
-    
-    current = maxwhile;
-    maxwhile++;
-    whiles.push_back(false);
-    write_to_output("label WHILE_EXP"+std::to_string(current)+"\n");
-    
+    int count = current++;
+
+    write_to_output("label WHILE_EXP" + to_string(count) + "\n");
     visit_expr(condition) ;
+
     write_to_output("not\n");
-    write_to_output("if-goto WHILE_END"+std::to_string(current)+"\n");
-    
+    write_to_output("if-goto WHILE_END" + to_string(count) + "\n");
     visit_statements(body) ;
-    while (whiles[current] != false)
-    {
-        current--;
-    }
-    whiles[current] = true;
-    write_to_output("goto WHILE_EXP"+std::to_string(current)+"\n");
-    write_to_output("label WHILE_END"+std::to_string(current)+"\n");
+    write_to_output("goto WHILE_EXP" + to_string(count) + "\n");
+    write_to_output("label WHILE_END" + to_string(count) + "\n");
 }
 
 // walk an ast do node with a single field
