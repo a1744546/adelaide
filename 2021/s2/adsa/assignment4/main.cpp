@@ -11,7 +11,6 @@ using namespace std;
 int n;
 int ct=0;
 int f[501];
-int graph[501][501];
 struct edge{
     int u,v;
     int d;
@@ -92,14 +91,9 @@ int main()
     for (int i=0; i<(int)line.length() ;i++ )
     {
         array[i] = line[i];
-        //cout<<array[i]<<endl;
     }
     int leng = (int)line.length();
     int* arr = input(array,leng);
-    for (int i=0; i<(int)line.length() ;i++)
-    {
-        //cout<<arr[i]<<endl;
-    }
 
     int order = 0;
 
@@ -111,10 +105,9 @@ int main()
 
             N[i][j] = arr[order];
             order++;
-            //cout<<N[i][j]<<endl;
         }
     }
-    //cout<<N[3][1]<<endl;
+    
     int B[n][n];
     for(int i = 0; i < n; i++)
     {
@@ -122,7 +115,6 @@ int main()
         {
             B[i][j]=arr[order];
             order++;
-            //cout<<B[i][j]<<endl;
         }
     }
 
@@ -133,11 +125,8 @@ int main()
         {
             D[i][j]=arr[order];
             order++;
-            //cout<<D[i][j]<<endl;
         }
     }
-//    cout<<order<<endl;
-
 
     int C[n][n];//store current cost
     for(int i = 0; i < n; i++)
@@ -147,17 +136,13 @@ int main()
             if (N[i][j]==1)
             {
                 C[i][j] = -D[i][j];
-                //cout<<C[i][j]<<endl;
             }else
             {
                 C[i][j] = B[i][j];
-                //cout<<C[i][j]<<endl;
             }
         }
     }
-    //处理数据环节完成
     
-    //获取初始cost
     int init_cost=0;
     for(int i=1;i<n;i++)
     {
@@ -166,12 +151,11 @@ int main()
             if (N[i][j]==1)
             {
                 init_cost += -D[i][j];
-                //cout<<init_cost<<endl;
             }
             
         }
     }
-    //cout<<init_cost <<endl;
+
     ct=0;
     for(int i=0;i<n;i++)
     {
